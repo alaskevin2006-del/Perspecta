@@ -80,6 +80,47 @@ test('DeepSeek cache statistics do not double-count usage or expose reasoning',a
   assert.deepEqual(result.usage,{inputTokens:120,outputTokens:300});
   assert.ok(!JSON.stringify([result,logs]).includes('private reasoning'));
   assert.equal(logs[0].providerCost,null);
+  assert.deepEqual(logs[0].usageDetails,{cacheHitTokens:80,cacheMissTokens:40,totalTokens:420,reasoningTokens:0});
+});
+
+test('optional usage details remain null when the provider does not report them',async t=>{
+  const {config}=await upstream(t,(_req,res)=>send(res,completion()));config.provider='deepseek';
+  const logs=[];
+  const response=await createApp({config,logger:e=>logs.push(e)}).handle(debateRequest());
+  assert.equal(response.status,200);
+  assert.deepEqual(logs[0].usageDetails,{cacheHitTokens:null,cacheMissTokens:null,totalTokens:null,reasoningTokens:null});
+  assert.deepEqual(Object.keys((await response.json()).usage).sort(),['inputTokens','outputTokens']);
+});
+
+for(const [name,update] of Object.entries({
+  'cache sum':usage=>{usage.prompt_cache_miss_tokens=41;},
+  'negative cache count':usage=>{usage.prompt_cache_hit_tokens=-1;},
+  'cache count exceeds input':usage=>{usage.prompt_cache_hit_tokens=121;},
+  'total does not match':usage=>{usage.total_tokens=421;},
+  'reasoning exceeds output':usage=>{usage.completion_tokens_details.reasoning_tokens=301;},
+  'nonnumeric counter':usage=>{usage.prompt_cache_miss_tokens='40';},
+  'conflicting cache representations':usage=>{usage.prompt_tokens_details={cached_tokens:79};},
+}))test(`inconsistent provider ${name} is rejected while actual core usage is retained`,async t=>{
+  const value=completion(core(),{prompt_tokens:120,completion_tokens:300,total_tokens:420,
+    prompt_cache_hit_tokens:80,prompt_cache_miss_tokens:40,completion_tokens_details:{reasoning_tokens:0},cost:0.001});
+  update(value.usage);
+  const {config,calls}=await upstream(t,(_req,res)=>send(res,value));config.provider='deepseek';
+  const logs=[];
+  const response=await createApp({config,logger:e=>logs.push(e)}).handle(debateRequest());
+  assert.equal(response.status,502);
+  assert.equal((await response.json()).error.code,'INVALID_MODEL_OUTPUT');
+  assert.deepEqual(logs[0].usage,{inputTokens:120,outputTokens:300});
+  assert.equal(logs[0].providerCost,0.001);
+  assert.equal(calls.length,1);
+});
+
+test('OpenAI nested cache counter is retained without inventing missing cache totals',async t=>{
+  const value=completion(core(),{prompt_tokens:120,completion_tokens:300,prompt_tokens_details:{cached_tokens:80}});
+  const {config}=await upstream(t,(_req,res)=>send(res,value));
+  const logs=[];
+  const response=await createApp({config,logger:e=>logs.push(e)}).handle(debateRequest());
+  assert.equal(response.status,200);
+  assert.deepEqual(logs[0].usageDetails,{cacheHitTokens:80,cacheMissTokens:null,totalTokens:null,reasoningTokens:null});
 });
 
 test('model prompt includes a concrete two-round JSON example with only the selected role IDs',async t=>{

@@ -28,6 +28,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         const discussionId = randomUUID();
         let actualTokens;
         let usage = null;
+        let usageDetails = null;
         let providerCost = null;
         let upstreamStatus = null;
         let upstreamError = null;
@@ -41,6 +42,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
           const signal = AbortSignal.any([request.signal, AbortSignal.timeout(config.timeoutMs)]);
           const result = await generate(input, messages, config, signal, fetchImpl);
           usage = result.usage;
+          usageDetails = result.usageDetails;
           providerCost = result.providerCost;
           upstreamStatus = result.upstreamStatus;
           upstreamError = result.upstreamError;
@@ -49,7 +51,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         } catch (error) {
           outcome = error instanceof ApiError ? error.code : 'INTERNAL_ERROR';
           if (error instanceof ApiError && error.telemetry) {
-            ({usage, providerCost, upstreamStatus, upstreamError} = error.telemetry);
+            ({usage, usageDetails, providerCost, upstreamStatus, upstreamError} = error.telemetry);
             if (usage) actualTokens = usage.inputTokens + usage.outputTokens;
           }
           throw error;
@@ -58,7 +60,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
           if (config.mode === 'live') {
             // Do not include prompts, roles, provider bodies, keys or client addresses.
             try {logger({event:'debate_call', discussionId, mode:config.mode, provider:config.provider, model:config.model,
-              durationMs:now()-start, outcome, usage, providerCost, upstreamStatus, upstreamError});} catch { /* logging must not affect delivery */ }
+              durationMs:now()-start, outcome, usage, usageDetails, providerCost, upstreamStatus, upstreamError});} catch { /* logging must not affect delivery */ }
           }
         }
       }
