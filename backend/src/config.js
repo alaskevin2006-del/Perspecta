@@ -12,7 +12,9 @@ export function loadConfig(env = process.env) {
   const apiKey = env.LLM_API_KEY?.trim();
   const model = env.LLM_MODEL?.trim();
   if (mode === 'live' && (!apiKey || !model)) throw new Error('Live mode requires LLM_API_KEY and LLM_MODEL');
-  const base = new URL(env.LLM_BASE_URL ?? (provider === 'deepseek' ? 'https://api.deepseek.com' : 'https://api.openai.com/v1'));
+  let base;
+  try {base = new URL(env.LLM_BASE_URL ?? (provider === 'deepseek' ? 'https://api.deepseek.com' : 'https://api.openai.com/v1'));}
+  catch {throw new Error('Invalid LLM_BASE_URL');}
   if ((base.protocol !== 'https:' && !(base.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(base.hostname))) ||
     base.username || base.password || base.search || base.hash) throw new Error('Invalid LLM_BASE_URL');
   if ((provider === 'deepseek' && base.hostname === 'api.openai.com') ||

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createServer as httpServer, request as httpRequest } from 'node:http';
+import { createServer as httpServer, request as httpRequest,Agent } from 'node:http';
 import { once } from 'node:events';
 import { createServer } from '../src/server.js';
 import { loadConfig } from '../src/config.js';
@@ -106,4 +106,21 @@ test('chunked oversized body returns locked JSON error over HTTP',async t=>{
   const result=await deadline(response,'oversized HTTP body did not terminate');
   assert.equal(result.status,400);
   assert.equal(JSON.parse(result.body).error.code,'INVALID_INPUT');
+});
+
+test('unconsumed invalid-route request bodies do not stall a reusable HTTP connection',async t=>{
+  const base=await listen(t,createServer({config:loadConfig({}),fetchImpl:()=>{throw new Error('Provider forbidden');}}));
+  const agent=new Agent({keepAlive:true,maxSockets:1});t.after(()=>agent.destroy());
+  const call=(path,method,body)=>new Promise((resolve,reject)=>{
+    const request=httpRequest(`${base}${path}`,{method,agent,signal:AbortSignal.timeout(1000)},response=>{
+      let value='';response.on('data',chunk=>{value+=chunk;});response.on('end',()=>resolve({status:response.statusCode,value}));
+    });
+    request.on('error',reject);
+    if(body){request.write(body.slice(0,50000));request.write(body.slice(50000));}
+    request.end();
+  });
+  assert.equal((await call('/api/not-found','POST','x'.repeat(150000))).status,404);
+  const response=await call('/api/roles','GET');
+  assert.equal(response.status,200);
+  assert.equal(JSON.parse(response.value).roles.length,3);
 });

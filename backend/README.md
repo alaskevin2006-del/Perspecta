@@ -16,6 +16,7 @@ npm start
 ```sh
 cd backend
 npm test
+npm run health
 npm run smoke
 ```
 
@@ -107,11 +108,11 @@ live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺�
 
 ## 部署准备
 
-没有实际部署。获得部署授权后，可选择直接启动上述 Node 服务，或：
+没有实际部署。获得部署授权后，可选择直接启动上述 Node 服务，或从仓库根目录执行：
 
 ```sh
 docker build -t perspecta-api backend
-docker run --rm -p 3001:3001 perspecta-api
+docker run --rm -p 127.0.0.1:3001:3001 perspecta-api
 ```
 
 Dockerfile 使用非 root 用户，只拷贝服务代码、包描述及 JSON 数据；不安装依赖，不拷贝 `.env`，不在镜像里写 key。`GET /api/roles` 为无费用健康检查。反向代理超时应大于 `LLM_TIMEOUT_MS` 并预留传输余量。本环境没有 Docker，镜像尚未实际构建或启动。
@@ -121,3 +122,5 @@ Dockerfile 使用非 root 用户，只拷贝服务代码、包描述及 JSON 数
 继续推进时的已验证条件、真实调用/部署所需最小信息见 [模型与部署准备检查](../docs/backend-readiness.md)。新增传输测试经过本地 HTTP 代理验证三个接口，并检查真实 socket 取消；启动测试验证独立服务的健康检查与 SIGTERM。它们不使用真实供应商，不能替代实际模型或前端页面验收。
 
 逐项完成度、时间线对照及未完成责任见 [需求核对表](../docs/requirements-audit.md)。前端可用的历史原始响应见 [examples](examples/README.md)，包含已知质量限制，需显式标记历史案例；不自动兜底，不代表产品负责人已验收。
+
+零费用 GET 健康检查用 `npm run health`，不加载 Key、不触发生成，输出明确标明未测试供应商连通性；完整上线顺序见 [部署操作清单](../docs/deployment-runbook.md)，等队友就绪后的对接步骤见 [前端接入交接](../docs/frontend-integration.md)。本轮只做本机 mock 与离线验证，未部署。

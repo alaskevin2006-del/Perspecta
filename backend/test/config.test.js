@@ -15,3 +15,11 @@ test('configuration rejects unsafe URLs and malformed or unbounded numbers', () 
     {LLM_MAX_OUTPUT_TOKENS:'9999999'}, {SESSION_TOKEN_BUDGET:'-20'}]) assert.throws(() => loadConfig(env), JSON.stringify(env));
   assert.equal(loadConfig({LLM_BASE_URL:'http://127.0.0.1:1234/v1'}).baseUrl, 'http://127.0.0.1:1234/v1');
 });
+
+test('malformed base URL errors never retain the supplied configuration value',()=>{
+  const sentinel='not-a-url-SYNTHETIC_PRIVATE_VALUE';
+  let error;
+  try{loadConfig({LLM_BASE_URL:sentinel});}catch(caught){error=caught;}
+  assert.ok(error);
+  assert.ok(![error.message,error.stack,JSON.stringify(error)].join('\n').includes(sentinel));
+});

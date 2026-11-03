@@ -59,3 +59,53 @@ test('standalone deployment entry starts in explicit mock mode and terminates on
   assert.equal(value.code,0,value.stderr);
   assert.equal(JSON.parse(value.stdout).mode,'mock');
 });
+
+test('health CLI checks live-mode catalogs without attempting generation',async t=>{
+  const {config,calls}=await upstream(t,(_req,res)=>send(res,completion()));
+  const base=await listen(t,createServer({config,logger:()=>{}}));
+  const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:base});
+  const value=await bounded(result);
+  assert.equal(value.code,0,value.stderr);
+  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',roles:3,topics:3,generationRequests:0,providerConnectivityTested:false});
+  assert.equal(calls.length,0);
+});
+
+test('health CLI rejects malformed successful catalog responses without printing their bodies',async t=>{
+  const base=await listen(t,httpServer((_req,res)=>{res.writeHead(200,{'Content-Type':'application/json','X-Perspecta-Mode':'mock'});res.end(JSON.stringify({roles:'synthetic-private-body'}));}));
+  const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:base});
+  const value=await bounded(result);
+  assert.equal(value.code,1);
+  assert.equal(JSON.parse(value.stdout).code,'HEALTH_CONTRACT_ERROR');
+  assert.ok(![value.stdout,value.stderr].join().includes('synthetic-private-body'));
+});
+
+test('health CLI refuses credentials in target URLs without echoing the URL',async t=>{
+  const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:'https://user:synthetic-private-target@example.invalid'});
+  const value=await bounded(result);
+  assert.equal(value.code,1);
+  assert.equal(JSON.parse(value.stdout).code,'INVALID_HEALTH_TARGET');
+  assert.ok(![value.stdout,value.stderr].join().includes('synthetic-private-target'));
+});
+
+test('health CLI cancels an invalid streaming response instead of holding its socket open',async t=>{
+  const base=await listen(t,httpServer((_req,res)=>{res.writeHead(200,{'Content-Type':'application/json','X-Perspecta-Mode':'mock'});res.write('{');}));
+  const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:base});
+  const value=await bounded(result);
+  assert.equal(value.code,1);
+  assert.equal(JSON.parse(value.stdout).code,'HEALTH_CONTRACT_ERROR');
+});
+
+
+test('health stays successful when generation quota is exhausted and does not reset or consume it',async t=>{
+  const {config,calls}=await upstream(t,(_req,res)=>send(res,completion()));
+  config.sessionCallLimit=1;
+  const base=await listen(t,createServer({config,logger:()=>{}}));
+  const body=JSON.stringify({topic:'大学阶段时间有限，应该优先投入绩点还是项目实践？',roleIds:['career_realist','growth_explorer','risk_analyst']});
+  assert.equal((await fetch(`${base}/api/debate`,{method:'POST',body})).status,200);
+  const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:base});
+  const value=await bounded(result);
+  assert.equal(value.code,0,value.stderr);
+  assert.equal(JSON.parse(value.stdout).generationRequests,0);
+  assert.equal((await fetch(`${base}/api/debate`,{method:'POST',body})).status,429);
+  assert.equal(calls.length,1);
+});

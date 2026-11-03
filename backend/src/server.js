@@ -11,8 +11,9 @@ export function createServer(options) {
     res.on('close', () => { if (!res.writableEnded) abort.abort(); });
     req.on('error', () => abort.abort());
     let response;
+    let body;
     try {
-      const body = req.method === 'GET' || req.method === 'HEAD' ? undefined : new ReadableStream({
+      body = req.method === 'GET' || req.method === 'HEAD' ? undefined : new ReadableStream({
         start(controller) {
           this.data = chunk => {controller.enqueue(chunk); if (controller.desiredSize <= 0) req.pause();};
           this.end = () => controller.close();
@@ -28,6 +29,12 @@ export function createServer(options) {
       });
       response = await app.handle(request, {clientId: req.socket.remoteAddress ?? 'unknown'});
     } catch (error) { response = errorResponse(error); }
+    finally {
+      // Routes that never read their body still need to release backpressure.
+      // Cancel our stream listeners, then drain remaining transport bytes for keep-alive.
+      if (body && !body.locked) {try {await body.cancel();} catch { /* already failed/closed */ }}
+      if (!req.destroyed) req.resume();
+    }
     if (!res.destroyed) {
       res.writeHead(response.status, Object.fromEntries(response.headers));
       res.end(Buffer.from(await response.arrayBuffer()));
