@@ -110,3 +110,5 @@ docker run --rm -p 3001:3001 perspecta-api
 Dockerfile 使用非 root 用户，只拷贝服务代码、包描述及 JSON 数据；不安装依赖，不拷贝 `.env`，不在镜像里写 key。`GET /api/roles` 为无费用健康检查。反向代理超时应大于 `LLM_TIMEOUT_MS` 并预留传输余量。本环境没有 Docker，镜像尚未实际构建或启动。
 
 待完成项与验证记录见 [后端交接记录](../docs/backend-handoff.md)。
+
+继续推进时的已验证条件、真实调用/部署所需最小信息见 [模型与部署准备检查](../docs/backend-readiness.md)。新增传输测试经过本地 HTTP 代理验证三个接口，并检查真实 socket 取消；启动测试验证独立服务的健康检查与 SIGTERM。它们不使用真实供应商，不能替代实际模型或前端页面验收。
