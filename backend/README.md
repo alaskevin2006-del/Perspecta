@@ -41,7 +41,7 @@ POST 请求为 `{topic,roleIds}`。去除首尾空格后 topic 为 10–300 个 
 | --- | --- | --- |
 | 400 | `INVALID_INPUT` | 非法输入、无效 JSON/UTF-8、超过 8 KiB 的请求体 |
 | 429 | `RATE_LIMITED` | 本地频率/并发/重复提交/预算/调用次数限制，或上游 429；含 `Retry-After: 60` |
-| 502 | `INVALID_MODEL_OUTPUT` | JSON、schema、引用、计数异常、拒答、截断或响应超过 64 KiB |
+| 502 | `INVALID_MODEL_OUTPUT` | JSON、schema、引用、明确引语来源或计数异常、拒答、截断或响应超过 64 KiB |
 | 504 | `MODEL_TIMEOUT` | 上游超时或调用方中断 |
 | 500 | `INTERNAL_ERROR` | 配置以外的服务器错误、上游鉴权/服务异常或网络失败 |
 
@@ -71,7 +71,7 @@ server: { proxy: { '/api': 'http://127.0.0.1:3001' } }
 
 ## 模型配置（需另行授权真实凭据）
 
-[.env.example](.env.example) 只含空凭据与默认值。用户已自行将真实 key 保存至本机被忽略的 `.env.local`，权限 0600；该文件、输入助手和私有执行报告都不进入 Git 或镜像。普通启动不会自动加载它，必须由授权的启动操作显式指定 `--env-file`。当前一次真实调用授权已使用完，后续生成须另行确认，不自动重试或重启继续调用。
+[.env.example](.env.example) 只含空凭据与默认值。用户已自行将真实 key 保存至本机被忽略的 `.env.local`，权限 0600；该文件、输入助手和私有执行报告都不进入 Git 或镜像。普通启动不会自动加载它，必须由授权的启动操作显式指定 `--env-file`。此前一次及后来额外三次真实调用授权均已使用完，后续生成须另行确认，不自动重试或重启继续调用。
 
 live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺失时启动失败，不静默降级。`LLM_PROVIDER` 支持 `openai`（保留旧配置的默认值）或 `deepseek`；两者默认地址分别为 `https://api.openai.com/v1` 和 `https://api.deepseek.com`。只支持 HTTPS（本机测试 localhost 可 HTTP），禁止 URL 内凭据、查询与片段、禁止上游重定向。显式供应商与另一家的官方主机不匹配时启动失败，避免误用旧配置。
 
@@ -79,7 +79,7 @@ live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺�
 
 参数依据 [Chat Completions 官方接口](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create/)；JSON 模式本身不保证 schema，服务端再次校验结构，见 [官方结构化输出说明](https://developers.openai.com/api/docs/guides/structured-outputs)。
 
-用户已选择 DeepSeek，`.env.example` 提供非敏感配置模板，但仍保持 mock、模型与 key 留空。`deepseek-flash` 已完成唯一一次经授权的真实接口测试：HTTP 200、结构通过；没有查询余额或账单。后续提示词质量调整与日志明细增量只做本地假上游验证，不能借此前成功声称新提示词已验收。见 [DeepSeek 接入说明](../docs/deepseek-integration.md)、[样本质量审阅](../docs/live-quality-review.md)。
+用户已选择 DeepSeek，`.env.example` 提供非敏感配置模板，但仍保持 mock、模型与 key 留空。`deepseek-flash` 已完成最初一次和获批的额外三议题测试，均 HTTP 200；最新稳定主题暴露明确引语来源缺陷，随后仅离线修复，没有第五次调用。没有查询余额或账单，产品未终验。见 [三议题报告](../docs/three-topic-validation.md)、[DeepSeek 接入说明](../docs/deepseek-integration.md)。
 
 ## 保护措施与实际边界
 
@@ -100,6 +100,8 @@ live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺�
 调用前按提示词 JSON 的 UTF-8 字节数 + 512 开销 + 输出上限预留保守 token 额度；提示词上限 24000 字节。有上游 token 计数时按实际数量结算；缺计数、网络失败及超时保留整个预留额。预留数仅用于保护，不充当真实 `usage`。日志只有随机讨论 ID、模式/供应商/模型、耗时、结果码、上游 HTTP 状态及预定义诊断、实际用量及提供商返回的数值 `usage.cost`（缺失为 null；单位以提供商为准），不会猜测价格，不存议题/发言、推理内容、原始错误正文、来源 IP、提示词或 key。格式不合格的模型结果如已返回计数，也会记录计数。
 
 内部日志的 `usageDetails` 只包含数值或 null：`cacheHitTokens,cacheMissTokens,totalTokens,reasoningTokens`，用于人工按供应商价格核算；不扩展前端 `usage`。缺失计数不推测；缓存明细、合计或推理计数矛盾时返回既有 502，并保留已知核心用量/费用。缓存和推理数是明细，不再次计入预算总量。日志为结构化 stdout；生产环境的采集/留存需要目标托管环境配置。
+
+明确引语的来源检查只覆盖有限的句首/分句首“你所说”等直接归属形式及 6–80 字符双引号片段；不匹配目标第一轮时拒绝。它不替代事实/语义审阅，不把普通转述或新引入的概念引号当作错误。新增规则已用真实失败样本离线验证，尚无修复后的新真实生成。
 
 这些控制仅用于单进程演示，重启重置。多个实例没有共享计数；反向代理后按 socket 地址计数（同一代理的所有用户共享额度），不信任客户端伪造的 `X-Forwarded-For`。来源地址桶最多 1000 个、每分钟清理。正式公开服务需要按实际托管方式评估网关限流/共享预算；货币硬上限应在提供商账户侧设置。本次未做这些外部配置。
 

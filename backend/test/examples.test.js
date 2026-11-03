@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { validateOutput } from '../src/validation.js';
 
-test('historical live fixture remains consumable under the locked public contract',()=>{
-  const value=JSON.parse(readFileSync(new URL('../examples/live-gpa-20261103.json',import.meta.url),'utf8'));
+for(const file of ['live-gpa-20261103.json','live-gpa-20261103-revised.json','live-postgraduate-20261103.json'])test(`historical ${file} remains consumable under the locked public contract`,()=>{
+  const value=JSON.parse(readFileSync(new URL(`../examples/${file}`,import.meta.url),'utf8'));
   assert.deepEqual(Object.keys(value).sort(),['discussionId','messages','summary','topic','usage']);
   assert.equal(typeof value.discussionId,'string');
   assert.ok(typeof value.topic==='string' && [...value.topic].length>=10 && [...value.topic].length<=300);

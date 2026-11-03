@@ -17,6 +17,7 @@ export function buildMessages(input, roles) {
 message 只含 id(string)、round(1 或 2)、roleId(所选 ID)、content(string)、replyTo。
 第一轮 replyTo 为 null，说明立场、1–2 条理由和成立条件。
 第二轮点名回应另一角色第一轮的具体论点，给出反驳、补充或限定，replyTo 必须填该第一轮消息 ID，不能回应自己。
+直接引语必须是 replyTo 所指第一轮原文的连续片段，不得挪用第二轮或其他角色的话；也可准确改写，但不能把对方带限定的观点改写成绝对主张。
 每条发言约 60–140 个汉字；保持角色差异，不要空泛附和或重复。
 summary 只含 consensus、disagreements、decisionFactors、nextActions，均为 1–3 条非空字符串数组，每个字段合计 1–3 句。
 总结明确什么条件下哪种选择合适，提出能执行的下一步，不能替用户做绝对裁决。
