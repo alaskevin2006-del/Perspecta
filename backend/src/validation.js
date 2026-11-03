@@ -31,3 +31,31 @@ export function validateInput(body, roles) {
     new Set(roleIds).size !== roleIds.length || roleIds.some(id => typeof id !== 'string' || !validIds.has(id))) throw new ApiError('INVALID_INPUT');
   return {topic, roleIds};
 }
+
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+const keys = (value, expected) => object(value) && Object.keys(value).length === expected.length && expected.every(key => Object.hasOwn(value, key));
+const text = (value, max) => typeof value === 'string' && value.trim().length > 0 && [...value].length <= max;
+
+export function validateOutput(value, roleIds) {
+  const invalid = () => {throw new ApiError('INVALID_MODEL_OUTPUT');};
+  if (!keys(value, ['messages', 'summary']) || !Array.isArray(value.messages) || value.messages.length !== 2 * roleIds.length ||
+    !keys(value.summary, ['consensus', 'disagreements', 'decisionFactors', 'nextActions'])) invalid();
+  const first = new Map();
+  const ids = new Set();
+  for (const [index, message] of value.messages.entries()) {
+    const round = index < roleIds.length ? 1 : 2;
+    if (!keys(message, ['id', 'round', 'roleId', 'content', 'replyTo']) || !text(message.id, 80) || ids.has(message.id) ||
+      message.round !== round || !roleIds.includes(message.roleId) || !text(message.content, 600)) invalid();
+    ids.add(message.id);
+    if (round === 1) {if (message.replyTo !== null) invalid(); first.set(message.id, message);}
+    else if (typeof message.replyTo !== 'string' || !first.has(message.replyTo) || first.get(message.replyTo).roleId === message.roleId) invalid();
+  }
+  for (const round of [1, 2]) {
+    const messages = value.messages.filter(m => m.round === round);
+    if (new Set(messages.map(m => m.roleId)).size !== roleIds.length) invalid();
+  }
+  for (const values of Object.values(value.summary)) {
+    if (!Array.isArray(values) || values.length < 1 || values.length > 3 || values.some(value => !text(value, 600))) invalid();
+  }
+  return value;
+}

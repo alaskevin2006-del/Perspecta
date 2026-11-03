@@ -71,3 +71,8 @@ test('malformed JSON and oversized bytes return JSON input errors', async () => 
     assert.equal((await response.json()).error.code, 'INVALID_INPUT');
   }
 });
+
+test('invalid UTF-8 is rejected instead of silently replacing characters', async () => {
+  const response=await createApp().handle(new Request('http://localhost/api/debate', {method:'POST', body:new Uint8Array([0xff,0xfe])}));
+  assert.equal(response.status,400);
+});

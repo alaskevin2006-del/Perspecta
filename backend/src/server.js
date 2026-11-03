@@ -2,6 +2,7 @@ import { createServer as nodeServer } from 'node:http';
 import { pathToFileURL } from 'node:url';
 import { createApp } from './app.js';
 import { errorResponse } from './errors.js';
+import { loadConfig } from './config.js';
 
 export function createServer(options) {
   const app = createApp(options);
@@ -39,10 +40,10 @@ export function createServer(options) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const server = createServer();
-  const host = process.env.HOST || '127.0.0.1';
-  const port = Number(process.env.PORT || 3001);
-  server.listen(port, host, () => console.log(JSON.stringify({event: 'listening', host, port, mode: 'mock'})));
+  const config = loadConfig();
+  const server = createServer({config});
+  const {host, port, mode} = config;
+  server.listen(port, host, () => console.log(JSON.stringify({event: 'listening', host, port, mode})));
   for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => {
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(1), 5000).unref();
