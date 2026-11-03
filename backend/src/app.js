@@ -29,6 +29,8 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         let actualTokens;
         let usage = null;
         let providerCost = null;
+        let upstreamStatus = null;
+        let upstreamError = null;
         let outcome = 'success';
         try {
           if (config.mode === 'mock') {
@@ -40,12 +42,14 @@ export function createApp({config = loadConfig(), logger = event => console.log(
           const result = await generate(input, messages, config, signal, fetchImpl);
           usage = result.usage;
           providerCost = result.providerCost;
+          upstreamStatus = result.upstreamStatus;
+          upstreamError = result.upstreamError;
           if (usage) actualTokens = usage.inputTokens + usage.outputTokens;
           return Response.json({discussionId, topic:input.topic, messages:result.messages, summary:result.summary, usage}, {headers});
         } catch (error) {
           outcome = error instanceof ApiError ? error.code : 'INTERNAL_ERROR';
           if (error instanceof ApiError && error.telemetry) {
-            ({usage, providerCost} = error.telemetry);
+            ({usage, providerCost, upstreamStatus, upstreamError} = error.telemetry);
             if (usage) actualTokens = usage.inputTokens + usage.outputTokens;
           }
           throw error;
@@ -53,7 +57,8 @@ export function createApp({config = loadConfig(), logger = event => console.log(
           release(actualTokens);
           if (config.mode === 'live') {
             // Do not include prompts, roles, provider bodies, keys or client addresses.
-            try {logger({event:'debate_call', discussionId, mode:config.mode, model:config.model, durationMs:now()-start, outcome, usage, providerCost});} catch { /* logging must not affect delivery */ }
+            try {logger({event:'debate_call', discussionId, mode:config.mode, provider:config.provider, model:config.model,
+              durationMs:now()-start, outcome, usage, providerCost, upstreamStatus, upstreamError});} catch { /* logging must not affect delivery */ }
           }
         }
       }

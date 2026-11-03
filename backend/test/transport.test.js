@@ -31,8 +31,9 @@ const post = (base, extraHeaders = {}) => fetch(`${base}/api/debate`, {
   method:'POST', headers:{'Content-Type':'application/json', ...extraHeaders}, body:JSON.stringify({topic, roleIds}),
 });
 
-test('same-origin proxy preserves all three routes, locked envelope and model request', async t => {
+for (const provider of ['openai','deepseek']) test(`${provider} same-origin proxy preserves all three routes, locked envelope and model request`, async t => {
   const {config,calls} = await upstream(t, (_req,res) => send(res, completion()));
+  config.provider=provider;
   const target = await listen(t, createServer({config,logger:()=>{}}));
   const base = await listen(t, proxy(target));
   for (const route of ['roles','topics']) {
@@ -49,6 +50,7 @@ test('same-origin proxy preserves all three routes, locked envelope and model re
   assert.deepEqual(result.usage,{inputTokens:120,outputTokens:300});
   assert.equal(calls.length,1);
   assert.equal(calls[0].path,'/v1/chat/completions');
+  assert.equal(calls[0].body[provider==='deepseek'?'max_tokens':'max_completion_tokens'],3000);
   assert.deepEqual(JSON.parse(calls[0].body.messages[1].content).roles.map(r=>r.id),roleIds);
   const invalid=await fetch(`${base}/api/debate`,{method:'POST',body:JSON.stringify({topic:'短',roleIds})});
   assert.equal(invalid.status,400);

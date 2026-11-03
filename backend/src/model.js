@@ -1,16 +1,26 @@
 import { ApiError } from './errors.js';
 import { readJson, validateOutput } from './validation.js';
 
+const upstreamDiagnostic = status => ({400:'UPSTREAM_INVALID_REQUEST',401:'UPSTREAM_AUTH_FAILED',402:'UPSTREAM_INSUFFICIENT_BALANCE',
+  422:'UPSTREAM_INVALID_REQUEST',429:'UPSTREAM_RATE_LIMITED'}[status] ?? 'UPSTREAM_UNAVAILABLE');
+
 export async function generate(input, messages, config, signal, fetchImpl = fetch) {
   let usage = null;
   let providerCost = null;
+  let upstreamStatus = null;
+  let upstreamError = null;
   try {
+    const outputLimit = config.provider === 'deepseek'
+      ? {max_tokens: config.maxOutputTokens, thinking: {type: 'disabled'}}
+      : {max_completion_tokens: config.maxOutputTokens};
     const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
       method: 'POST', signal, redirect: 'error',
       headers: {'Content-Type': 'application/json', Authorization: `Bearer ${config.apiKey}`},
-      body: JSON.stringify({model: config.model, messages, stream: false, response_format: {type: 'json_object'}, max_completion_tokens: config.maxOutputTokens}),
+      body: JSON.stringify({model: config.model, messages, stream: false, response_format: {type: 'json_object'}, ...outputLimit}),
     });
+    upstreamStatus = response.status;
     if (!response.ok) {
+      upstreamError = upstreamDiagnostic(response.status);
       await response.body?.cancel();
       throw new ApiError(response.status === 429 ? 'RATE_LIMITED' : 'INTERNAL_ERROR');
     }
@@ -26,10 +36,10 @@ export async function generate(input, messages, config, signal, fetchImpl = fetc
     if (choice?.finish_reason !== 'stop' || choice?.message?.refusal || typeof choice?.message?.content !== 'string') throw new ApiError('INVALID_MODEL_OUTPUT');
     let output;
     try {output = JSON.parse(choice.message.content);} catch {throw new ApiError('INVALID_MODEL_OUTPUT');}
-    return {...validateOutput(output, input.roleIds), usage, providerCost};
+    return {...validateOutput(output, input.roleIds), usage, providerCost, upstreamStatus, upstreamError};
   } catch (error) {
     const safe = signal.aborted ? new ApiError('MODEL_TIMEOUT') : error instanceof ApiError ? error : new ApiError('INTERNAL_ERROR');
-    safe.telemetry = {usage, providerCost};
+    safe.telemetry = {usage, providerCost, upstreamStatus, upstreamError};
     throw safe;
   }
 }

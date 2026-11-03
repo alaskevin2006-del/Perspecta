@@ -73,16 +73,19 @@ server: { proxy: { '/api': 'http://127.0.0.1:3001' } }
 
 [.env.example](.env.example) 只含空凭据与默认值。本次没有创建 `.env` 或配置任何真实 key。获准后可用托管平台的服务端环境变量；本地手动填写被忽略的 `.env`，然后 `node --env-file=.env src/server.js`。
 
-live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺失时启动失败，不静默降级。`LLM_BASE_URL` 默认 `https://api.openai.com/v1`，只支持 HTTPS（本机测试 localhost 可 HTTP），禁止 URL 内凭据、查询与片段、禁止上游重定向。
+live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺失时启动失败，不静默降级。`LLM_PROVIDER` 支持 `openai`（保留旧配置的默认值）或 `deepseek`；两者默认地址分别为 `https://api.openai.com/v1` 和 `https://api.deepseek.com`。只支持 HTTPS（本机测试 localhost 可 HTTP），禁止 URL 内凭据、查询与片段、禁止上游重定向。显式供应商与另一家的官方主机不匹配时启动失败，避免误用旧配置。
 
-供应商必须支持非流式 `POST {LLM_BASE_URL}/chat/completions`、`response_format:{type:"json_object"}`、`max_completion_tokens` 和标准 `choices/usage` 字段。默认不指定模型，避免未经确认选择供应商或价格。不兼容这些字段的供应商需要另行验证适配，不能宣称已接通。每次请求只发送一次调用，没有自动重试或修复调用。
+两种适配均使用非流式 `POST {LLM_BASE_URL}/chat/completions`、`response_format:{type:"json_object"}` 和标准 `choices/usage` 字段。OpenAI 使用 `max_completion_tokens`；DeepSeek 使用 `max_tokens` 并显式设置 `thinking:{type:"disabled"}`。默认不指定模型，避免未经确认选择模型或价格。每次请求只发送一次调用，没有自动重试或修复调用。
 
 参数依据 [Chat Completions 官方接口](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create/)；JSON 模式本身不保证 schema，服务端再次校验结构，见 [官方结构化输出说明](https://developers.openai.com/api/docs/guides/structured-outputs)。
+
+用户已选择 DeepSeek，`.env.example` 现提供 DeepSeek 的非敏感配置模板，但仍保持 mock、模型与 key 留空。接入依据、错误诊断、模型 ID 确认及验收步骤见 [DeepSeek 接入说明](../docs/deepseek-integration.md)。本次只完成官方文档核对和本地假上游测试，没有访问真实账户或计费接口。
 
 ## 保护措施与实际边界
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
+| `LLM_PROVIDER` | `openai`（模板为 `deepseek`） | 明确选择请求参数适配及默认 API 地址 |
 | `HOST` / `PORT` | `127.0.0.1` / `3001` | 监听地址；容器覆盖为 `0.0.0.0` |
 | `LLM_TIMEOUT_MS` | 45000 | 包含响应体读取的总上游超时，最多 120000 |
 | `LLM_MAX_OUTPUT_TOKENS` | 3000 | 输出（含推理）token 上限，允许 128–8000 |
@@ -94,7 +97,7 @@ live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺�
 
 同一议题/角色组合的并发重复提交返回 429，不再次调用。无论角色数组顺序如何都算同一组合。调用方断开时取消上游，并释放并发名额；取消不代表上游绝不计费。
 
-调用前按提示词 JSON 的 UTF-8 字节数 + 512 开销 + 输出上限预留保守 token 额度；提示词上限 24 KiB。有上游 token 计数时按实际数量结算；缺计数、网络失败及超时保留整个预留额。预留数仅用于保护，不充当真实 `usage`。日志只有随机讨论 ID、模式/模型、耗时、结果码、实际用量及提供商返回的数值 `usage.cost`（缺失为 null；单位以提供商为准），不会猜测价格，不存议题/发言、来源 IP、提示词或 key。格式不合格的模型结果如已返回计数，也会记录计数。
+调用前按提示词 JSON 的 UTF-8 字节数 + 512 开销 + 输出上限预留保守 token 额度；提示词上限 24 KiB。有上游 token 计数时按实际数量结算；缺计数、网络失败及超时保留整个预留额。预留数仅用于保护，不充当真实 `usage`。日志只有随机讨论 ID、模式/供应商/模型、耗时、结果码、上游 HTTP 状态及预定义诊断、实际用量及提供商返回的数值 `usage.cost`（缺失为 null；单位以提供商为准），不会猜测价格，不存议题/发言、推理内容、原始错误正文、来源 IP、提示词或 key。格式不合格的模型结果如已返回计数，也会记录计数。
 
 这些控制仅用于单进程演示，重启重置。多个实例没有共享计数；反向代理后按 socket 地址计数（同一代理的所有用户共享额度），不信任客户端伪造的 `X-Forwarded-For`。来源地址桶最多 1000 个、每分钟清理。正式公开服务需要按实际托管方式评估网关限流/共享预算；货币硬上限应在提供商账户侧设置。本次未做这些外部配置。
 
