@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createApp } from '../src/app.js';
+import { loadConfig } from '../src/config.js';
+
+// Exported developer credentials must never change a contract test into a billed call.
+const createMockApp = () => createApp({config:loadConfig({}), fetchImpl:() => {throw new Error('Provider calls forbidden in mock contract tests');}});
 
 const topic = '大学阶段时间有限，应该优先投入绩点还是项目实践？';
 const ids = ['career_realist', 'growth_explorer', 'risk_analyst'];
@@ -9,7 +13,7 @@ const request = (body, path = '/api/debate', method = 'POST') => new Request(`ht
 });
 
 test('role cards expose exactly the locked five fields', async () => {
-  const response = await createApp().handle(request(null, '/api/roles', 'GET'));
+  const response = await createMockApp().handle(request(null, '/api/roles', 'GET'));
   assert.equal(response.status, 200);
   const { roles } = await response.json();
   assert.deepEqual(roles.map(r => r.id), ids);
@@ -18,7 +22,7 @@ test('role cards expose exactly the locked five fields', async () => {
 });
 
 test('recommended topics preserve documented IDs and prompts', async () => {
-  const response = await createApp().handle(request(null, '/api/topics', 'GET'));
+  const response = await createMockApp().handle(request(null, '/api/topics', 'GET'));
   assert.equal(response.status, 200);
   const { topics } = await response.json();
   assert.deepEqual(topics.map(t => t.id), ['postgraduate_or_work', 'gpa_or_projects', 'stability_or_exploration']);
@@ -27,7 +31,7 @@ test('recommended topics preserve documented IDs and prompts', async () => {
 
 for (const roleIds of [ids, ['risk_analyst', 'growth_explorer'], ['career_realist', 'risk_analyst'], ['growth_explorer', 'career_realist']]) {
   test(`mock returns two valid rounds for ${roleIds.join(',')}`, async () => {
-    const response = await createApp().handle(request({ topic: `  ${topic}  `, roleIds }));
+    const response = await createMockApp().handle(request({ topic: `  ${topic}  `, roleIds }));
     assert.equal(response.status, 200);
     assert.equal(response.headers.get('X-Perspecta-Mode'), 'mock');
     const result = await response.json();
@@ -51,7 +55,7 @@ for (const roleIds of [ids, ['risk_analyst', 'growth_explorer'], ['career_realis
 test('invalid inputs always use INVALID_INPUT before generation', async () => {
   for (const body of [null, [], true, {topic, roleIds: ['career_realist']}, {topic, roleIds: ['career_realist', 'career_realist']},
     {topic, roleIds: ['career_realist', '__proto__']}, {topic: '短', roleIds: ids}, {topic: '字'.repeat(301), roleIds: ids}, {topic, roleIds: 'bad'}]) {
-    const response = await createApp().handle(request(body));
+    const response = await createMockApp().handle(request(body));
     assert.equal(response.status, 400, JSON.stringify(body));
     assert.equal((await response.json()).error.code, 'INVALID_INPUT');
   }
@@ -59,20 +63,20 @@ test('invalid inputs always use INVALID_INPUT before generation', async () => {
 
 test('topic boundaries count Unicode code points after trimming', async () => {
   for (const text of ['字'.repeat(10), '字'.repeat(300), '😀'.repeat(300)]) {
-    const response = await createApp().handle(request({topic: text, roleIds: ids}));
+    const response = await createMockApp().handle(request({topic: text, roleIds: ids}));
     assert.equal(response.status, 200);
   }
 });
 
 test('malformed JSON and oversized bytes return JSON input errors', async () => {
   for (const body of ['{broken', ' '.repeat(20000)]) {
-    const response = await createApp().handle(new Request('http://localhost/api/debate', {method:'POST', body}));
+    const response = await createMockApp().handle(new Request('http://localhost/api/debate', {method:'POST', body}));
     assert.equal(response.status, 400);
     assert.equal((await response.json()).error.code, 'INVALID_INPUT');
   }
 });
 
 test('invalid UTF-8 is rejected instead of silently replacing characters', async () => {
-  const response=await createApp().handle(new Request('http://localhost/api/debate', {method:'POST', body:new Uint8Array([0xff,0xfe])}));
+  const response=await createMockApp().handle(new Request('http://localhost/api/debate', {method:'POST', body:new Uint8Array([0xff,0xfe])}));
   assert.equal(response.status,400);
 });

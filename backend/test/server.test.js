@@ -1,9 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from '../src/server.js';
+import { loadConfig } from '../src/config.js';
 
 test('real HTTP adapter exposes all routes as UTF-8 JSON without transcript persistence', async t => {
-  const server = createServer();
+  const server = createServer({config:loadConfig({}), fetchImpl:() => {throw new Error('Provider calls forbidden in mock HTTP tests');}});
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   t.after(() => new Promise(resolve => {server.close(resolve); server.closeAllConnections();}));
   const base = `http://127.0.0.1:${server.address().port}`;
