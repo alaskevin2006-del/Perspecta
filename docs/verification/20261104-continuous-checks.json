@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-11-04T10:31:23.576414+00:00",
+  "backend": {
+    "pass": 140,
+    "fail": 0
+  },
+  "frontend": {
+    "pass": 17,
+    "fail": 0
+  },
+  "typecheckBuild": "PASS",
+  "sameOriginProxy": "PASS; mock/fake only, 2/3/4 roles plus legacy2 and errors",
+  "orderedRosterCount": 1092,
+  "modes": [
+    2,
+    3,
+    4
+  ],
+  "longTopicClasses": 5,
+  "maxPromptBytes": 23550,
+  "limitBytes": 24000,
+  "browser": "Actual Chrome on Mac; mock2/3/4 and real4; 1366x768 and1440x900",
+  "realCallsThisTask": 3,
+  "lastV3GuidanceRealRetest": false,
+  "allTemporaryServicesStopped": true,
+  "temporaryViewportReset": true,
+  "productPersonaOwnerApproval": false
+}

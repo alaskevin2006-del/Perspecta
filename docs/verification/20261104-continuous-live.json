@@ -213,5 +213,13 @@
     "lastServiceTotalUpstreamRequests": 1,
     "secondLocalPostHTTP": 429,
     "noAdditionalProviderCall": true
+  },
+  "postLiveValidationChange": {
+    "sourceCommit": "d53a545, merged with main 1f21a2f in bd7ab20",
+    "changedFile": "backend/data/discussion-guidance.json",
+    "currentSHA256": "64c028ebade074600b592a56ba9d298d595add432fecc41e20426dff4fa9c52e",
+    "change": "role-specific revision triggers and source provenance; runtime API/prompt/validator/frontend unchanged",
+    "validation": "140 backend tests, 17 frontend tests; 1092 ordered rosters x 3 modes x 5 topic classes, max23550bytes",
+    "realProviderRetest": false
   }
 }
