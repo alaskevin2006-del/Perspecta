@@ -37,3 +37,24 @@ test('speech observations remain traceable to unchanged repository source files'
   assert.equal(body.roles.find(r=>r.id===id).discussionGuidance.speechEvidence,record.speechEvidence);
  }
 });
+
+test('decision cases carry traceable, bounded context and reach each discussion mode without invented quotes',async()=>{
+ const {readFileSync}=await import('node:fs');
+ const cases=JSON.parse(readFileSync(new URL('../data/persona-decision-cases.json',import.meta.url),'utf8'));
+ for(const id of ['zhang_xuefeng','du_sujuan']){
+  const role=roles.find(r=>r.id===id);
+  assert.equal(cases[id].length,2);
+  for(const item of cases[id]){
+   assert.ok(['context','judgment','reason','scope','url','locator','status'].every(k=>typeof item[k]==='string'&&item[k].length));
+   assert.equal(role.sources.find(source=>source.id===item.source)?.url,item.url);
+  }
+ }
+ for(const rounds of [2,3,4]){
+  const body=JSON.parse(buildMessages({topic:topics[0],roleIds:ids,rounds},selected)[1].content);
+  for(const id of ['zhang_xuefeng','du_sujuan']){
+   const transmitted=body.roles.find(r=>r.id===id).decisionCases;
+   assert.deepEqual(transmitted,cases[id].map(({runtime})=>runtime));
+   assert.ok(!JSON.stringify(transmitted).includes('https://'));
+  }
+ }
+});
