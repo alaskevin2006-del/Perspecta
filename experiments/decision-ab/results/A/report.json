@@ -1,0 +1,43 @@
+{
+  "variant": "A",
+  "runKind": "REAL_SINGLE_REQUEST",
+  "attempts": 1,
+  "startedAt": "2026-11-04T14:36:46.173Z",
+  "requestSHA256": "5971d4edaeb7b0e856da97ee427f88bd307a1e69375976d98668fb5fcd79f898",
+  "sourceHashes": {
+    "backend/package.json": "ce69327889e81adf6378a8e20211d2ae12af076da08c3a7eaf8c86f5990ba33f",
+    "backend/src/prompt.js": "35fc7a446f37727605af54bb174b33c890fdf58eaa05489a806c71b28f8eb73e",
+    "backend/src/discussion.js": "85e78cea127fa4610729078f73a549e6b14f9f5187666e31c99b861e2cac6c0b",
+    "backend/src/validation.js": "08f96d39d53215d3770befe9e7b09df12486eaba6bf4c31dfdafed1c0f4cd5c6",
+    "backend/src/errors.js": "4ec540e1d9f2aa13c85b4b8d275447c557ce5e38a739be4d2bfb1d36b4dd2895",
+    "backend/data/roles.json": "bb8f9280c4803d3e25c24d407717de5309062beb7b7940ac0a6f5efa4394db31",
+    "backend/data/discussion-guidance.json": "64c028ebade074600b592a56ba9d298d595add432fecc41e20426dff4fa9c52e",
+    "backend/data/persona-speech-evidence.json": "3fb1a9cc1464ea5f8fd60d81c4cdf704acab3f18cb7850d1bda00461c16437de",
+    "prepare.mjs": "266aa8a9b2d319c4c46964b2b7e226b478f4d49baf8350b0ddd54dbf65f7baba",
+    "runner.mjs": "59aa3d20bab8e7d71331bc6202f0df9d64ecd1da4e5eed9f181bf5821d8cbd76",
+    "protocol.mjs": "8a8dccf144c1f14a20070f2546304e382a2e6c0235b7ebe2a0e96faf531ab939",
+    "run-once.mjs": "3dc94b4678dbb56a4917f38727ef7568693a01c3650e06dec972affd8181b043"
+  },
+  "codeCommit": "99a77925cfff187f11fbcff0b683e0c0efdb3950",
+  "requestBytes": 21886,
+  "reservedTokens": 26898,
+  "estimatedMaxUSD": 0.012119399999999999,
+  "upstreamStatus": 200,
+  "usage": {
+    "inputTokens": 4721,
+    "outputTokens": 2297
+  },
+  "usageDetails": {
+    "cacheHitTokens": 0,
+    "cacheMissTokens": 4721,
+    "totalTokens": 7018,
+    "reasoningTokens": null
+  },
+  "providerCost": null,
+  "outcome": "INVALID_OUTPUT",
+  "completed": true,
+  "responseModel": "deepseek-flash",
+  "rawContentSHA256": "79fd60a78a03950a6acbf4b8dd58fa2d297eb4a8dc4fde301502797490ba7ed1",
+  "finishedAt": "2026-11-04T14:37:07.298Z",
+  "durationMs": 21125
+}
