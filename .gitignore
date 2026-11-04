@@ -20,11 +20,12 @@ build/
 __pycache__/
 *.pyc
 
-# Backend credentials (keep the empty example tracked)
-backend/.env
-backend/.env.*
-!backend/.env.example
+# 环境变量与凭据（保留空 example 模板）
 .env*
 !.env.example
+!backend/.env.example
 
 .local-qa/
+
+# Agent scratch progress (reviewable plans live in docs/)
+.superpowers/
