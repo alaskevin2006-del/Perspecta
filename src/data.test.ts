@@ -75,3 +75,18 @@ test('old relay four-stage records require explicit historical validation',()=>{
  const d=JSON.parse(readFileSync(new URL('../backend/examples/live-continuous-gpa-20261104.json',import.meta.url),'utf8'));const ids=['zhang_xuefeng','lei_jun','wang_defeng','du_sujuan'];
  assert.throws(()=>validateDebate(d,ids,4));assert.doesNotThrow(()=>validateDebate(d,ids,4,{legacyFour:true}));
 });
+
+test('guest list numbers only the visible invited roles during a discussion',()=>{
+ const visible=data.guestListRoles;
+ assert.equal(typeof visible,'function');
+ const oldCatalog=[...['career_realist','growth_explorer','risk_analyst'].map(id=>({...roles[0],id})),...roles];
+ const invited=visible(oldCatalog,roles.map(r=>r.id));
+ assert.deepEqual(invited.map((r,i)=>[r.id,i+1]),roles.map((r,i)=>[r.id,i+1]));
+ const pair=visible(roles,[roles[3].id,roles[1].id]);
+ assert.deepEqual(pair.map((r,i)=>[r.id,i+1]),[[roles[1].id,1],[roles[3].id,2]]);
+ assert.deepEqual(visible(roles,null),roles);
+ assert.deepEqual(visible([...roles].reverse(),[roles[3].id,roles[1].id]).map(r=>r.id),[roles[3].id,roles[1].id]);
+ assert.deepEqual(visible(roles,[]),[]);
+ assert.deepEqual(visible(roles,['missing']),[]);
+ assert.deepEqual(roles.map(r=>r.id),['zhang_xuefeng','lei_jun','wang_defeng','du_sujuan']);
+});

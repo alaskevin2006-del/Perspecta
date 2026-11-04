@@ -10,6 +10,10 @@ export const roles: Role[] = [
  {id:'wang_defeng',name:'王德峰',tagline:'哲学思辨 · 人生意义'},
  {id:'du_sujuan',name:'杜素娟',tagline:'文学教育 · 自我发现'},
 ];
+// Display ordinals belong to this visible list, never to stable role IDs.
+export function guestListRoles(catalog:Role[],selected:readonly string[]|null):Role[]{
+ return selected===null?catalog:catalog.filter(role=>selected.includes(role.id));
+}
 export const topics = [
  {id:'gpa_or_projects',title:'绩点，还是项目实践？',prompt:'大学阶段时间有限，应该优先提高绩点还是积累项目实践？'},
  {id:'postgraduate_or_work',title:'考研，还是直接就业？',prompt:'对大二学生而言，何时开始确定考研还是就业方向更合理？'},
