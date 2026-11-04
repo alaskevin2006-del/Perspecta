@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {makeMock,validateDebate,roles,readBackendMode,modeNotice} from './data';
+import {makeMock,validateDebate,roles,formatDebateText,readBackendMode,modeNotice} from './data';
 
 test('backend response headers determine mock and live notices',()=>{
  for(const mode of ['mock','live'] as const){
@@ -66,3 +66,5 @@ test('optional unknown-avatar URLs work without treating asset keys or scripts a
  assert.equal(data.avatarImageSource('https://example.test/portrait.png'),'https://example.test/portrait.png');assert.equal(data.avatarImageSource('/assets/portrait.png'),'/assets/portrait.png');
  assert.equal(data.avatarImageSource('https://user:password@example.test/image'),undefined);
 });
+
+ test('teammate three-round records remain valid and export the third round',()=>{const d=makeMock('大学阶段如何平衡绩点与实践？',roles.slice(0,4).map(r=>r.id),3);validateDebate(d,roles.slice(0,4).map(r=>r.id),3);assert.match(formatDebateText(d,roles,'mock'),/第三轮/);});

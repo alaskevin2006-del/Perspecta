@@ -21,7 +21,7 @@ const post=body=>new Request('http://localhost/api/debate',{method:'POST',body:J
 test('optional rounds selects four stages while old requests remain two',()=>{
  assert.equal(validateInput({topic,roleIds:all,rounds:4},roles).rounds,4);
  assert.equal(validateInput({topic,roleIds:all},roles).rounds,2);
- for(const rounds of [null,0,1,3,5,'4',true,[],{}])assert.throws(()=>validateInput({topic,roleIds:all,rounds},roles));
+ for(const rounds of [null,0,1,5,'4',true,[],{}])assert.throws(()=>validateInput({topic,roleIds:all,rounds},roles));
 });
 for(const n of [2,3,4])test(`four stages balance ${n} roles and continuously chain ${n*4} turns`,()=>{
  const ids=all.slice(0,n);const valid=fixture(ids);

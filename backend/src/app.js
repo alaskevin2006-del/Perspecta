@@ -20,7 +20,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         const input = validateInput(await readJson(request.body), roles);
         const selected = input.roleIds.map(id => roles.find(role => role.id === id));
         const messages = buildMessages(input, selected);
-        const generationConfig = input.rounds===4 ? {...config,maxOutputTokens:config.debateMaxOutputTokens??config.maxOutputTokens} : config;
+        const generationConfig = input.rounds>=3 ? {...config,maxOutputTokens:config.debateMaxOutputTokens??config.maxOutputTokens} : config;
         const bytes = Buffer.byteLength(JSON.stringify(messages));
         if (bytes > config.maxInputBytes) throw new ApiError('INVALID_INPUT');
         const key = createHash('sha256').update(JSON.stringify({topic:input.topic, roleIds:[...input.roleIds].sort(),rounds:input.rounds})).digest('hex');

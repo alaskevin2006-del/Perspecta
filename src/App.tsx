@@ -44,8 +44,8 @@ export function App(){
  const dataNotice=modeNotice(displayedMode);
  useEffect(()=>{alive.current=true;return()=>{alive.current=false;};},[]);
  useEffect(()=>{let active=true;setCatalogError('');getCatalog().then(c=>{if(active){setCatalog(c);setCatalogMode(c.mode);}}).catch(e=>{if(active)setCatalogError(e.message);});return()=>{active=false;};},[catalogRetry]);
- const totalRounds:2|4=result?(result.messages.at(-1)?.round===4?4:2):4;
- const stageLabels=totalRounds===4?discussionStages:['独立陈述','观点交锋'];
+ const totalRounds=(result?.messages.at(-1)?.round??4) as 2|3|4;
+ const stageLabels=totalRounds===4?discussionStages:totalRounds===3?['独立陈述','观点交锋','继续交锋']:['独立陈述','观点交锋'];
  const current=result?.messages[phase==='completed'?result.messages.length-1:index];const completedCount=phase==='completed'?result?.messages.length??0:index;
  const reduced=useRef(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
  const advance=()=>{if(!result)return;if(index+1>=result.messages.length){setPhase('completed');setTab('summary');}else setIndex(i=>i+1);};

@@ -25,5 +25,6 @@ export function mockDebate({topic, roleIds, rounds=2}) {
     return {...original, roleId, content, id: `m${(round - 1) * roleIds.length + index + 1}`,
       replyTo: round === 1 ? null : `m${target + 1}`};
   }));
+  if(rounds===3)messages.push(...roleIds.map((roleId,index)=>({id:`m${2*roleIds.length+index+1}`,round:3,roleId,replyTo:messages[roleIds.length+(index+1)%roleIds.length].id,content:'回应前面的观点：讨论还需要区分目标要求与实践机会。若现实条件允许，可以先安排一次有限的尝试，再根据结果调整，不必把一种选择视作所有人的答案。'})));
   return {...structuredClone(demo), topic, messages};
 }

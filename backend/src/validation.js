@@ -30,7 +30,7 @@ export function validateInput(body, roles) {
   if ([...topic].length < 10 || [...topic].length > 300 || !Array.isArray(roleIds) || roleIds.length < 2 || roleIds.length > 4 ||
     new Set(roleIds).size !== roleIds.length || roleIds.some(id => typeof id !== 'string' || !validIds.has(id))) throw new ApiError('INVALID_INPUT');
   const rounds = body.rounds === undefined ? 2 : body.rounds;
-  if (![2,4].includes(rounds)) throw new ApiError('INVALID_INPUT');
+  if (![2,3,4].includes(rounds)) throw new ApiError('INVALID_INPUT');
   return {topic, roleIds, rounds};
 }
 
@@ -44,24 +44,28 @@ const attributedQuote = /(?:^|[。！？：:\n])\s*(?:回应\s*)?(?:你所说|�
 export function validateOutput(value, roleIds, {rounds=2} = {}) {
   if (rounds===4) return validateConversation(value,roleIds);
   const invalid = () => {throw new ApiError('INVALID_MODEL_OUTPUT');};
-  if (!keys(value, ['messages', 'summary']) || !Array.isArray(value.messages) || value.messages.length !== 2 * roleIds.length ||
+  if (!keys(value, ['messages', 'summary']) || !Array.isArray(value.messages) || value.messages.length !== rounds * roleIds.length ||
     !keys(value.summary, ['consensus', 'disagreements', 'decisionFactors', 'nextActions'])) invalid();
   const first = new Map();
+  const prior = new Map();
   const ids = new Set();
   for (const [index, message] of value.messages.entries()) {
-    const round = index < roleIds.length ? 1 : 2;
+    const round = Math.floor(index/roleIds.length)+1;
     if (!keys(message, ['id', 'round', 'roleId', 'content', 'replyTo']) || !text(message.id, 80) || ids.has(message.id) ||
       message.round !== round || !roleIds.includes(message.roleId) || !text(message.content, 600)) invalid();
     ids.add(message.id);
     if (round === 1) {if (message.replyTo !== null) invalid(); first.set(message.id, message);}
     else {
-      if (typeof message.replyTo !== 'string' || !first.has(message.replyTo) || first.get(message.replyTo).roleId === message.roleId) invalid();
+      const allowed=rounds===3?prior:first;
+      if (typeof message.replyTo !== 'string' || !allowed.has(message.replyTo) || allowed.get(message.replyTo).roleId === message.roleId) invalid();
       for (const [,quote] of message.content.matchAll(attributedQuote)) {
-        if (!first.get(message.replyTo).content.includes(quote)) invalid();
+        if (!allowed.get(message.replyTo).content.includes(quote)) invalid();
       }
     }
+    prior.set(message.id,message);
   }
-  for (const round of [1, 2]) {
+  if(rounds===3&&!value.messages.some(m=>m.round===3&&prior.get(m.replyTo)?.round===2))invalid();
+  for (let round=1;round<=rounds;round++) {
     const messages = value.messages.filter(m => m.round === round);
     if (new Set(messages.map(m => m.roleId)).size !== roleIds.length) invalid();
   }
