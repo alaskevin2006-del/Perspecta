@@ -102,3 +102,12 @@ test('actual first sixteen-turn response is rejected for a fabricated attributed
  assert.doesNotThrow(()=>validateOutput(withoutMisquote,all,{rounds:4}));
  // This edited copy is only an isolated validation probe, never published as a generated success.
 });
+
+test('actual second sixteen-turn response rejects extra summary fields and four-item arrays',()=>{
+ const value=JSON.parse(readFileSync(new URL('./fixtures/live-conversation-summary-mismatch-20261104.json',import.meta.url),'utf8'));
+ assert.equal(value.messages.length,16);assert.ok(value.summary.nextActions_note);assert.equal(value.summary.decisionFactors.length,4);
+ assert.throws(()=>validateOutput(value,all,{rounds:4}));
+ const probe=structuredClone(value);delete probe.summary.nextActions_note;assert.throws(()=>validateOutput(probe,all,{rounds:4}));
+ probe.summary.decisionFactors.pop();assert.doesNotThrow(()=>validateOutput(probe,all,{rounds:4}));
+ // Only a unit validation probe; the raw rejected response is never presented as success.
+});

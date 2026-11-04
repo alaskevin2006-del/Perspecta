@@ -1,6 +1,6 @@
 # Conversational Debate Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Replace the new page's advice rotation with a bounded four-stage character-to-character debate while retaining old API consumers.
 
@@ -30,24 +30,26 @@
 
 Files: backend/src/{discussion,validation,prompt,mock,app,model,config}.js; backend/api-contract.d.ts; backend/data/discussion-guidance.json; backend/test/conversation.test.js.
 Interfaces: buildTurnPlan(roleIds,rounds=4); validateOutput(value,roleIds,{rounds=2}={}); input.rounds defaults2; buildMessages usesinput.rounds; model validates same mode.
-- [ ] Write RED tests for legacy default, valid4, invalid rounds,8/12/16 chain/balance, self/future/non-adjacent reply, meta wording/quotes, varied partners, cap config/reservation and single fake upstream.
-- [ ] Implement bounded plan, optional mode, guidance projection/prompt, deterministic mock; same effective cap in guard and generate.
-- [ ] Run targeted then all backend tests; update only assertions that describe intentional v2 behavior. Keep historical tests legacy.
+- [x] Write RED tests for legacy default, valid4, invalid rounds,8/12/16 chain/balance, self/future/non-adjacent reply, meta wording/quotes, varied partners, cap config/reservation and single fake upstream.
+- [x] Implement bounded plan, optional mode, guidance projection/prompt, deterministic mock; same effective cap in guard and generate.
+- [x] Run targeted then all backend tests; update only assertions that describe intentional v2 behavior. Keep historical tests legacy.
 
 ### Task2: New page protocol and four-stage playback
 
 Files: src/data.ts,src/data.test.ts,src/App.tsx,src/style.css,scripts/integration-smoke.mjs.
 Interfaces: Message.round=1|2|3|4; validateDebate(value,ids,rounds=4); generateDebate sendsrounds4; legacy validation selectable explicitly.
-- [ ] Write RED tests for4stage mock/validation, malformed chains and phase titles.
-- [ ] Implement new page request, four-stage history and labels, statement that user cannot interrupt; retain controls/export.
-- [ ] Run frontend tests, typecheck/build, actual proxy smoke8/12/16 and legacy raw POST; prove error propagation/no fallback.
+- [x] Write RED tests for4stage mock/validation, malformed chains and phase titles.
+- [x] Implement new page request, four-stage history and labels, statement that user cannot interrupt; retain controls/export.
+- [x] Run frontend tests, typecheck/build, actual proxy smoke8/12/16 and legacy raw POST; prove error propagation/no fallback.
 
 ### Task3: Browser, one real quality sample and handoff
 
 Files: .doc/{01,02,03,04} relevant addenda; docs/conversational-debate-validation.md; docs/verification; backend/examples; artifacts/conversation-ui-20261104.
-- [ ] Record before/after persona audit including exact field omissions, bytes and restored source sections.
-- [ ] Verify actual Chrome mock2/3/4 modes, stage boundaries,16 playback/history/summary, controls/error/disclosure.
-- [ ] Review code; run synthetic one-attempt harness before live.
-- [ ] Use new private persistent lock and user-authorized key server-side for one true four-person request; record exact result/usage and manual argument/voice/semantic review. Do not reset old locks.
-- [ ] Verify real browser playback/summary, save evidence, stop services/reset viewport; document limitations and pending product/persona approval.
-- [ ] Final review/tests/privacy/hash/remote checks, normal push existing integration branch, verify exact remote SHA. No main merge/deploy.
+- [x] Record before/after persona audit including exact field omissions, bytes and restored source sections.
+- [x] Verify actual Chrome mock2/3/4 modes, stage boundaries,16 playback/history/summary, controls/error/disclosure.
+- [x] Review code; run synthetic one-attempt harness before live.
+- [x] Use new private persistent lock and user-authorized key server-side for one true four-person request; record exact result/usage and manual argument/voice/semantic review. Do not reset old locks.
+- [x] Verify real browser playback/summary, save evidence, stop services/reset viewport; document limitations and pending product/persona approval.
+- [x] Final review/tests/privacy/hash/remote checks, normal push existing integration branch, verify exact remote SHA. No main merge/deploy.
+
+执行增量：发现队友三轮和main新版指南后暂停第二次预备请求（0次），实际合并并保留显式3；旧省略2、新页4。真实总3次（2拒绝、1通过），均人工确认前次后独立单次，不是自动重试。最终push与清理完成情况以验证报告和交付SHA为准。

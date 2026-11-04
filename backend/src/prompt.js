@@ -66,6 +66,7 @@ function buildConversationMessages(input,roles){
 正式资格和可探索路径要区分；未知要求明确待核实，项目经历不能默认豁免硬门槛。人物的哲学观点是讨论视角，不是科学保证、医疗替代或让人放弃现实责任。
 summary四个字段consensus/disagreements/decisionFactors/nextActions均为1–3条非空字符串。只总结实际发生的讨论，说明哪些论点被修正、哪些仍分歧，不用各位都正确敷衍。
 下一步写清条件与行动，不能替观众作绝对裁决；期限若有是可调整建议，正文和总结不相互矛盾，不保证未知信息一次查清。
+输出前逐项自检：messages恰好${turnPlan.length}条，summary恰好四个键且每个数组最多3项；超过3项先合并，不添加nextActions_note、note、解释或其他键。期限说明如有必须写在nextActions已有字符串内。严格字段与数组上限是接口硬约束。
 下面示例仅展示头两条的字段，实际必须按turnPlan输出全部${turnPlan.length}条：
 ${JSON.stringify(shape)}`},
   {role:'user',content:JSON.stringify({topic:input.topic,roles:profiles,rounds:4,stages:discussionStages,turnPlan})},

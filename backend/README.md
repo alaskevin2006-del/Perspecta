@@ -1,6 +1,16 @@
 # Perspecta 后端 v0.1
 
-方弈琪负责的独立后端：三个固定 API → 一次模型调用 → 两轮讨论及总结。只使用 Node.js 内置模块，不依赖 npm 包或数据库，不改前端页面和画像组的资料。开发基线为 `.doc` 四份核心文件。
+方弈琪负责的独立后端：三个固定 API → 一次模型调用 → 可选两/三/四阶段讨论及总结。只使用 Node.js 内置模块，不依赖 npm 包或数据库，当前整合版在独立分支适配前端与团队画像，来源可追溯。开发基线为 `.doc` 四份核心文件。
+
+## 连续模式（2026-11-04）
+
+rounds=4每阶段每人一条，四阶段为抛出争点、质疑与反例、回应与修正、条件与未决。首条无回应，后续必须引用紧邻上一位、不同嘉宾的消息；3/4人还须至少与两位不同嘉宾交锋。2/3/4人共8/12/16条。用户不可中途发言。
+
+显式rounds=3保留队友三轮语义：首轮全null，后两轮回应此前异人，至少一条第三轮回应第二轮。字段、错误和一次调用原则不变。
+
+新3/4模式有效输出cap来自`LLM_DEBATE_OUTPUT_TOKENS`（128–8000，默认4500）；若运维显式配置旧`LLM_MAX_OUTPUT_TOKENS`且未设新值，新模式继承旧上限。旧两轮默认3000。相同有效cap同时用于上游请求和调用前预算预留，较低cap可能截断并返回502，不自动增额或重试。24000byte提示、64KiB响应、45秒超时和原限流仍生效。
+
+当前3/4画像投影保留supportedPositions，省略会引发照念的typicalQuestions，附加有来源的discussionGuidance。来源本身留库不当系统指令。[审计](../docs/conversation-integration-audit.md) · [真实结果及费用](../docs/conversation-validation-20261104.md)。
 
 ## 启动与验证
 
@@ -32,9 +42,9 @@ npm run smoke
 | `GET /api/topics` | `topics: [{id,title,prompt}]` |
 | `POST /api/debate` | `discussionId, topic, messages, summary, usage` |
 
-POST 请求为 `{topic,roleIds}`。去除首尾空格后 topic 为 10–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–4 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
+POST 请求为 `{topic,roleIds,rounds?}`。rounds可为2、3、4，省略仍为2；当前页面显式4。去除首尾空格后 topic 为 10–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–4 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
 
-`messages` 每人两条，先全体第一轮再全体第二轮；每条只含 `id,round,roleId,content,replyTo`。第一轮 `replyTo=null`，第二轮必须引用另一角色的第一轮消息。`summary` 只含 `consensus,disagreements,decisionFactors,nextActions` 四个非空数组（各 1–3 条）。服务器拒绝缺字段、额外字段、重复 ID、缺失角色、不合法引用或空文本。每条内容上限 600 码点，提示词要求约 60–140 汉字；语义质量仍须人工验收。
+旧rounds=2时，`messages` 每人两条，先全体第一轮再全体第二轮；每条只含 `id,round,roleId,content,replyTo`。第一轮 `replyTo=null`，第二轮必须引用另一角色的第一轮消息。`summary` 只含 `consensus,disagreements,decisionFactors,nextActions` 四个非空数组（各 1–3 条）。服务器拒绝缺字段、额外字段、重复 ID、缺失角色、不合法引用或空文本。每条内容上限 600 码点，提示词要求约 60–140 汉字；语义质量仍须人工验收。
 
 `usage` 有真实上游计数时为 `{inputTokens,outputTokens}`，没有时为 `null`。mock 为零计数，`discussionId=demo-001`；live 使用服务器生成的 UUID。错误统一为 `{error:{code,message}}`：
 
@@ -50,7 +60,7 @@ POST 请求为 `{topic,roleIds}`。去除首尾空格后 topic 为 10–300 个 
 
 ## 前端联调
 
-前端继续使用同源相对路径 `/api/...`。开发时在前端开发服务器将 `/api` 代理到 `http://127.0.0.1:3001`；生产时在反向代理做同一路由。后端没有开放跨源 CORS。没有提交前端或根目录构建配置，避免与 `feat/ui` 冲突。
+前端继续使用同源相对路径 `/api/...`。开发时在前端开发服务器将 `/api` 代理到 `http://127.0.0.1:3001`；生产时在反向代理做同一路由。后端没有开放跨源 CORS。整合版已有同源Vite代理；原独立后端阶段未改前端。
 
 例如供前端负责人采用的 Vite 配置片段（未改动前端）：
 
