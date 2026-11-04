@@ -45,14 +45,15 @@ test('accurate paraphrase and newly introduced quoted concepts remain allowed',(
 test('a quote taken from a different first-round role is rejected',()=>{
   const value=core();
   value.messages[3].content='回应你强调“维持成绩底线通常应优先”，需要增加资源约束。';
-  assert.throws(()=>validateOutput(value,['career_realist','growth_explorer','risk_analyst']),error=>error.code==='INVALID_MODEL_OUTPUT');
+  assert.throws(()=>validateOutput(value,['zhang_xuefeng','du_sujuan','lei_jun']),error=>error.code==='INVALID_MODEL_OUTPUT');
 });
 
 test('wrong attributed quote maps to 502, preserves usage and never retries',async t=>{
   const actual=JSON.parse(readFileSync(new URL('fixtures/live-stability-quote-mismatch-20261103.json',import.meta.url),'utf8'));
+  for(const message of actual.messages)message.roleId=({growth_explorer:'du_sujuan',risk_analyst:'lei_jun'})[message.roleId];
   const {config,calls}=await upstream(t,(_req,res)=>send(res,completion({messages:actual.messages,summary:actual.summary})));config.provider='deepseek';
   const logs=[];
-  const response=await createApp({config,logger:event=>logs.push(event)}).handle(debateRequest({topic:'大学生应该尽早确定未来方向，还是广泛尝试？',roleIds:['growth_explorer','risk_analyst']}));
+  const response=await createApp({config,logger:event=>logs.push(event)}).handle(debateRequest({topic:'大学生应该尽早确定未来方向，还是广泛尝试？',roleIds:['du_sujuan','lei_jun']}));
   assert.equal(response.status,502);
   assert.equal((await response.json()).error.code,'INVALID_MODEL_OUTPUT');
   assert.equal(calls.length,1);

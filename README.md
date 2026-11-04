@@ -82,7 +82,7 @@ npm run dev
 
 ## 联调前需要统一
 
-- 前端使用 `zhang_xuefeng`、`lei_jun`、`wang_defeng`、`du_sujuan` 四个人物 ID；本地演示含四人素材；后端目录已有四位人物 AI 模拟视角及三个抽象立场；最新版指南与提炼取舍见 [画像与合并审计](docs/conversation-integration-audit.md)，画像仍待资料组验收。
+- 前端使用 `zhang_xuefeng`、`lei_jun`、`wang_defeng`、`du_sujuan` 四个人物 ID；本地演示含四人素材；后端目录仅提供四位人物 AI 模拟视角，三个抽象测试立场已退出可选列表；最新版指南与提炼取舍见 [画像与合并审计](docs/conversation-integration-audit.md)，画像仍待资料组验收。
 - 产品正式范围为 2–4 人；前端已支持，整合后端支持四阶段，2/3/4 人分别为 8/12/16 条发言。
 - 四位嘉宾的头像由本地人物 ID 映射提供，不使用后端 `avatar` 覆盖；后端无需提供图片，只需统一四位正式人物 ID。
 - 先通过后端模拟模式验证页面完整流程，再验证真实模型生成。数据、代理与 1366×768 Chrome 模拟流程已验；真实请求记录见 [连续辩论验证](docs/conversation-validation-20261104.md)。

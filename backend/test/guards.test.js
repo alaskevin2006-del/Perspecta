@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createApp } from '../src/app.js';
+import {roles} from '../src/catalog.js';
+import {buildMessages} from '../src/prompt.js';
 import { loadConfig } from '../src/config.js';
 import { upstream, send, completion, debateRequest, topic, roleIds } from '../test-support/upstream.js';
 
@@ -43,8 +45,8 @@ test('in-flight duplicates and concurrency are rejected, slots release on timeou
 
 test('failed calls retain budget reservations and cannot be repeated indefinitely', async t => {
   const {config,calls}=await upstream(t, (_req,res)=>send(res,{error:'unavailable'},500));
-  config.sessionTokenBudget=16000;
   config.maxOutputTokens=8000;
+  config.sessionTokenBudget=Buffer.byteLength(JSON.stringify(buildMessages({topic,roleIds},roleIds.map(id=>roles.find(r=>r.id===id)))))+512+config.maxOutputTokens;
   const app=createApp({config,logger:()=>{}});
   assert.equal((await app.handle(debateRequest())).status,500);
   assert.equal((await app.handle(debateRequest())).status,429);

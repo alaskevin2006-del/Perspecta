@@ -30,5 +30,5 @@ test('three-round input and all ordered rosters stay bounded with new source gui
    for(const char of ['测','😀','\u0000','"','\\']){const bytes=Buffer.byteLength(JSON.stringify(buildMessages({topic:char.repeat(300),roleIds:list,rounds},chosen)));assert.ok(bytes<=24000,`budget ${bytes}`);maxBytes=Math.max(maxBytes,bytes);}
   }checked++;
  }if(list.length<4)for(const role of roles)if(!list.includes(role.id))visit([...list,role.id]);};visit([]);
- assert.equal(checked,1092);console.log(JSON.stringify({orderedRosters:checked,modes:3,maxPromptBytes:maxBytes}));
+ assert.equal(checked,60);console.log(JSON.stringify({orderedRosters:checked,modes:3,maxPromptBytes:maxBytes}));
 });
