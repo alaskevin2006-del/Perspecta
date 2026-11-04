@@ -295,3 +295,9 @@ textarea:focus{outline:none;border-bottom-color:#354c41;background:#fff9eb45}tex
 /* Each seat has a non-overlapping slot; wrap the full identity, never truncate it. */
 .seat{min-width:0}
 .seat>span{width:100%;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center;font-size:16px;line-height:1.45;letter-spacing:0;padding:6px 4px}
+
+/* Four phases remain readable while the original playback and notebook stay in place. */
+.stage-title .discussion-format{margin-top:8px;font-size:12px;line-height:1.5;letter-spacing:.04em;color:#f2dfbd}
+.stage-bottom .steps{flex-wrap:wrap;gap:8px 12px;font-size:11px}
+.stage-bottom .steps span{white-space:nowrap}
+.guest-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}

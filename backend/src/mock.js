@@ -1,7 +1,19 @@
 import { demo, roles } from './catalog.js';
+import {buildTurnPlan} from './discussion.js';
 
 // Fixed fixture for integration only. It is not a generated answer to arbitrary topics.
-export function mockDebate({topic, roleIds}) {
+export function mockDebate({topic, roleIds, rounds=2}) {
+  if(rounds===4){
+    const plan=buildTurnPlan(roleIds);
+    const points=[
+      '先明确必要资格与可支配资源，再比较额外投入；如果不知道目标条件，分数和项目数量都不能直接代表路径价值。',
+      '这个排序还缺一个反例：达到必要条件后，继续刷同一指标可能少有收获；应比较真实任务反馈，而不是把忙碌当成长。',
+      '刚才把评价标准放在了结果上，这个前提仍可追问：行动本身是否有价值？接受现实责任，并不等于只承认单一排名。',
+      '反例提醒了探索的必要，但不能据此忽略支持条件；若时间和资源不足，应缩小尝试，而不是把选择说成非此即彼。',
+    ];
+    const messages=plan.map((turn,i)=>({...turn,content:i===0?points[0]:`${roles.find(r=>r.id===plan[i-1].roleId)?.name??plan[i-1].roleId}，${points[i%points.length]}`}));
+    return {...structuredClone(demo),topic,messages};
+  }
   const messages = [1, 2].flatMap(round => roleIds.map((roleId, index) => {
     const roundFixtures = demo.messages.filter(message => message.round === round);
     const original = roundFixtures.find(message => message.roleId === roleId) ?? roundFixtures[index % roundFixtures.length];

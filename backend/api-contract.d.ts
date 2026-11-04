@@ -2,8 +2,8 @@
 export interface RoleCard { id: string; name: string; tagline: string; description: string; avatar: string }
 export interface Topic { id: string; title: string; prompt: string }
 /** topic: 10–300 Unicode code points; roleIds: 2–4 distinct catalog IDs. */
-export interface DebateRequest { topic: string; roleIds: string[] }
-export interface DebateMessage { id: string; round: 1 | 2; roleId: string; content: string; replyTo: string | null }
+export interface DebateRequest { topic: string; roleIds: string[]; rounds?: 2 | 4 }
+export interface DebateMessage { id: string; round: 1 | 2 | 3 | 4; roleId: string; content: string; replyTo: string | null }
 export interface DebateSummary { consensus: string[]; disagreements: string[]; decisionFactors: string[]; nextActions: string[] }
 export interface DebateUsage { inputTokens: number; outputTokens: number }
 export interface DebateResponse { discussionId: string; topic: string; messages: DebateMessage[]; summary: DebateSummary; usage: DebateUsage | null }

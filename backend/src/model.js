@@ -57,7 +57,7 @@ export async function generate(input, messages, config, signal, fetchImpl = fetc
     if (choice?.finish_reason !== 'stop' || choice?.message?.refusal || typeof choice?.message?.content !== 'string') throw new ApiError('INVALID_MODEL_OUTPUT');
     let output;
     try {output = JSON.parse(choice.message.content);} catch {throw new ApiError('INVALID_MODEL_OUTPUT');}
-    return {...validateOutput(output, input.roleIds), usage, usageDetails, providerCost, upstreamStatus, upstreamError};
+    return {...validateOutput(output, input.roleIds, {rounds:input.rounds??2}), usage, usageDetails, providerCost, upstreamStatus, upstreamError};
   } catch (error) {
     const safe = signal.aborted ? new ApiError('MODEL_TIMEOUT') : error instanceof ApiError ? error : new ApiError('INTERNAL_ERROR');
     safe.telemetry = {usage, usageDetails, providerCost, upstreamStatus, upstreamError};

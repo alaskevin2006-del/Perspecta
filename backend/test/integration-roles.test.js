@@ -29,7 +29,7 @@ test('five, duplicate, absent and unknown IDs are rejected',async()=>{
  for(const ids of [roles.slice(0,5).map(r=>r.id),['zhang_xuefeng','zhang_xuefeng'],['zhang_xuefeng'],['zhang_xuefeng','not_delivered'],['not_delivered','du_sujuan']]){const r=await app().handle(request(ids));assert.equal(r.status,400);assert.equal((await r.json()).error.code,'INVALID_INPUT');}
 });
 
-test('all four-role combinations fit the prompt budget without source metadata or instructions',()=>{
+test('legacy four-role combinations fit the budget without source metadata or instructions',()=>{
  for(const topic of ['测'.repeat(300),'😀'.repeat(300),'\u0000'.repeat(300),'"'.repeat(300),'\\'.repeat(300)]){
  const input={topic};
  for(let a=0;a<roles.length;a++)for(let b=a+1;b<roles.length;b++)for(let c=b+1;c<roles.length;c++)for(let d=c+1;d<roles.length;d++){

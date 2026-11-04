@@ -29,7 +29,9 @@ export function validateInput(body, roles) {
   const roleIds = body.roleIds;
   if ([...topic].length < 10 || [...topic].length > 300 || !Array.isArray(roleIds) || roleIds.length < 2 || roleIds.length > 4 ||
     new Set(roleIds).size !== roleIds.length || roleIds.some(id => typeof id !== 'string' || !validIds.has(id))) throw new ApiError('INVALID_INPUT');
-  return {topic, roleIds};
+  const rounds = body.rounds === undefined ? 2 : body.rounds;
+  if (![2,4].includes(rounds)) throw new ApiError('INVALID_INPUT');
+  return {topic, roleIds, rounds};
 }
 
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -39,7 +41,8 @@ const text = (value, max) => typeof value === 'string' && value.trim().length > 
 // Unquoted paraphrases and quotes introduced as new concepts are left to human review.
 const attributedQuote = /(?:^|[。！？：:\n])\s*(?:回应\s*)?(?:你所说|你说过|你提到|你指出|你强调|你提出|你认为|你说)\s*[:：]?\s*[“"]([^”"\n]{6,80})[”"]/gu;
 
-export function validateOutput(value, roleIds) {
+export function validateOutput(value, roleIds, {rounds=2} = {}) {
+  if (rounds===4) return validateConversation(value,roleIds);
   const invalid = () => {throw new ApiError('INVALID_MODEL_OUTPUT');};
   if (!keys(value, ['messages', 'summary']) || !Array.isArray(value.messages) || value.messages.length !== 2 * roleIds.length ||
     !keys(value.summary, ['consensus', 'disagreements', 'decisionFactors', 'nextActions'])) invalid();
@@ -66,4 +69,30 @@ export function validateOutput(value, roleIds) {
     if (!Array.isArray(values) || values.length < 1 || values.length > 3 || values.some(value => !text(value, 600))) invalid();
   }
   return value;
+}
+
+
+const conversationalQuote=/(?:回应|(?:你|他|她)(?:所说|说|提到|强调|提出|指出))[^“"\n:：]{0,24}[：:]?\s*[“"]([^”"\n]{2,80})[”"]/gu;
+function validateConversation(value,roleIds){
+ const invalid=()=>{throw new ApiError('INVALID_MODEL_OUTPUT');};
+ if(!keys(value,['messages','summary'])||!Array.isArray(value.messages)||value.messages.length!==4*roleIds.length||
+  !keys(value.summary,['consensus','disagreements','decisionFactors','nextActions']))invalid();
+ const ids=new Set();const targets=new Map(roleIds.map(id=>[id,new Set()]));
+ for(const [index,message] of value.messages.entries()){
+  if(!keys(message,['id','round','roleId','content','replyTo'])||!text(message.id,80)||ids.has(message.id)||
+   message.round!==Math.floor(index/roleIds.length)+1||!roleIds.includes(message.roleId)||!text(message.content,600)||
+   /我会先问|如果我是这个人物|作为(?:一个)?(?:AI|人工智能)/u.test(message.content))invalid();
+  ids.add(message.id);
+  if(index===0){if(message.replyTo!==null)invalid();}
+  else{
+   const previous=value.messages[index-1];
+   if(message.replyTo!==previous.id||message.roleId===previous.roleId)invalid();
+   targets.get(message.roleId).add(previous.roleId);
+   for(const regex of [attributedQuote,conversationalQuote])for(const [,quote]of message.content.matchAll(regex))if(!previous.content.includes(quote))invalid();
+  }
+ }
+ for(const round of [1,2,3,4])if(new Set(value.messages.filter(m=>m.round===round).map(m=>m.roleId)).size!==roleIds.length)invalid();
+ if(roleIds.length>2&&[...targets.values()].some(set=>set.size<2))invalid();
+ for(const list of Object.values(value.summary))if(!Array.isArray(list)||list.length<1||list.length>3||list.some(item=>!text(item,600)))invalid();
+ return value;
 }
