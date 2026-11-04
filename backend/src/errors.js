@@ -1,5 +1,5 @@
 const definitions = {
-  INVALID_INPUT: [400, '议题须为 10–300 字，角色须为 2–3 个不同的有效角色'],
+  INVALID_INPUT: [400, '议题须为 10–300 字，角色须为 2–4 个不同的有效角色'],
   RATE_LIMITED: [429, '请求过于频繁或服务额度已用完，请稍后重试'],
   INVALID_MODEL_OUTPUT: [502, '讨论结果格式不符合要求，请重试'],
   MODEL_TIMEOUT: [504, '讨论生成超时，请重试'],

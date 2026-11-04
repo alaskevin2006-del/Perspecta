@@ -32,7 +32,7 @@ npm run smoke
 | `GET /api/topics` | `topics: [{id,title,prompt}]` |
 | `POST /api/debate` | `discussionId, topic, messages, summary, usage` |
 
-POST 请求为 `{topic,roleIds}`。去除首尾空格后 topic 为 10–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–3 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
+POST 请求为 `{topic,roleIds}`。去除首尾空格后 topic 为 10–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–4 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
 
 `messages` 每人两条，先全体第一轮再全体第二轮；每条只含 `id,round,roleId,content,replyTo`。第一轮 `replyTo=null`，第二轮必须引用另一角色的第一轮消息。`summary` 只含 `consensus,disagreements,decisionFactors,nextActions` 四个非空数组（各 1–3 条）。服务器拒绝缺字段、额外字段、重复 ID、缺失角色、不合法引用或空文本。每条内容上限 600 码点，提示词要求约 60–140 汉字；语义质量仍须人工验收。
 
@@ -64,11 +64,11 @@ server: { proxy: { '/api': 'http://127.0.0.1:3001' } }
 
 ## 角色 JSON 接入
 
-[data/roles.json](data/roles.json) 直接使用文档的三种立场原型，仅补充已有本地头像键，没有重新编写人物画像。画像组交付时替换该文件并重启即可。所有完整画像只在服务端进入提示词，GET 投影只保留五个卡片字段。
+[data/roles.json](data/roles.json) 保留文档的三种立场原型，并原样收录画像分支交付的张雪峰和杜素娟；没有重新编写或补造人物画像。画像来源文件仍在人物画像目录；新增回归测试核对两份内容完全一致。后续画像组更新后须同步该文件并重启。所有完整画像只在服务端进入提示词，GET 投影只保留五个卡片字段。
 
 画像必需字段遵守 `.doc/03`：`id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries,sources`。`avatar` 可省略：三个原型自动映射到 `career/growth/risk`，新 ID 默认 `career`，可显式给出前端已支持的资产键。ID 必须是 1–64 位英文、数字、`_` 或 `-`，目录至少有 2 个角色；重复 ID、缺少必需字段在启动时失败。新增 `referencePerson/supportedPositions` 和来源内容会随完整画像送入模型，不更改 API。
 
-目前不存在正式真人画像；若以后启用，画像组和前端须完成来源核查及“基于公开资料的 AI 模拟观点，非本人发言”的展示。后端不将生成内容称为真人原话。
+整合预览已原样接入张雪峰、杜素娟两份画像，并保留三个抽象立场用于联调。雷军、王德峰画像尚未交付，不生成替代画像。正式使用仍须完成来源核查及“基于公开资料的 AI 模拟观点，非本人发言”的展示。后端不将生成内容称为真人原话。
 
 ## 模型配置（需另行授权真实凭据）
 

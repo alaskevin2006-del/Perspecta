@@ -3,7 +3,8 @@ import { demo, roles } from './catalog.js';
 // Fixed fixture for integration only. It is not a generated answer to arbitrary topics.
 export function mockDebate({topic, roleIds}) {
   const messages = [1, 2].flatMap(round => roleIds.map((roleId, index) => {
-    const original = demo.messages.find(m => m.round === round && m.roleId === roleId) ?? demo.messages[(round - 1) * 3 + index];
+    const roundFixtures = demo.messages.filter(message => message.round === round);
+    const original = roundFixtures.find(message => message.roleId === roleId) ?? roundFixtures[index % roundFixtures.length];
     const originalTarget = demo.messages.find(m => m.id === original.replyTo)?.roleId;
     const target = roleIds.includes(originalTarget) && originalTarget !== roleId ? roleIds.indexOf(originalTarget) : (index + 1) % roleIds.length;
     const content = round === 2 && roleIds[target] !== originalTarget

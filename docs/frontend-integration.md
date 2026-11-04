@@ -1,6 +1,6 @@
 # 前端接入交接（等待队友就绪，不修改前端）
 
-当前只读检查尚未发现前端分支或开放 PR；这不能代表队友本机没有开发。等刘智华给出就绪信号与分支/提交后再联调，不打断其开发，不替其重写页面或构建配置。
+整合预览已在独立本地分支合并 feat/api、codex/frontend-handoff 和 feat/persona，未改动远端队友分支。2/3/4 人数据与同源代理联调已通过；浏览器 UI 仍未验收。详见 integration-preview.md。
 
 ## 前端需要提供的就绪信息
 
@@ -18,7 +18,7 @@
 
 1. 后端以显式 mock 启动（见 deployment-runbook）；前端同源 `/api` 代理到 127.0.0.1:3001，保留前缀，不开放浏览器 API Key。
 2. 先运行 `API_BASE_URL=http://127.0.0.1:3001 npm run health`，再检查 GET roles/topics；前端不按固定数组位置推断角色。
-3. 验证三种议题输入、10–300 字符、2/3 个不同角色和非法输入提示；POST 只发 `{topic,roleIds}`，不发客户端画像。
+3. 验证三种议题输入、10–300 字符、2/3/4 个不同角色和非法输入提示；POST 只发 `{topic,roleIds}`，不发客户端画像。
 4. mock 文案固定来自绩点示例，对其他议题只是接口占位，不能当真实回答；页面显著标注模拟数据。
 5. messages 按返回顺序展示，使用 id/roleId/round/replyTo 关联；先第一轮后第二轮，不以 roleIds 下标猜回复对象。
 6. 展示 summary 的四个非空数组及 usage（缺失计数可为 null）；复制与 Markdown 导出为前端职责。

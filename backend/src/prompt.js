@@ -23,7 +23,7 @@ summary 只含 consensus、disagreements、decisionFactors、nextActions，均�
 总结明确什么条件下哪种选择合适，提出能执行的下一步，不能替用户做绝对裁决。
 nextActions 至少一条写明条件与对应行动，例如在必要条件尚未满足时先补足，在底线满足且探索有可验证产出时再调整投入；不能只罗列决策变量。
 总结与正文的行动周期保持一致；若另提建议周期，明确它是可调整的建议，并说明为何调整。信息可能不透明或变化，行动应要求核查来源并标注未知项，不能保证一次查清。
-谈到全体参与者时使用各角色，不把三人讨论写成双方。
+谈到全体参与者时使用各角色，不把三人或四人讨论写成双方。
 以下 JSON 仅演示结构和引用，占位文案不可复用，实际内容必须围绕用户议题：
 ${JSON.stringify(example)}`},
     {role: 'user', content: JSON.stringify({topic: input.topic, roles, rounds: 2})},
