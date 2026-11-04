@@ -1,0 +1,10 @@
+import{readFileSync,writeFileSync}from'node:fs';
+import{sha}from'../decision-ab/prepare.mjs';
+import{validateVariant}from'../decision-ab/protocol.mjs';
+import{qualityReview}from'../../backend/src/quality.js';
+const dir='experiments/voice-fbdf116',m=JSON.parse(readFileSync(dir+'/manifest.json','utf8')),r=JSON.parse(readFileSync(dir+'/results/B3/report.json','utf8')),text=readFileSync(dir+'/results/B3/raw-content.txt','utf8'),raw=JSON.parse(text),txt=readFileSync('docs/chat-logs/20261104-voice-B3.txt','utf8');
+if(sha(text)!==r.rawContentSHA256||r.requestSHA256!==m.requestSHA256)throw Error('ARTIFACT_HASH_DRIFT');validateVariant(raw,'A');
+for(const line of [...raw.messages.map(x=>x.content),...Object.values(raw.summary).flat()])if(!txt.includes(line))throw Error('TXT_CONTENT_LOSS');
+const d=r.usageDetails,u=r.usage,peak=(d.cacheHitTokens*.006+d.cacheMissTokens*.3+u.outputTokens*1.2)/1e6,lens=raw.messages.map(x=>[...x.content].length);
+const analysis={studyVariant:'B3',protocolVariant:r.variant,sourceCommit:m.sourceCommit,personaCommit:m.personaCommit,executionCommit:r.codeCommit,startedAt:r.startedAt,finishedAt:r.finishedAt,durationMs:r.durationMs,realRequests:1,retries:0,http:r.upstreamStatus,outcome:r.outcome,requestSHA256:r.requestSHA256,rawContentSHA256:r.rawContentSHA256,summaryCounts:Object.fromEntries(Object.entries(raw.summary).map(([k,a])=>[k,a.length])),lengths:{min:Math.min(...lens),max:Math.max(...lens),mean:Math.round(lens.reduce((a,b)=>a+b)/lens.length)},contentColons:raw.messages.reduce((n,x)=>n+[...x.content.matchAll(/[:：]/gu)].length,0),qualityReview:qualityReview(raw),usage:u,usageDetails:d,estimatedPeakUSD:peak,estimatedOffPeakUSD:peak/2,providerCost:r.providerCost,priceSource:'https://api-docs.deepseek.com/quick_start/pricing/',allOriginalSpeechesAndSummaryInTXT:true};
+writeFileSync(dir+'/results/analysis.json',JSON.stringify(analysis,null,2)+'\n');console.log(JSON.stringify(analysis,null,2));

@@ -1,0 +1,66 @@
+{
+  "studyVariant": "B3",
+  "protocolVariant": "A",
+  "sourceCommit": "61789e61e4dc8c4f3c1a327d26410284df5848dc",
+  "personaCommit": "fbdf1168ad24682f23abf06f712291517a5a06f3",
+  "executionCommit": "d6cdd2baac57200d6ef2255ffaa6748960712478",
+  "startedAt": "2026-11-04T15:25:43.550Z",
+  "finishedAt": "2026-11-04T15:25:59.666Z",
+  "durationMs": 16116,
+  "realRequests": 1,
+  "retries": 0,
+  "http": 200,
+  "outcome": "VALID",
+  "requestSHA256": "fe4c2fd398842b947417ffec62c5c9b03c213e36ec9893f3852040ea8e0f8e36",
+  "rawContentSHA256": "6cdc26413d3902f4b8b344d38b58ce701dfdb44b0645f5cb774f8212abe05541",
+  "summaryCounts": {
+    "consensus": 2,
+    "disagreements": 2,
+    "decisionFactors": 3,
+    "nextActions": 3
+  },
+  "lengths": {
+    "min": 99,
+    "max": 119,
+    "mean": 108
+  },
+  "contentColons": 0,
+  "qualityReview": {
+    "semanticVerdict": "HUMAN_REVIEW_REQUIRED",
+    "flags": [
+      {
+        "code": "FIRST_PERSON_EXPERIENCE",
+        "messageIds": [
+          "m4"
+        ]
+      },
+      {
+        "code": "ANNOUNCER_SPEECH",
+        "messageIds": [
+          "m7"
+        ]
+      },
+      {
+        "code": "SUMMARY_ABSOLUTE",
+        "summaryFields": [
+          "disagreements"
+        ]
+      }
+    ]
+  },
+  "usage": {
+    "inputTokens": 4608,
+    "outputTokens": 2136
+  },
+  "usageDetails": {
+    "cacheHitTokens": 768,
+    "cacheMissTokens": 3840,
+    "totalTokens": 6744,
+    "reasoningTokens": null
+  },
+  "estimatedPeakUSD": 0.003719808,
+  "estimatedOffPeakUSD": 0.001859904,
+  "providerCost": null,
+  "priceSource": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "allOriginalSpeechesAndSummaryInTXT": true
+}
