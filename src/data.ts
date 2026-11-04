@@ -50,11 +50,28 @@ export function modeNotice(mode: BackendMode): string {
 }
 async function request(path: string, init?: RequestInit) {
  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),60000);
- try { const response=await fetch(path,{...init,signal:controller.signal}); const data=await response.json(); if(!response.ok) throw new Error(data.error?.message || '服务暂时不可用，请重试'); return {data,mode:readBackendMode(response.headers)}; }
- catch(error) { if(error instanceof Error&&error.name==='AbortError') throw new Error('讨论生成超时，请重试');throw error; }
+ try {
+  const response=await fetch(path,{...init,signal:controller.signal});
+  let data;
+  try {data=await response.json();}
+  catch(error) {
+   if(error instanceof Error&&error.name==='AbortError') throw error;
+   throw new Error(response.ok?'服务返回格式异常，请重试':'服务暂时不可用，请重试');
+  }
+  if(!response.ok) {
+   const message=data?.error?.message;
+   throw new Error(typeof message==='string'&&message.trim()?message:'服务暂时不可用，请重试');
+  }
+  return {data,mode:readBackendMode(response.headers)};
+ }
+ catch(error) {
+  if(error instanceof Error&&error.name==='AbortError') throw new Error('讨论生成超时，请重试');
+  if(error instanceof TypeError) throw new Error('服务暂时无法连接，请稍后重试');
+  throw error;
+ }
  finally {clearTimeout(timer);}
 }
-export async function getCatalog() {if(isMock)return {roles,topics,mode:'mock' as BackendMode};const [r,t]=await Promise.all([request('/api/roles'),request('/api/topics')]);if(!Array.isArray(r.data.roles)||!Array.isArray(t.data.topics))throw new Error('角色或议题数据格式有误');return {roles:r.data.roles as Role[],topics:t.data.topics as typeof topics,mode:r.mode===t.mode?r.mode:'unknown' as BackendMode};}
+export async function getCatalog() {if(isMock)return {roles,topics,mode:'mock' as BackendMode};const [r,t]=await Promise.all([request('/api/roles'),request('/api/topics')]);if(!Array.isArray(r.data?.roles)||!Array.isArray(t.data?.topics))throw new Error('角色或议题数据格式有误');return {roles:r.data.roles as Role[],topics:t.data.topics as typeof topics,mode:r.mode===t.mode?r.mode:'unknown' as BackendMode};}
 export async function generateDebate(topic: string, ids: string[]) {
  const response=isMock?{data:await new Promise<Debate>(resolve=>setTimeout(()=>resolve(makeMock(topic,ids)),700)),mode:'mock' as BackendMode}:await request('/api/debate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic,roleIds:ids})});
  const data:unknown=response.data;validateDebate(data,ids);return {...data,mode:response.mode};

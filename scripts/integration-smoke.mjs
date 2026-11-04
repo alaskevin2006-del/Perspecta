@@ -19,4 +19,21 @@ try{
  await assert.rejects(()=>frontend.generateDebate(catalog.topics[0].prompt,['zhang_xuefeng','lei_jun']),/2–4/);console.log('PASS missing persona rejected without fallback');
  for(const code of [400,429,500,502,504]){globalThis.fetch=async()=>Response.json({error:{code:'TEST_ERROR',message:'synthetic '+code}},{status:code});await assert.rejects(()=>frontend.generateDebate(catalog.topics[0].prompt,['zhang_xuefeng','du_sujuan']),new RegExp('synthetic '+code));}
  console.log('PASS frontend propagates 400/429/500/502/504 without fallback');
+ for(const [response,message] of [
+  [()=>new Response('<html>synthetic gateway failure</html>',{status:502}), '服务暂时不可用，请重试'],
+  [()=>new Response('',{status:500}), '服务暂时不可用，请重试'],
+  [()=>Response.json(null,{status:503}), '服务暂时不可用，请重试'],
+  [()=>Response.json({error:{message:123}},{status:400}), '服务暂时不可用，请重试'],
+  [()=>new Response('<html>synthetic success shell</html>',{status:200}), '服务返回格式异常，请重试'],
+ ]){
+  let attempts=0;globalThis.fetch=async()=>{attempts++;return response();};
+  await assert.rejects(()=>frontend.generateDebate(catalog.topics[0].prompt,['zhang_xuefeng','du_sujuan']),error=>error.message===message);
+  assert.equal(attempts,1);
+ }
+ globalThis.fetch=async()=>{throw new TypeError('synthetic private transport detail');};
+ await assert.rejects(()=>frontend.generateDebate(catalog.topics[0].prompt,['zhang_xuefeng','du_sujuan']),error=>error.message==='服务暂时无法连接，请稍后重试');
+ globalThis.fetch=async()=>{throw new DOMException('synthetic abort','AbortError');};
+ await assert.rejects(()=>frontend.generateDebate(catalog.topics[0].prompt,['zhang_xuefeng','du_sujuan']),error=>error.message==='讨论生成超时，请重试');
+ console.log('PASS malformed/empty errors, invalid successful JSON and transport failures stay safe, with no retry');
+
 }finally{globalThis.fetch=nativeFetch;await vite?.close();await new Promise(resolve=>api.close(resolve));}
