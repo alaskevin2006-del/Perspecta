@@ -37,3 +37,26 @@ test('speech observations remain traceable to unchanged repository source files'
   assert.equal(body.roles.find(r=>r.id===id).discussionGuidance.speechEvidence,record.speechEvidence);
  }
 });
+
+test('decision case metadata retains source traceability and four-round scopes while legacy modes stay unchanged',async()=>{
+ const {readFileSync}=await import('node:fs');
+ const cases=JSON.parse(readFileSync(new URL('../data/persona-decision-cases.json',import.meta.url),'utf8'));
+ for(const id of ['zhang_xuefeng','du_sujuan']){
+  const role=roles.find(r=>r.id===id);
+  assert.equal(cases[id].length,2);
+  for(const item of cases[id]){
+   assert.ok(['context','judgment','reason','scope','url','locator','status'].every(k=>typeof item[k]==='string'&&item[k].length));
+   assert.equal(role.sources.find(source=>source.id===item.source)?.url,item.url);
+  }
+ }
+ for(const rounds of [2,3,4]){
+  const body=JSON.parse(buildMessages({topic:topics[0],roleIds:ids,rounds},selected)[1].content);
+  for(const id of ['zhang_xuefeng','du_sujuan']){
+   const transmitted=body.roles.find(r=>r.id===id).decisionCases;
+   if(rounds===4){
+    assert.deepEqual(transmitted,cases[id].map(({runtime,scope})=>({basis:runtime,scope})));
+    assert.ok(!JSON.stringify(transmitted).includes('https://'));
+   }else assert.equal(transmitted,undefined);
+  }
+ }
+});
