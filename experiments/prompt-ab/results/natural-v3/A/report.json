@@ -1,0 +1,54 @@
+{
+  "variant": "A",
+  "runKind": "REAL_SINGLE_REQUEST",
+  "attempts": 1,
+  "startedAt": "2026-11-04T11:45:31.947Z",
+  "requestSHA256": "f8c55f9bb0324fc42e12e442539b1f1a90b3bbd862ff797bd72b6e51add567b0",
+  "sourceHashes": {
+    "backend/src/prompt.js": "55d180e7c66c508303638792875cfb00e5918ae98d00442da8d3b2681fde45c1",
+    "backend/src/discussion.js": "85e78cea127fa4610729078f73a549e6b14f9f5187666e31c99b861e2cac6c0b",
+    "backend/src/validation.js": "2d3246477c2936df81eddc864a0b3614e1f2cbe7dcb1b1b1d56db6747410e5c1",
+    "backend/data/roles.json": "1a39fd13ab13a4730f26c212836fbce87b13400b6f083ed20e8787d6d85b8cfb",
+    "backend/data/discussion-guidance.json": "64c028ebade074600b592a56ba9d298d595add432fecc41e20426dff4fa9c52e",
+    "人物画像/leijunSKILL.md": "c5bf146562a6c7bbf349e41ce5f7fb862f5503beda9c3d5c717481abe7cf5d0d",
+    "人物画像/wangdefengSKILL.md": "e827eb4cdf814ae9dfedf53f5e15fb3372f420ae9fac5c9ff88b8bd48aa57669",
+    "人物画像/张雪峰/roles.json": "67f205494d760a21c6efb7bb932b37664aa568d6beebe4f33114a4b5f0438764",
+    "人物画像/杜素娟/roles.json": "b681a253b90e58050649141a4c3c03b0aa919f00b3fc09757353e65d22a0f993",
+    "experiments/prompt-ab/builders.mjs": "81d9ed2fec752e7f5be1db9f806d6616ce4e10a3070b8ca0dd7c45ad43d7dd60",
+    "experiments/prompt-ab/protocol.mjs": "062fab7db4303f21c192ff1768b9626a10653cd6a7bbec177c330c275440dab6",
+    "experiments/prompt-ab/runner.mjs": "03921429a1de73603683150df62123c0ca7fbd2f9d87cf19b6c412330b22e35b",
+    "experiments/prompt-ab/prepare.mjs": "6bd777b02d230cb1f23d2f12fbd8b75209f1ec0ea76e2cb4582099336cab1abc",
+    "experiments/prompt-ab/run-once.mjs": "973b0c3a038db4b8ed59a0dcfb6d64d955af35e70babb3bedb306fb7600f505c"
+  },
+  "codeCommit": "6de09a210777787b41f64519454d2dd242324df9",
+  "requestBytes": 21579,
+  "reservedTokens": 26591,
+  "estimatedMaxUSD": 0.0120273,
+  "upstreamStatus": 200,
+  "usage": {
+    "inputTokens": 4659,
+    "outputTokens": 2267
+  },
+  "usageDetails": {
+    "cacheHitTokens": 0,
+    "cacheMissTokens": 4659,
+    "totalTokens": 6926,
+    "reasoningTokens": null
+  },
+  "providerCost": null,
+  "outcome": "VALID",
+  "completed": true,
+  "rawContentSHA256": "8387712ef248c60b367039cf0dca1b80b00c5e36fbda399efcabeadcdaff9844",
+  "metrics": {
+    "speeches": 16,
+    "brotherForms": 0,
+    "announcerPhrases": 0,
+    "contentColons": 0,
+    "minChars": 112,
+    "maxChars": 127,
+    "meanChars": 119,
+    "semanticVerdict": "HUMAN_REVIEW_REQUIRED"
+  },
+  "finishedAt": "2026-11-04T11:45:50.771Z",
+  "durationMs": 18824
+}

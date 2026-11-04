@@ -52,7 +52,7 @@ test('new profile payload restores positions and traceable character-specific id
  for(const role of body.roles){
   const original=selected.find(r=>r.id===role.id);
   assert.deepEqual(role.coreValues,original.coreValues);assert.deepEqual(role.boundaries,original.boundaries);
-  if(original.supportedPositions)assert.deepEqual(role.supportedPositions,original.supportedPositions);
+  if(original.supportedPositions)assert.deepEqual(role.supportedPositions,original.supportedPositions.map(p=>p.position));
   assert.ok(role.discussionGuidance.coreIdeas.length>=4);assert.ok(role.discussionGuidance.voice);
   assert.ok(!('sources' in role)&&!('provenance' in role));
  }

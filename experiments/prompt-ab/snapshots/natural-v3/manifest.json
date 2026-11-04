@@ -1,0 +1,65 @@
+{
+  "version": "natural-v3",
+  "baseCommit": "74ad42d3499b5e3f59a06d802c1a6410b4ae0a35",
+  "teamSourceCommit": "d53a545",
+  "selectedMain": "1f21a2f8b9641306ba088094bc995901ab4c9e3f",
+  "params": {
+    "model": "deepseek-flash",
+    "stream": false,
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    },
+    "max_tokens": 4500,
+    "temperature": 0.8,
+    "top_p": 1
+  },
+  "limits": {
+    "maxInputBytes": 60000,
+    "reservedTokenLimit": 70000,
+    "maxResponseBytes": 65536,
+    "timeoutMs": 45000,
+    "maxEstimatedUSD": 0.32
+  },
+  "topic": "大学阶段时间有限，应该优先投入绩点还是项目实践？",
+  "ids": [
+    "zhang_xuefeng",
+    "lei_jun",
+    "wang_defeng",
+    "du_sujuan"
+  ],
+  "sourceHashes": {
+    "backend/src/prompt.js": "55d180e7c66c508303638792875cfb00e5918ae98d00442da8d3b2681fde45c1",
+    "backend/src/discussion.js": "85e78cea127fa4610729078f73a549e6b14f9f5187666e31c99b861e2cac6c0b",
+    "backend/src/validation.js": "2d3246477c2936df81eddc864a0b3614e1f2cbe7dcb1b1b1d56db6747410e5c1",
+    "backend/data/roles.json": "1a39fd13ab13a4730f26c212836fbce87b13400b6f083ed20e8787d6d85b8cfb",
+    "backend/data/discussion-guidance.json": "64c028ebade074600b592a56ba9d298d595add432fecc41e20426dff4fa9c52e",
+    "人物画像/leijunSKILL.md": "c5bf146562a6c7bbf349e41ce5f7fb862f5503beda9c3d5c717481abe7cf5d0d",
+    "人物画像/wangdefengSKILL.md": "e827eb4cdf814ae9dfedf53f5e15fb3372f420ae9fac5c9ff88b8bd48aa57669",
+    "人物画像/张雪峰/roles.json": "67f205494d760a21c6efb7bb932b37664aa568d6beebe4f33114a4b5f0438764",
+    "人物画像/杜素娟/roles.json": "b681a253b90e58050649141a4c3c03b0aa919f00b3fc09757353e65d22a0f993",
+    "experiments/prompt-ab/builders.mjs": "81d9ed2fec752e7f5be1db9f806d6616ce4e10a3070b8ca0dd7c45ad43d7dd60",
+    "experiments/prompt-ab/protocol.mjs": "062fab7db4303f21c192ff1768b9626a10653cd6a7bbec177c330c275440dab6",
+    "experiments/prompt-ab/runner.mjs": "03921429a1de73603683150df62123c0ca7fbd2f9d87cf19b6c412330b22e35b",
+    "experiments/prompt-ab/prepare.mjs": "6bd777b02d230cb1f23d2f12fbd8b75209f1ec0ea76e2cb4582099336cab1abc",
+    "experiments/prompt-ab/run-once.mjs": "973b0c3a038db4b8ed59a0dcfb6d64d955af35e70babb3bedb306fb7600f505c"
+  },
+  "requests": {
+    "A": {
+      "file": "request-A.json",
+      "requestSHA256": "f8c55f9bb0324fc42e12e442539b1f1a90b3bbd862ff797bd72b6e51add567b0",
+      "bytes": 21579,
+      "reservedTokens": 26591,
+      "estimatedMaxUSD": 0.0120273
+    },
+    "B": {
+      "file": "request-B.json",
+      "requestSHA256": "1d4e6304a19968bfed57d3624938c00304b2f3cda3361f6c3289ee9cda209251",
+      "bytes": 55164,
+      "reservedTokens": 60176,
+      "estimatedMaxUSD": 0.0221028
+    }
+  }
+}

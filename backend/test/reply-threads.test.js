@@ -21,7 +21,7 @@ test('new four-stage validation rejects stale relay output but explicitly retain
 test('a structurally valid thread cannot copy one whole speech into another',()=>{const value=fixture(4);assert.doesNotThrow(()=>validateOutput(value,all,{rounds:4}));value.messages[8].content=value.messages[4].content;assert.throws(()=>validateOutput(value,all,{rounds:4}));});
 test('a callback must really target a response to this speaker',()=>{const value=fixture(4);value.messages[8].replyTo='m7';assert.throws(()=>validateOutput(value,all,{rounds:4}));});
 
-test('later realist turns receive distinct tasks and summaries require named assent',()=>{
+test('later turns do not force topic-specific tasks and summaries require named assent',()=>{
  const p=buildMessages({topic:'大学阶段时间有限，应该优先投入绩点还是项目实践？',roleIds:all,rounds:4},all.map(id=>roles.find(r=>r.id===id)));
- const body=JSON.parse(p[1].content);assert.match(body.turnTasks.m5,/截止/);assert.match(body.turnTasks.m9,/资源/);assert.match(body.turnTasks.m13,/反馈/);assert.match(p[0].content,/每条以明确认可者姓名开头/);
+ const body=JSON.parse(p[1].content);assert.ok(!('turnTasks' in body));assert.match(p[0].content,/每条以明确认可者姓名开头/);
 });

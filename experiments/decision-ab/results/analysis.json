@@ -1,0 +1,114 @@
+{
+  "study": "decision-evidence-20261104",
+  "realRequests": 2,
+  "retries": 0,
+  "priceSource": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "priceChecked": "2026-11-04",
+  "rateUSDPerMillion": {
+    "peak": {
+      "cacheHit": 0.006,
+      "cacheMiss": 0.3,
+      "output": 1.2
+    },
+    "offPeak": {
+      "cacheHit": 0.003,
+      "cacheMiss": 0.15,
+      "output": 0.6
+    }
+  },
+  "variants": {
+    "A": {
+      "sourceCommit": "73caf61d59287cf019c02daadded46b6d2a87a0f",
+      "executionCommit": "99a77925cfff187f11fbcff0b683e0c0efdb3950",
+      "startedAt": "2026-11-04T14:36:46.173Z",
+      "finishedAt": "2026-11-04T14:37:07.298Z",
+      "requestSHA256": "5971d4edaeb7b0e856da97ee427f88bd307a1e69375976d98668fb5fcd79f898",
+      "rawContentSHA256": "79fd60a78a03950a6acbf4b8dd58fa2d297eb4a8dc4fde301502797490ba7ed1",
+      "http": 200,
+      "outcome": "INVALID_OUTPUT",
+      "fullDiagnostic": {
+        "reason": "SUMMARY_COUNT",
+        "path": "summary.decisionFactors"
+      },
+      "bodyStructureValid": true,
+      "bodyProbeDoesNotMakeOutputValid": true,
+      "summaryCounts": {
+        "consensus": 3,
+        "disagreements": 3,
+        "decisionFactors": 4,
+        "nextActions": 4
+      },
+      "speechMetrics": {
+        "speeches": 16,
+        "brotherForms": 0,
+        "announcerPhrases": 3,
+        "contentColons": 10,
+        "minChars": 136,
+        "maxChars": 174,
+        "semanticVerdict": "HUMAN_REVIEW_REQUIRED"
+      },
+      "usage": {
+        "inputTokens": 4721,
+        "outputTokens": 2297
+      },
+      "usageDetails": {
+        "cacheHitTokens": 0,
+        "cacheMissTokens": 4721,
+        "totalTokens": 7018,
+        "reasoningTokens": null
+      },
+      "estimatedPeakUSD": 0.0041727,
+      "estimatedOffPeakUSD": 0.00208635,
+      "providerCost": null,
+      "txtAllOriginalSpeechesAndSummaryPreserved": true
+    },
+    "B": {
+      "sourceCommit": "ac75a51009c3bd95cd3320eff0dc7f44442afaa4",
+      "executionCommit": "405618f946cb0a6710be2700db9dc0c3af1b0252",
+      "startedAt": "2026-11-04T14:38:18.950Z",
+      "finishedAt": "2026-11-04T14:38:38.533Z",
+      "requestSHA256": "3747b128fe9b2515649fac828cb008f5063e883e3592f8c3203a807aa7df7173",
+      "rawContentSHA256": "ca6320c7a2c349543c51e26b07cc2fb24fd24e267b161ff592da9ea3f6a96f76",
+      "http": 200,
+      "outcome": "VALID",
+      "fullDiagnostic": null,
+      "bodyStructureValid": true,
+      "bodyProbeDoesNotMakeOutputValid": true,
+      "summaryCounts": {
+        "consensus": 3,
+        "disagreements": 3,
+        "decisionFactors": 3,
+        "nextActions": 3
+      },
+      "speechMetrics": {
+        "speeches": 16,
+        "brotherForms": 0,
+        "announcerPhrases": 1,
+        "contentColons": 5,
+        "minChars": 113,
+        "maxChars": 156,
+        "semanticVerdict": "HUMAN_REVIEW_REQUIRED"
+      },
+      "usage": {
+        "inputTokens": 4646,
+        "outputTokens": 2505
+      },
+      "usageDetails": {
+        "cacheHitTokens": 0,
+        "cacheMissTokens": 4646,
+        "totalTokens": 7151,
+        "reasoningTokens": null
+      },
+      "estimatedPeakUSD": 0.004399800000000001,
+      "estimatedOffPeakUSD": 0.0021999000000000003,
+      "providerCost": null,
+      "txtAllOriginalSpeechesAndSummaryPreserved": true
+    }
+  },
+  "totals": {
+    "inputTokens": 9367,
+    "outputTokens": 4802,
+    "estimatedPeakUSD": 0.0085725,
+    "estimatedOffPeakUSD": 0.00428625
+  }
+}

@@ -19,14 +19,14 @@ test('all delivered personas are copied exactly and new adaptations trace their 
   assert.equal(createHash('sha256').update(source).digest('hex'),profile.provenance.sha256);
   assert.equal(profile.provenance.approvalStatus,'pending_persona_owner_review');
  }
- assert.equal(roles.length,7);
+ assert.equal(roles.length,4);
 });
-for(const ids of [['zhang_xuefeng','du_sujuan'],['zhang_xuefeng','du_sujuan','career_realist'],['zhang_xuefeng','du_sujuan','career_realist','growth_explorer'],['risk_analyst','career_realist','du_sujuan','zhang_xuefeng'],['lei_jun','wang_defeng'],['lei_jun','wang_defeng','du_sujuan'],['zhang_xuefeng','lei_jun','wang_defeng','du_sujuan']])test(`${ids.length}-role integrated mock ${ids.join(',')}`,async()=>{
+for(const ids of [['zhang_xuefeng','du_sujuan'],['zhang_xuefeng','du_sujuan','lei_jun'],['zhang_xuefeng','du_sujuan','lei_jun','wang_defeng'],['lei_jun','wang_defeng','du_sujuan','zhang_xuefeng'],['lei_jun','wang_defeng'],['lei_jun','wang_defeng','du_sujuan'],['zhang_xuefeng','lei_jun','wang_defeng','du_sujuan']])test(`${ids.length}-role integrated mock ${ids.join(',')}`,async()=>{
  const response=await app().handle(request(ids)); assert.equal(response.status,200);assert.equal(response.headers.get('X-Perspecta-Mode'),'mock');const data=await response.json();assert.equal(data.messages.length,ids.length*2);validateOutput({messages:data.messages,summary:data.summary},ids);assert.deepEqual(data.messages.map(m=>m.roleId),[...ids,...ids]);
  const messages=buildMessages({topic,roleIds:ids},ids.map(id=>roles.find(r=>r.id===id))); assert.equal(JSON.parse(messages[1].content).roles.length,ids.length);
 });
 test('five, duplicate, absent and unknown IDs are rejected',async()=>{
- for(const ids of [roles.slice(0,5).map(r=>r.id),['zhang_xuefeng','zhang_xuefeng'],['zhang_xuefeng'],['zhang_xuefeng','not_delivered'],['not_delivered','du_sujuan']]){const r=await app().handle(request(ids));assert.equal(r.status,400);assert.equal((await r.json()).error.code,'INVALID_INPUT');}
+ for(const ids of [[...roles.map(r=>r.id),'fifth_role'],['zhang_xuefeng','zhang_xuefeng'],['zhang_xuefeng'],['zhang_xuefeng','not_delivered'],['not_delivered','du_sujuan']]){const r=await app().handle(request(ids));assert.equal(r.status,400);assert.equal((await r.json()).error.code,'INVALID_INPUT');}
 });
 
 test('legacy four-role combinations fit the budget without source metadata or instructions',()=>{

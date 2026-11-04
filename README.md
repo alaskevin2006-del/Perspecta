@@ -82,7 +82,7 @@ npm run dev
 
 ## 联调前需要统一
 
-- 前端使用 `zhang_xuefeng`、`lei_jun`、`wang_defeng`、`du_sujuan` 四个人物 ID；本地演示含四人素材；后端目录已有四位人物 AI 模拟视角及三个抽象立场；最新版指南与提炼取舍见 [画像与合并审计](docs/conversation-integration-audit.md)，画像仍待资料组验收。
+- 前端使用 `zhang_xuefeng`、`lei_jun`、`wang_defeng`、`du_sujuan` 四个人物 ID；本地演示含四人素材；后端目录仅提供四位人物 AI 模拟视角，三个抽象测试立场已退出可选列表；最新版指南与提炼取舍见 [画像与合并审计](docs/conversation-integration-audit.md)，画像仍待资料组验收。
 - 产品正式范围为 2–4 人；前端已支持，整合后端支持四阶段，2/3/4 人分别为 8/12/16 条发言。
 - 四位嘉宾的头像由本地人物 ID 映射提供，不使用后端 `avatar` 覆盖；后端无需提供图片，只需统一四位正式人物 ID。
 - 先通过后端模拟模式验证页面完整流程，再验证真实模型生成。数据、代理与 1366×768 Chrome 模拟流程已验；真实请求记录见 [连续辩论验证](docs/conversation-validation-20261104.md)。
@@ -100,3 +100,7 @@ npm run dev
 [合并及画像审计](docs/conversation-integration-audit.md) · [验证与费用](docs/conversation-validation-20261104.md) · [部署清单](docs/deployment-runbook.md)。未部署或合并 main。
 
 最新质量修订与真实全文见[跨轮验证](docs/threaded-quality-validation-20261104.md)和[聊天记录目录](docs/chat-logs/README.md)。最终候选仍有摘要归因与条件压缩问题，未获产品终验。
+
+最新指定版本73caf61/ac75a51的两次真实对照见[完整TXT、结果和费用](docs/decision-evidence-ab-20261104.md)。A摘要超项失败、B结构通过；两版仍有自然度与语义问题，均未终验。本轮仅推送同一整合分支，不操作main。
+
+A、B各修订一次后的全文和结果见[修订版A2/B2](docs/natural-revisions-A2-B2-20261104.md)。默认四轮已采用与真实请求逐字节一致的B2待验收候选；A2和所有失败原文保留。B2仍有报幕、摘要归因和事实边界问题，不作为质量终验通过。

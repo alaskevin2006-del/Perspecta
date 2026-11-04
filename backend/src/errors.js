@@ -22,3 +22,15 @@ export function errorResponse(error) {
     headers: { 'Cache-Control': 'no-store', ...(safe.status === 429 ? {'Retry-After': '60'} : {}) },
   });
 }
+
+// Only allow fixed categories and schema paths. Never accept provider text or keys.
+const outputReasons = new Set(['OUTPUT_TRUNCATED','OUTPUT_REFUSED','UPSTREAM_JSON_INVALID','CONTENT_JSON_INVALID',
+  'USAGE_INVALID','OUTPUT_STRUCTURE','MESSAGE_STRUCTURE','MESSAGE_COUNT','MESSAGE_CONTENT','REFERENCE_INVALID',
+  'QUOTE_MISMATCH','SUMMARY_COUNT','SUMMARY_CONTENT','ROUND_COVERAGE','DUPLICATE_CONTENT']);
+const outputPath = /^(?:\$|usage|choices\[0\]\.(?:finish_reason|message(?:\.(?:content|refusal))?)|messages(?:\[\d{1,2}\](?:\.(?:replyTo|content))?)?|summary(?:\.(?:consensus|disagreements|decisionFactors|nextActions))?)$/;
+export function invalidModelOutput(reason = 'OUTPUT_STRUCTURE', path = '$') {
+  const error = new ApiError('INVALID_MODEL_OUTPUT');
+  error.outputDiagnostic = Object.freeze({reason:outputReasons.has(reason)?reason:'OUTPUT_STRUCTURE',
+    path:typeof path==='string'&&outputPath.test(path)?path:'$'});
+  return error;
+}

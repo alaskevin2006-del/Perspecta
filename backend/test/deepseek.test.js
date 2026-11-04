@@ -132,7 +132,7 @@ test('model prompt includes a concrete two-round JSON example with only the sele
   assert.doesNotThrow(()=>{example=JSON.parse(system.slice(system.lastIndexOf('\n')+1));});
   assert.equal(example.messages.length,6);
   assert.deepEqual(example.messages.map(m=>m.round),[1,1,1,2,2,2]);
-  assert.deepEqual(example.messages.map(m=>m.roleId),['career_realist','growth_explorer','risk_analyst','career_realist','growth_explorer','risk_analyst']);
+  assert.deepEqual(example.messages.map(m=>m.roleId),['zhang_xuefeng','du_sujuan','lei_jun','zhang_xuefeng','du_sujuan','lei_jun']);
   assert.deepEqual(example.messages.slice(3).map(m=>m.replyTo),['m2','m3','m1']);
   assert.deepEqual(Object.keys(example.summary).sort(),['consensus','decisionFactors','disagreements','nextActions']);
 });
@@ -141,11 +141,11 @@ test('DeepSeek two-role selection uses a four-message prompt example and returns
   const value=core();value.messages=[value.messages[2],value.messages[1],value.messages[5],value.messages[4]];
   value.messages[2].replyTo='m2';value.messages[3].replyTo='m3';
   const {config,calls}=await upstream(t,(_req,res)=>send(res,completion(value)));config.provider='deepseek';
-  const response=await createApp({config,logger:()=>{}}).handle(debateRequest({topic:'在有限时间内如何平衡绩点和项目投入？',roleIds:['risk_analyst','growth_explorer']}));
+  const response=await createApp({config,logger:()=>{}}).handle(debateRequest({topic:'在有限时间内如何平衡绩点和项目投入？',roleIds:['lei_jun','du_sujuan']}));
   assert.equal(response.status,200);
   assert.equal((await response.json()).messages.length,4);
   const system=calls[0].body.messages[0].content;
   const example=JSON.parse(system.slice(system.lastIndexOf('\n')+1));
-  assert.deepEqual(example.messages.map(m=>m.roleId),['risk_analyst','growth_explorer','risk_analyst','growth_explorer']);
+  assert.deepEqual(example.messages.map(m=>m.roleId),['lei_jun','du_sujuan','lei_jun','du_sujuan']);
   assert.deepEqual(example.messages.slice(2).map(m=>m.replyTo),['m2','m1']);
 });

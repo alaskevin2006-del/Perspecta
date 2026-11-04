@@ -1,0 +1,53 @@
+{
+  "variant": "B",
+  "runKind": "REAL_SINGLE_REQUEST",
+  "attempts": 1,
+  "startedAt": "2026-11-04T14:38:18.950Z",
+  "requestSHA256": "3747b128fe9b2515649fac828cb008f5063e883e3592f8c3203a807aa7df7173",
+  "sourceHashes": {
+    "backend/package.json": "ce69327889e81adf6378a8e20211d2ae12af076da08c3a7eaf8c86f5990ba33f",
+    "backend/src/prompt.js": "f7efe72317bbe3491bfe906f159e25e1c71b644e6ccf7f966d50e3224be88641",
+    "backend/src/discussion.js": "85e78cea127fa4610729078f73a549e6b14f9f5187666e31c99b861e2cac6c0b",
+    "backend/src/validation.js": "08f96d39d53215d3770befe9e7b09df12486eaba6bf4c31dfdafed1c0f4cd5c6",
+    "backend/src/errors.js": "4ec540e1d9f2aa13c85b4b8d275447c557ce5e38a739be4d2bfb1d36b4dd2895",
+    "backend/data/roles.json": "bb8f9280c4803d3e25c24d407717de5309062beb7b7940ac0a6f5efa4394db31",
+    "backend/data/discussion-guidance.json": "64c028ebade074600b592a56ba9d298d595add432fecc41e20426dff4fa9c52e",
+    "backend/data/persona-speech-evidence.json": "3fb1a9cc1464ea5f8fd60d81c4cdf704acab3f18cb7850d1bda00461c16437de",
+    "backend/data/persona-decision-cases.json": "2e72daabc28d5695fedd190e49b078b037808ed686002534cc4b5bf060fac99f",
+    "prepare.mjs": "266aa8a9b2d319c4c46964b2b7e226b478f4d49baf8350b0ddd54dbf65f7baba",
+    "runner.mjs": "59aa3d20bab8e7d71331bc6202f0df9d64ecd1da4e5eed9f181bf5821d8cbd76",
+    "protocol.mjs": "8a8dccf144c1f14a20070f2546304e382a2e6c0235b7ebe2a0e96faf531ab939",
+    "run-once.mjs": "3dc94b4678dbb56a4917f38727ef7568693a01c3650e06dec972affd8181b043"
+  },
+  "codeCommit": "405618f946cb0a6710be2700db9dc0c3af1b0252",
+  "requestBytes": 21773,
+  "reservedTokens": 26785,
+  "estimatedMaxUSD": 0.0120855,
+  "upstreamStatus": 200,
+  "usage": {
+    "inputTokens": 4646,
+    "outputTokens": 2505
+  },
+  "usageDetails": {
+    "cacheHitTokens": 0,
+    "cacheMissTokens": 4646,
+    "totalTokens": 7151,
+    "reasoningTokens": null
+  },
+  "providerCost": null,
+  "outcome": "VALID",
+  "completed": true,
+  "responseModel": "deepseek-flash",
+  "rawContentSHA256": "ca6320c7a2c349543c51e26b07cc2fb24fd24e267b161ff592da9ea3f6a96f76",
+  "metrics": {
+    "speeches": 16,
+    "brotherForms": 0,
+    "announcerPhrases": 1,
+    "contentColons": 5,
+    "minChars": 113,
+    "maxChars": 156,
+    "semanticVerdict": "HUMAN_REVIEW_REQUIRED"
+  },
+  "finishedAt": "2026-11-04T14:38:38.533Z",
+  "durationMs": 19583
+}

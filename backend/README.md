@@ -78,7 +78,7 @@ server: { proxy: { '/api': 'http://127.0.0.1:3001' } }
 
 ## 角色 JSON 接入
 
-[data/roles.json](data/roles.json) 保留三种抽象立场，并原样收录张雪峰、杜素娟，另接入由团队交付 MD 保守适配的雷军、王德峰，共七个角色。原始资料、结构化适配及来源提交/SHA-256 留在人物画像目录；两份新适配待画像负责人验收，引用来源未逐条核实。更新后须同步该文件并重启。GET 投影仍只保留五个卡片字段。
+[data/roles.json](data/roles.json) 仅收录张雪峰、杜素娟、雷军、王德峰四个人物视角。三个抽象测试立场已归档到 `examples/retired-prototype-roles.json`，不再出现在目录，也不能用旧 ID 发起新讨论；历史记录保留原样。原始资料、结构化适配及来源提交/SHA-256 留在人物画像目录；两份新适配待画像负责人验收，引用来源未逐条核实。更新后须同步该文件并重启。GET 投影仍只保留五个卡片字段。
 
 画像必需字段遵守 `.doc/03`：`id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries,sources`。`avatar` 可省略：三个原型自动映射到 `career/growth/risk`，新 ID 默认 `career`，可显式给出前端已支持的资产键。ID 必须是 1–64 位英文、数字、`_` 或 `-`，目录至少有 2 个角色；重复 ID、缺少必需字段在启动时失败。
 
