@@ -16,7 +16,7 @@ test('role cards expose exactly the locked five fields', async () => {
   const response = await createMockApp().handle(request(null, '/api/roles', 'GET'));
   assert.equal(response.status, 200);
   const { roles } = await response.json();
-  assert.deepEqual(roles.map(r => r.id), ids);
+  assert.deepEqual(roles.map(r => r.id), [...ids, 'zhang_xuefeng', 'du_sujuan', 'lei_jun', 'wang_defeng']);
   for (const role of roles) assert.deepEqual(Object.keys(role).sort(), ['avatar', 'description', 'id', 'name', 'tagline']);
   assert.equal(roles[0].avatar, 'career');
 });

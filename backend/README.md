@@ -1,6 +1,20 @@
+> 现行混合跨轮规则、150/18项测试、最新两次真实验证与语义局限见[最终质量报告](../docs/threaded-quality-validation-20261104.md)。较早紧邻图与调用次数作为历史记录保留。
+
+> 当前调用、测试和部署状态以[2026-11-04连续辩论报告](../docs/conversation-validation-20261104.md)为准。后文旧次数和未真实联调等是此前阶段证据，不代表当前状态。
+
 # Perspecta 后端 v0.1
 
-方弈琪负责的独立后端：三个固定 API → 一次模型调用 → 两轮讨论及总结。只使用 Node.js 内置模块，不依赖 npm 包或数据库，不改前端页面和画像组的资料。开发基线为 `.doc` 四份核心文件。
+方弈琪负责的独立后端：三个固定 API → 一次模型调用 → 可选两/三/四阶段讨论及总结。只使用 Node.js 内置模块，不依赖 npm 包或数据库，当前整合版在独立分支适配前端与团队画像，来源可追溯。开发基线为 `.doc` 四份核心文件。
+
+## 连续模式（2026-11-04）
+
+rounds=4每阶段每人一条，四阶段为抛出争点、质疑与反例、回应与修正、条件与未决。首阶段全无回应，后续混合跨轮引用此前不同嘉宾；第三阶段回接他人对自己早前消息的回应；3/4人还须至少与两位不同嘉宾交锋。2/3/4人共8/12/16条。用户不可中途发言。
+
+显式rounds=3保留队友三轮语义：首轮全null，后两轮回应此前异人，至少一条第三轮回应第二轮。字段、错误和一次调用原则不变。
+
+新3/4模式有效输出cap来自`LLM_DEBATE_OUTPUT_TOKENS`（128–8000，默认4500）；若运维显式配置旧`LLM_MAX_OUTPUT_TOKENS`且未设新值，新模式继承旧上限。旧两轮默认3000。相同有效cap同时用于上游请求和调用前预算预留，较低cap可能截断并返回502，不自动增额或重试。24000byte提示、64KiB响应、45秒超时和原限流仍生效。
+
+当前3/4画像投影保留supportedPositions，省略会引发照念的typicalQuestions，附加有来源的discussionGuidance。来源本身留库不当系统指令。[审计](../docs/conversation-integration-audit.md) · [真实结果及费用](../docs/conversation-validation-20261104.md)。
 
 ## 启动与验证
 
@@ -32,9 +46,9 @@ npm run smoke
 | `GET /api/topics` | `topics: [{id,title,prompt}]` |
 | `POST /api/debate` | `discussionId, topic, messages, summary, usage` |
 
-POST 请求为 `{topic,roleIds}`。去除首尾空格后 topic 为 10–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–3 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
+POST 请求为 `{topic,roleIds,rounds?}`。rounds可为2、3、4，省略仍为2；当前页面显式4。去除首尾空格后 topic 为 10–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–4 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
 
-`messages` 每人两条，先全体第一轮再全体第二轮；每条只含 `id,round,roleId,content,replyTo`。第一轮 `replyTo=null`，第二轮必须引用另一角色的第一轮消息。`summary` 只含 `consensus,disagreements,decisionFactors,nextActions` 四个非空数组（各 1–3 条）。服务器拒绝缺字段、额外字段、重复 ID、缺失角色、不合法引用或空文本。每条内容上限 600 码点，提示词要求约 60–140 汉字；语义质量仍须人工验收。
+旧rounds=2时，`messages` 每人两条，先全体第一轮再全体第二轮；每条只含 `id,round,roleId,content,replyTo`。第一轮 `replyTo=null`，第二轮必须引用另一角色的第一轮消息。`summary` 只含 `consensus,disagreements,decisionFactors,nextActions` 四个非空数组（各 1–3 条）。服务器拒绝缺字段、额外字段、重复 ID、缺失角色、不合法引用或空文本。每条内容上限 600 码点，提示词要求约 60–140 汉字；语义质量仍须人工验收。
 
 `usage` 有真实上游计数时为 `{inputTokens,outputTokens}`，没有时为 `null`。mock 为零计数，`discussionId=demo-001`；live 使用服务器生成的 UUID。错误统一为 `{error:{code,message}}`：
 
@@ -50,7 +64,7 @@ POST 请求为 `{topic,roleIds}`。去除首尾空格后 topic 为 10–300 个 
 
 ## 前端联调
 
-前端继续使用同源相对路径 `/api/...`。开发时在前端开发服务器将 `/api` 代理到 `http://127.0.0.1:3001`；生产时在反向代理做同一路由。后端没有开放跨源 CORS。没有提交前端或根目录构建配置，避免与 `feat/ui` 冲突。
+前端继续使用同源相对路径 `/api/...`。开发时在前端开发服务器将 `/api` 代理到 `http://127.0.0.1:3001`；生产时在反向代理做同一路由。后端没有开放跨源 CORS。整合版已有同源Vite代理；原独立后端阶段未改前端。
 
 例如供前端负责人采用的 Vite 配置片段（未改动前端）：
 
@@ -64,15 +78,15 @@ server: { proxy: { '/api': 'http://127.0.0.1:3001' } }
 
 ## 角色 JSON 接入
 
-[data/roles.json](data/roles.json) 直接使用文档的三种立场原型，仅补充已有本地头像键，没有重新编写人物画像。画像组交付时替换该文件并重启即可。所有完整画像只在服务端进入提示词，GET 投影只保留五个卡片字段。
+[data/roles.json](data/roles.json) 保留三种抽象立场，并原样收录张雪峰、杜素娟，另接入由团队交付 MD 保守适配的雷军、王德峰，共七个角色。原始资料、结构化适配及来源提交/SHA-256 留在人物画像目录；两份新适配待画像负责人验收，引用来源未逐条核实。更新后须同步该文件并重启。GET 投影仍只保留五个卡片字段。
 
-画像必需字段遵守 `.doc/03`：`id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries,sources`。`avatar` 可省略：三个原型自动映射到 `career/growth/risk`，新 ID 默认 `career`，可显式给出前端已支持的资产键。ID 必须是 1–64 位英文、数字、`_` 或 `-`，目录至少有 2 个角色；重复 ID、缺少必需字段在启动时失败。新增 `referencePerson/supportedPositions` 和来源内容会随完整画像送入模型，不更改 API。
+画像必需字段遵守 `.doc/03`：`id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries,sources`。`avatar` 可省略：三个原型自动映射到 `career/growth/risk`，新 ID 默认 `career`，可显式给出前端已支持的资产键。ID 必须是 1–64 位英文、数字、`_` 或 `-`，目录至少有 2 个角色；重复 ID、缺少必需字段在启动时失败。
 
-目前不存在正式真人画像；若以后启用，画像组和前端须完成来源核查及“基于公开资料的 AI 模拟观点，非本人发言”的展示。后端不将生成内容称为真人原话。
+模型仅接收八个讨论字段：`id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries`。`referencePerson/supportedPositions/sources/provenance/avatar` 不进入提示词；完整来源只作服务端仓库存档，不会自动检索或执行 MD 模板。四人真实资料的长输入也保持原 24000-byte 限制。新增适配不复制示例数值、未核名言或效果保证；正式内容与来源仍须负责人确认。
 
 ## 模型配置（需另行授权真实凭据）
 
-[.env.example](.env.example) 只含空凭据与默认值。用户已自行将真实 key 保存至本机被忽略的 `.env.local`，权限 0600；该文件、输入助手和私有执行报告都不进入 Git 或镜像。普通启动不会自动加载它，必须由授权的启动操作显式指定 `--env-file`。此前一次及后来额外三次真实调用授权均已使用完，后续生成须另行确认，不自动重试或重启继续调用。
+[.env.example](.env.example) 只含空凭据与默认值。用户已自行将真实 key 保存至本机被忽略的 `.env.local`，权限 0600；该文件、输入助手和私有执行报告都不进入 Git 或镜像。普通启动不会自动加载它，必须由授权的启动操作显式指定 `--env-file`。2026-11-03的一次及额外三次授权均已使用完；2026-11-04用户另行授权必要联调后，仅执行一次四画像生成并停止（累计五次），详见文末最新报告。不沿用旧锁或自动重试/重启继续调用。
 
 live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺失时启动失败，不静默降级。`LLM_PROVIDER` 支持 `openai`（保留旧配置的默认值）或 `deepseek`；两者默认地址分别为 `https://api.openai.com/v1` 和 `https://api.deepseek.com`。只支持 HTTPS（本机测试 localhost 可 HTTP），禁止 URL 内凭据、查询与片段、禁止上游重定向。显式供应商与另一家的官方主机不匹配时启动失败，避免误用旧配置。
 
@@ -80,7 +94,7 @@ live 必须显式设置 `DEBATE_MODE=live`、`LLM_MODEL`、`LLM_API_KEY`；缺�
 
 参数依据 [Chat Completions 官方接口](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create/)；JSON 模式本身不保证 schema，服务端再次校验结构，见 [官方结构化输出说明](https://developers.openai.com/api/docs/guides/structured-outputs)。
 
-用户已选择 DeepSeek，`.env.example` 提供非敏感配置模板，但仍保持 mock、模型与 key 留空。`deepseek-flash` 已完成最初一次和获批的额外三议题测试，均 HTTP 200；最新稳定主题暴露明确引语来源缺陷，随后仅离线修复，没有第五次调用。没有查询余额或账单，产品未终验。见 [三议题报告](../docs/three-topic-validation.md)、[DeepSeek 接入说明](../docs/deepseek-integration.md)。
+用户已选择 DeepSeek，`.env.example` 仍保持 mock、模型与 key 留空。2026-11-03的历史阶段完成一次及额外三议题共四次Flash测试，稳定主题暴露明确引语来源缺陷后做离线修复，见 [三议题报告](../docs/three-topic-validation.md)。2026-11-04在新授权下再完成一次四画像真实前后端联调（累计五次），见 [最新报告](../docs/live-four-personas-20261104.md)。没有查询余额或账单，人物及产品未终验；配置说明见 [DeepSeek 接入](../docs/deepseek-integration.md)。
 
 ## 保护措施与实际边界
 
@@ -124,3 +138,8 @@ Dockerfile 使用非 root 用户，只拷贝服务代码、包描述及 JSON 数
 逐项完成度、时间线对照及未完成责任见 [需求核对表](../docs/requirements-audit.md)。前端可用的历史原始响应见 [examples](examples/README.md)，包含已知质量限制，需显式标记历史案例；不自动兜底，不代表产品负责人已验收。
 
 零费用 GET 健康检查用 `npm run health`，不加载 Key、不触发生成，输出明确标明未测试供应商连通性；完整上线顺序见 [部署操作清单](../docs/deployment-runbook.md)，等队友就绪后的对接步骤见 [前端接入交接](../docs/frontend-integration.md)。本轮只做本机 mock 与离线验证，未部署。
+
+
+2026-11-04：用户另行授权必要的真实前后端联调后，四份真人画像已完成一次Flash生成及浏览器验证；单次保护已耗尽并停止服务，没有继续调用。最新用量、估算费用及未验收质量项见 [四人真实联调报告](../docs/live-four-personas-20261104.md)。当前模型请求名为 deepseek-flash，来源/溯源元数据不进入提示词。
+
+离线审阅：`node scripts/review.mjs examples/live-gpa-threaded-final-20261104.json`。近似重复/绝对措辞仅提示，永远需要人工语义判断；flags为空也不等于通过。旧四轮历史可显式legacyFour，不能从HTTP请求启用。

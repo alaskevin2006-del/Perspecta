@@ -1,0 +1,225 @@
+{
+  "scope": "Only this continuous-debate task; earlier historical calls excluded",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "priceCheckedAt": "2026-11-04T10:20:19.890311+00:00",
+  "priceSource": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "peakUSDPerMillion": {
+    "cacheHit": 0.006,
+    "cacheMiss": 0.3,
+    "output": 1.2
+  },
+  "calls": [
+    {
+      "runKind": "REAL_SINGLE_REQUEST",
+      "model": "deepseek-flash",
+      "provider": "deepseek",
+      "maxOutputTokens": 4500,
+      "rounds": 4,
+      "attempts": 1,
+      "topic": "大学阶段时间有限，应该优先投入绩点还是项目实践？",
+      "roleIds": [
+        "zhang_xuefeng",
+        "lei_jun",
+        "wang_defeng",
+        "du_sujuan"
+      ],
+      "sourceBase": "776b51daa748c480888a8e00675e333dd17e4ea0",
+      "sourceHashes": {
+        "backend/src/prompt.js": "df3ad89d139ff8c5c2e06559838e464035941a6219547ab24a6c985b893244ff",
+        "backend/data/roles.json": "1d7c912e2d347ac6a8aef21e810886c41b08c5228f3c299c9f7e823eeb9e78c4",
+        "backend/data/discussion-guidance.json": "d908e28d1ad58d38f391fd89f8ae67223d765b5014e0f219723599e32db807f3",
+        "backend/src/discussion.js": "b143fd6384565cba5a70aa644003f8b27de2ec5c2b8bf9966777f13521e67297",
+        "backend/src/validation.js": "32765bff43164f39150bab8dd4e1cf432cabcceb48d696b3b9c2e46194b4b886",
+        "backend/src/model.js": "5bb598cc79187d7ab2b8c197efddd70c6b6deb37d51e003446a1d2824ac3572c",
+        "backend/src/app.js": "09c445cf61f370453d6b3f8976dc03049a229300cc4ba8aa5a9ceb75f432cec5",
+        "backend/src/config.js": "74ceaa9d33b099569582a72f098af8c41d0de37a2052f89fa0d1a19fa9dff478",
+        "src/data.ts": "74b58a44e9170ba36fa8773ba13a96149f671a2a9261d16c1b84f8a2f3a5a96b",
+        "src/App.tsx": "aa04820ee9c8b3010217fc4ebbbe7aa75e3e09aac446b59a20d43ae164ff9ac5",
+        "src/style.css": "5f0b9975029afede424b87570cafda479f43f4e4847eb1e841d8785924b9f92c"
+      },
+      "httpResults": [
+        {
+          "status": 502,
+          "at": "2026-11-04T09:57:23.181Z"
+        }
+      ],
+      "telemetry": {
+        "discussionId": "cdecd830-8388-4193-aeae-5ea319f99959",
+        "mode": "live",
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "durationMs": 13632,
+        "outcome": "INVALID_MODEL_OUTPUT",
+        "usage": {
+          "inputTokens": 4482,
+          "outputTokens": 1653
+        },
+        "usageDetails": {
+          "cacheHitTokens": 0,
+          "cacheMissTokens": 4482,
+          "totalTokens": 6135,
+          "reasoningTokens": null
+        },
+        "providerCost": null,
+        "upstreamStatus": 200,
+        "upstreamError": null
+      },
+      "stopped": true,
+      "startedAt": "2026-11-04T09:57:09.549Z",
+      "promptBytes": 20910,
+      "upstreamStatus": 200,
+      "upstreamFinishedAt": "2026-11-04T09:57:23.177Z",
+      "estimatedUSD_peakRates": 0.0033282,
+      "label": "first_quote_failure"
+    },
+    {
+      "runKind": "REAL_SINGLE_REQUEST",
+      "model": "deepseek-flash",
+      "provider": "deepseek",
+      "maxOutputTokens": 4500,
+      "rounds": 4,
+      "attempts": 1,
+      "topic": "大学阶段时间有限，应该优先投入绩点还是项目实践？",
+      "roleIds": [
+        "zhang_xuefeng",
+        "lei_jun",
+        "wang_defeng",
+        "du_sujuan"
+      ],
+      "sourceBase": "776b51daa748c480888a8e00675e333dd17e4ea0",
+      "sourceHashes": {
+        "backend/src/prompt.js": "06943332b636d2b8060c70d3f1885c127f586f58530f19278f8ce9c2917a15b5",
+        "backend/data/roles.json": "1a39fd13ab13a4730f26c212836fbce87b13400b6f083ed20e8787d6d85b8cfb",
+        "backend/data/discussion-guidance.json": "22dfaaa0a74ef056c727e107eaef0752599e3e093150f40a67104c72fdec28b7",
+        "backend/src/discussion.js": "b143fd6384565cba5a70aa644003f8b27de2ec5c2b8bf9966777f13521e67297",
+        "backend/src/validation.js": "0600f52a50baa9191d71bc57a8e45888858cb31bee78354a18e0dac797eb7aa0",
+        "backend/src/model.js": "5bb598cc79187d7ab2b8c197efddd70c6b6deb37d51e003446a1d2824ac3572c",
+        "backend/src/app.js": "b24b2e3c005d164265c2ce53e9500a55d0a025258d4fe3a8ca54b4ffba42ac2a",
+        "backend/src/config.js": "74ceaa9d33b099569582a72f098af8c41d0de37a2052f89fa0d1a19fa9dff478",
+        "src/data.ts": "a3a7dea36a3f3d42fb667aa53d8afeaf6851a70b01a9dd00a65c5b0e2c97cde0",
+        "src/App.tsx": "efa80100dc4df1f5251e2f13852969c005d59f1c94cc58d553eaf5fe8bddb43f",
+        "src/style.css": "5f0b9975029afede424b87570cafda479f43f4e4847eb1e841d8785924b9f92c"
+      },
+      "httpResults": [
+        {
+          "status": 502,
+          "at": "2026-11-04T10:13:27.503Z"
+        }
+      ],
+      "telemetry": {
+        "discussionId": "6d463589-7749-43f1-b8df-cbdacc987fc2",
+        "mode": "live",
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "durationMs": 17274,
+        "outcome": "INVALID_MODEL_OUTPUT",
+        "usage": {
+          "inputTokens": 4557,
+          "outputTokens": 1987
+        },
+        "usageDetails": {
+          "cacheHitTokens": 256,
+          "cacheMissTokens": 4301,
+          "totalTokens": 6544,
+          "reasoningTokens": null
+        },
+        "providerCost": null,
+        "upstreamStatus": 200,
+        "upstreamError": null
+      },
+      "stopped": true,
+      "startedAt": "2026-11-04T10:13:10.228Z",
+      "promptBytes": 21064,
+      "upstreamStatus": 200,
+      "upstreamFinishedAt": "2026-11-04T10:13:27.499Z",
+      "estimatedUSD_peakRates": 0.003676236,
+      "label": "second_summary_failure"
+    },
+    {
+      "runKind": "REAL_SINGLE_REQUEST",
+      "model": "deepseek-flash",
+      "provider": "deepseek",
+      "maxOutputTokens": 4500,
+      "rounds": 4,
+      "attempts": 1,
+      "topic": "大学阶段时间有限，应该优先投入绩点还是项目实践？",
+      "roleIds": [
+        "zhang_xuefeng",
+        "lei_jun",
+        "wang_defeng",
+        "du_sujuan"
+      ],
+      "sourceBase": "776b51daa748c480888a8e00675e333dd17e4ea0",
+      "sourceHashes": {
+        "backend/src/prompt.js": "3f2916cac9097904cb50a1c8ec2ca65b10d2e85d67d8b8e8f8364978dc881640",
+        "backend/data/roles.json": "1a39fd13ab13a4730f26c212836fbce87b13400b6f083ed20e8787d6d85b8cfb",
+        "backend/data/discussion-guidance.json": "22dfaaa0a74ef056c727e107eaef0752599e3e093150f40a67104c72fdec28b7",
+        "backend/src/discussion.js": "b143fd6384565cba5a70aa644003f8b27de2ec5c2b8bf9966777f13521e67297",
+        "backend/src/validation.js": "0600f52a50baa9191d71bc57a8e45888858cb31bee78354a18e0dac797eb7aa0",
+        "backend/src/model.js": "5bb598cc79187d7ab2b8c197efddd70c6b6deb37d51e003446a1d2824ac3572c",
+        "backend/src/app.js": "b24b2e3c005d164265c2ce53e9500a55d0a025258d4fe3a8ca54b4ffba42ac2a",
+        "backend/src/config.js": "74ceaa9d33b099569582a72f098af8c41d0de37a2052f89fa0d1a19fa9dff478",
+        "src/data.ts": "a3a7dea36a3f3d42fb667aa53d8afeaf6851a70b01a9dd00a65c5b0e2c97cde0",
+        "src/App.tsx": "efa80100dc4df1f5251e2f13852969c005d59f1c94cc58d553eaf5fe8bddb43f",
+        "src/style.css": "5f0b9975029afede424b87570cafda479f43f4e4847eb1e841d8785924b9f92c"
+      },
+      "httpResults": [
+        {
+          "status": 200,
+          "at": "2026-11-04T10:16:06.388Z"
+        },
+        {
+          "status": 429,
+          "at": "2026-11-04T10:21:16.977Z"
+        }
+      ],
+      "telemetry": {
+        "discussionId": "5a50f08d-2f63-4ac5-a262-eb4a93f736f1",
+        "mode": "live",
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "durationMs": 18796,
+        "outcome": "success",
+        "usage": {
+          "inputTokens": 4620,
+          "outputTokens": 2372
+        },
+        "usageDetails": {
+          "cacheHitTokens": 512,
+          "cacheMissTokens": 4108,
+          "totalTokens": 6992,
+          "reasoningTokens": null
+        },
+        "providerCost": null,
+        "upstreamStatus": 200,
+        "upstreamError": null
+      },
+      "stopped": true,
+      "startedAt": "2026-11-04T10:15:47.590Z",
+      "promptBytes": 21350,
+      "upstreamStatus": 200,
+      "upstreamFinishedAt": "2026-11-04T10:16:06.382Z",
+      "estimatedUSD_peakRates": 0.004081872,
+      "label": "third_success"
+    }
+  ],
+  "totalUpstreamRequests": 3,
+  "estimatedUSD_peakRates": 0.011086308,
+  "billingVerified": false,
+  "productApproved": false,
+  "sourceBaseNote": "sourceBase is historical integration baseline; exact executed source is recorded by sourceHashes; actual code also merges cac3542 and main 7a4751d.",
+  "browserLocalQuotaCheck": {
+    "lastServiceTotalUpstreamRequests": 1,
+    "secondLocalPostHTTP": 429,
+    "noAdditionalProviderCall": true
+  },
+  "postLiveValidationChange": {
+    "sourceCommit": "d53a545, merged with main 1f21a2f in bd7ab20",
+    "changedFile": "backend/data/discussion-guidance.json",
+    "currentSHA256": "64c028ebade074600b592a56ba9d298d595add432fecc41e20426dff4fa9c52e",
+    "change": "role-specific revision triggers and source provenance; runtime API/prompt/validator/frontend unchanged",
+    "validation": "140 backend tests, 17 frontend tests; 1092 ordered rosters x 3 modes x 5 topic classes, max23550bytes",
+    "realProviderRetest": false
+  }
+}

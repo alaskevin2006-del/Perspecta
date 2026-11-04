@@ -20,10 +20,11 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         const input = validateInput(await readJson(request.body), roles);
         const selected = input.roleIds.map(id => roles.find(role => role.id === id));
         const messages = buildMessages(input, selected);
+        const generationConfig = input.rounds>=3 ? {...config,maxOutputTokens:config.debateMaxOutputTokens??config.maxOutputTokens} : config;
         const bytes = Buffer.byteLength(JSON.stringify(messages));
         if (bytes > config.maxInputBytes) throw new ApiError('INVALID_INPUT');
-        const key = createHash('sha256').update(JSON.stringify({topic:input.topic, roleIds:[...input.roleIds].sort()})).digest('hex');
-        const release = guards.acquire(clientId, key, config.mode === 'live' ? bytes + 512 + config.maxOutputTokens : 0);
+        const key = createHash('sha256').update(JSON.stringify({topic:input.topic, roleIds:[...input.roleIds].sort(),rounds:input.rounds})).digest('hex');
+        const release = guards.acquire(clientId, key, config.mode === 'live' ? bytes + 512 + generationConfig.maxOutputTokens : 0);
         const start = now();
         const discussionId = randomUUID();
         let actualTokens;
@@ -36,11 +37,11 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         try {
           if (config.mode === 'mock') {
             const result = mockDebate(input);
-            validateOutput({messages:result.messages, summary:result.summary}, input.roleIds);
+            validateOutput({messages:result.messages, summary:result.summary}, input.roleIds, {rounds:input.rounds});
             return Response.json(result, {headers});
           }
           const signal = AbortSignal.any([request.signal, AbortSignal.timeout(config.timeoutMs)]);
-          const result = await generate(input, messages, config, signal, fetchImpl);
+          const result = await generate(input, messages, generationConfig, signal, fetchImpl);
           usage = result.usage;
           usageDetails = result.usageDetails;
           providerCost = result.providerCost;

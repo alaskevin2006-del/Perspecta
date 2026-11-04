@@ -287,3 +287,19 @@ textarea:focus{outline:none;border-bottom-color:#354c41;background:#fff9eb45}tex
 .export-note .summary h3{font-family:"Noto Serif SC Variable",serif;font-size:26px;font-weight:550;line-height:1.5;letter-spacing:.08em;color:#574934;margin-bottom:12px}
 .export-note .summary p{font-family:"Noto Serif SC Variable",serif;font-size:23px;font-weight:400;line-height:1.95;letter-spacing:.025em;color:#665b4b;margin-bottom:8px;overflow-wrap:anywhere}
 .export-note footer{font-family:"Noto Serif SC Variable",serif;font-size:15px;font-weight:400;line-height:1.9;letter-spacing:.03em;color:#98866d;margin-top:38px}
+
+/* Backend catalogs may contain more cards and longer, explicit AI labels. */
+.question .guest-list{flex:1 1 0;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#a88b626b transparent;padding:2px 6px 2px 2px}
+.guest-copy strong,.guest-copy small{white-space:normal;overflow-wrap:anywhere;line-height:1.45}
+.question-bottom{flex:0 0 auto}
+/* Each seat has a non-overlapping slot; wrap the full identity, never truncate it. */
+.seat{min-width:0}
+.seat>span{width:100%;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center;font-size:16px;line-height:1.45;letter-spacing:0;padding:6px 4px}
+
+/* Four phases remain readable while the original playback and notebook stay in place. */
+.stage-title .discussion-format{margin-top:8px;font-size:12px;line-height:1.5;letter-spacing:.04em;color:#f2dfbd}
+.stage-bottom .steps{flex-wrap:wrap;gap:8px 12px;font-size:11px}
+.stage-bottom .steps span{white-space:nowrap}
+.guest-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+.speaker .reply-target{display:block;font-size:12px;line-height:1.4;color:#756f60;margin:-7px 0 7px;}

@@ -40,7 +40,7 @@ test('opted-in smoke CLI validates complete HTTP adapter against local fake upst
   const {result}=command(t,['scripts/smoke.mjs','--live'],{API_BASE_URL:base});
   const value=await bounded(result);
   assert.equal(value.code,0,value.stderr);
-  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',endpoints:3,roles:3,topics:3,messages:6});
+  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',endpoints:3,roles:7,topics:3,messages:6});
   assert.equal(calls.length,1);
 });
 
@@ -66,7 +66,7 @@ test('health CLI checks live-mode catalogs without attempting generation',async 
   const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:base});
   const value=await bounded(result);
   assert.equal(value.code,0,value.stderr);
-  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',roles:3,topics:3,generationRequests:0,providerConnectivityTested:false});
+  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',roles:7,topics:3,generationRequests:0,providerConnectivityTested:false});
   assert.equal(calls.length,0);
 });
 

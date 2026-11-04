@@ -1,8 +1,10 @@
 /** Locked against .doc/02_API_联调契约.md v0.1. No provider fields cross this boundary. */
 export interface RoleCard { id: string; name: string; tagline: string; description: string; avatar: string }
 export interface Topic { id: string; title: string; prompt: string }
-export interface DebateRequest { topic: string; roleIds: string[] }
-export interface DebateMessage { id: string; round: 1 | 2; roleId: string; content: string; replyTo: string | null }
+/** topic: 10–300 Unicode code points; roleIds: 2–4 distinct catalog IDs. */
+export interface DebateRequest { topic: string; roleIds: string[]; rounds?: 2 | 3 | 4 }
+/** New rounds=4: first phase null; mixed earlier-person replies; phase3 returns to responses to own prior arguments. */
+export interface DebateMessage { id: string; round: 1 | 2 | 3 | 4; roleId: string; content: string; replyTo: string | null }
 export interface DebateSummary { consensus: string[]; disagreements: string[]; decisionFactors: string[]; nextActions: string[] }
 export interface DebateUsage { inputTokens: number; outputTokens: number }
 export interface DebateResponse { discussionId: string; topic: string; messages: DebateMessage[]; summary: DebateSummary; usage: DebateUsage | null }

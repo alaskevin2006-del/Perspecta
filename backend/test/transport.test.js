@@ -40,7 +40,7 @@ for (const provider of ['openai','deepseek']) test(`${provider} same-origin prox
     const response = await fetch(`${base}/api/${route}`);
     assert.equal(response.status,200);
     assert.equal(response.headers.get('x-perspecta-mode'),'live');
-    assert.equal((await response.json())[route].length,3);
+    assert.equal((await response.json())[route].length,route == 'roles' ? 7 : 3);
   }
   const response = await post(base);
   assert.equal(response.status,200);
@@ -122,5 +122,5 @@ test('unconsumed invalid-route request bodies do not stall a reusable HTTP conne
   assert.equal((await call('/api/not-found','POST','x'.repeat(150000))).status,404);
   const response=await call('/api/roles','GET');
   assert.equal(response.status,200);
-  assert.equal(JSON.parse(response.value).roles.length,3);
+  assert.equal(JSON.parse(response.value).roles.length,7);
 });

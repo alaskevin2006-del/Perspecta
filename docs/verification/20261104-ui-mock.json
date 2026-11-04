@@ -1,0 +1,309 @@
+{
+  "date": "2026-11-04",
+  "baseline": "4fcee6e697bc7812b647879800fc949cbbd8e40b",
+  "branch": "integration/mock-personas-20261104",
+  "environment": {
+    "browser": "Connected user Mac Chrome via browser extension",
+    "frontend": "Vite same-origin /api proxy",
+    "backend": "Explicit DEBATE_MODE=mock; inherited environment cleared; no key loaded",
+    "viewports": [
+      [
+        1366,
+        768
+      ],
+      [
+        1024,
+        768
+      ],
+      [
+        1440,
+        900
+      ]
+    ]
+  },
+  "realModelRequests": 0,
+  "credentialsReadOrChanged": false,
+  "deployed": false,
+  "productOwnerApproved": false,
+  "cases": [
+    {
+      "case": "two roles",
+      "ids": [
+        "zhang_xuefeng",
+        "du_sujuan"
+      ],
+      "messages": 4,
+      "rounds": [
+        2,
+        2
+      ],
+      "result": "PASS"
+    },
+    {
+      "case": "three roles",
+      "ids": [
+        "zhang_xuefeng",
+        "du_sujuan",
+        "career_realist"
+      ],
+      "messages": 6,
+      "rounds": [
+        3,
+        3
+      ],
+      "result": "PASS"
+    },
+    {
+      "case": "four roles",
+      "ids": [
+        "zhang_xuefeng",
+        "du_sujuan",
+        "career_realist",
+        "growth_explorer"
+      ],
+      "messages": 8,
+      "rounds": [
+        4,
+        4
+      ],
+      "result": "PASS"
+    },
+    {
+      "case": "short topic, no roles, 301 codepoint topic, fifth role click blocked",
+      "result": "PASS"
+    },
+    {
+      "case": "pause/resume, manual advance, second-round references, summary/history, skip",
+      "result": "PASS"
+    },
+    {
+      "case": "reset cancel preserves result; reset confirm preserves topic and choices",
+      "result": "PASS"
+    },
+    {
+      "case": "held local request locks controls, synthetic JSON502 preserves inputs, manual retry succeeds",
+      "result": "PASS",
+      "counterBeforeRelease": {
+        "attempts": 1,
+        "forwarded": 0,
+        "held": true
+      },
+      "counterAfterManualRetryAndNextHTMLFailure": {
+        "attempts": 3,
+        "forwarded": 1,
+        "held": false
+      }
+    },
+    {
+      "case": "non-JSON502 safe messaging and explicit retry after fix",
+      "result": "PASS",
+      "counterSeed": 2,
+      "finalCounter": {
+        "attempts": 4,
+        "forwarded": 1,
+        "held": false
+      },
+      "note": "Only two new POSTs after the seeded restart: HTML failure and one user-click retry; overlong input did not add a request."
+    },
+    {
+      "case": "mock disclosure visible on page and exported PNG",
+      "result": "PASS"
+    },
+    {
+      "case": "copy button success notice",
+      "result": "PASS",
+      "clipboardContentsIndependentlyRead": false
+    },
+    {
+      "case": "PNG generated with preview, saved local preview bytes and visually inspected",
+      "result": "PASS",
+      "size": [
+        2000,
+        2762
+      ],
+      "downloadDirectoryIndependentlyVerified": false,
+      "note": "Browser download-event wait timed out; preview was already generated. Recovered existing page and saved PNG bytes without repeating export."
+    }
+  ],
+  "regressions": {
+    "backendTests": {
+      "passed": 109,
+      "failed": 0
+    },
+    "frontendTests": {
+      "passed": 10,
+      "failed": 0
+    },
+    "build": "PASS",
+    "integrationSmoke": "PASS including 2/3/4 roles and seven added synthetic failure cases",
+    "independentReview": "No findings; 16 in-memory cases and typecheck pass"
+  },
+  "cleanup": {
+    "browserViewportReset": true,
+    "ownedTabsClosed": true,
+    "temporaryServersStopped": true
+  },
+  "remaining": [
+    "Lei Jun and Wang Defeng personas not delivered",
+    "Real generation for delivered personas and 4-role mode not tested",
+    "Product content/source approval pending",
+    "No mobile-specific layout, no Safari/Firefox validation",
+    "Public deployment and Docker runtime remain unverified"
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/ui-20261104/01-setup-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 153874,
+      "sha256": "656316972a427efac4b882389fc396e8ca770e46258bd3c5b89c4ebd450d3e3e"
+    },
+    {
+      "path": "artifacts/ui-20261104/02-two-selected-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 158946,
+      "sha256": "ce22225caa9be10e9b273bb70ca144ab96cd0a42bb82374685728aa59f8e0fda"
+    },
+    {
+      "path": "artifacts/ui-20261104/03-two-playing-paused-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 160794,
+      "sha256": "b9120caa1836b0c4cb9d1525399ea67d4014ff3509d897178825204bec514bba"
+    },
+    {
+      "path": "artifacts/ui-20261104/04-two-second-round-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 163044,
+      "sha256": "3b020d6b0b70f3996ab5c15365a8c267ba6faa9630558c5c76ec3baaad2ca02f"
+    },
+    {
+      "path": "artifacts/ui-20261104/05-two-summary-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 170286,
+      "sha256": "1379cd33dd6ee649457bb158c3469336c6e4f255eb4efa37ac2578794ae5e2bd"
+    },
+    {
+      "path": "artifacts/ui-20261104/06-history-reply-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 174111,
+      "sha256": "41eee070341d0f0529f38e979095fb5d63ba483e7b9ed5a3276779f5493bd1ba"
+    },
+    {
+      "path": "artifacts/ui-20261104/07-three-playing-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 152128,
+      "sha256": "9480ec33029d362e8dcb493f8628425ebb3b7dfc941979c54b3082c063ccba3d"
+    },
+    {
+      "path": "artifacts/ui-20261104/08-three-summary-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 163021,
+      "sha256": "664728bbe3737da678c532d3eda9562b6522af72cd46e2d34b06fc8d5de87ad8"
+    },
+    {
+      "path": "artifacts/ui-20261104/09-four-playing-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 158913,
+      "sha256": "f4c9396599d8623bf181a5685d74e06680a53c140288e3ba8c4e1f6ac896ff16"
+    },
+    {
+      "path": "artifacts/ui-20261104/10-four-second-round-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 163629,
+      "sha256": "3503d9691bcec3c8e2f4684794ac1168759b16e928ce93da195a5bda1cb0c6ed"
+    },
+    {
+      "path": "artifacts/ui-20261104/11-four-1024.jpg",
+      "width": 1024,
+      "height": 768,
+      "bytes": 108767,
+      "sha256": "bd89acdf13d198cf0661d49c5979f8e7f047b39a8eb5cb5408e49699d96af276"
+    },
+    {
+      "path": "artifacts/ui-20261104/12-four-summary-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "bytes": 186685,
+      "sha256": "2872a415e729724351169ec3a180bb20a4a632e1b87eefee75946a7576487edb"
+    },
+    {
+      "path": "artifacts/ui-20261104/13-summary-actions-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "bytes": 187665,
+      "sha256": "f2b0b1b8da785f080e5748903a2949f1ea76715221bdffc1b393797d498ee418"
+    },
+    {
+      "path": "artifacts/ui-20261104/14-export-preview-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "bytes": 93768,
+      "sha256": "af1a04ead141dd37e82dd91cceea32c8e13802b0e1cfeb4bd2824fe5fabdf3e7"
+    },
+    {
+      "path": "artifacts/ui-20261104/15-loading-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 158032,
+      "sha256": "ec9a89f2f4e839354ebe524b13b2b0408e5892fee7171533df26b287e15cd4f9"
+    },
+    {
+      "path": "artifacts/ui-20261104/16-error-retains-input-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 161878,
+      "sha256": "9627f445b8528951c114a7c5ac97aea4a751c0a548eb8238985275e41fac42c5"
+    },
+    {
+      "path": "artifacts/ui-20261104/17-manual-retry-summary-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 170624,
+      "sha256": "d9ee64f913d11845163996a832e81fbbe055594f06cf67d7e1811ce59ba3ba3c"
+    },
+    {
+      "path": "artifacts/ui-20261104/18-non-json-error-before-fix-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 161876,
+      "sha256": "9e7ac1d72be78a969a884cbacec62663bf0ea32f978662b658fd92e06243a82f"
+    },
+    {
+      "path": "artifacts/ui-20261104/19-non-json-error-fixed-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 161797,
+      "sha256": "2b7e69de82dcfce8d6a491041a7b45741d0a03f8f6a60954891899ee65fe0194"
+    },
+    {
+      "path": "artifacts/ui-20261104/20-fixed-manual-retry-summary-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 170655,
+      "sha256": "077b4c891f9b3ab6928ea16c39538af8bbe841580d619d7361513082e2c70d85"
+    },
+    {
+      "path": "artifacts/ui-20261104/21-overlong-input-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "bytes": 160770,
+      "sha256": "364689e419e8d36dac8aaa0b3bd32b7dee38e9aa27c7988b124864932f67a2f5"
+    },
+    {
+      "path": "artifacts/ui-20261104/exported-notes.png",
+      "width": 2000,
+      "height": 2762,
+      "bytes": 453408,
+      "sha256": "72187c57fa7fc72d45013e41600cdf7c4db702de732694788eea3294d7676cc9"
+    }
+  ]
+}

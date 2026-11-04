@@ -24,6 +24,7 @@ export function loadConfig(env = process.env) {
     host: env.HOST || '127.0.0.1', port: integer(env, 'PORT', 3001, 1, 65535),
     timeoutMs: integer(env, 'LLM_TIMEOUT_MS', 45000, 1, 120000),
     maxOutputTokens: integer(env, 'LLM_MAX_OUTPUT_TOKENS', 3000, 128, 8000),
+    debateMaxOutputTokens: integer(env, 'LLM_DEBATE_OUTPUT_TOKENS', env.LLM_MAX_OUTPUT_TOKENS===undefined?4500:integer(env,'LLM_MAX_OUTPUT_TOKENS',3000,128,8000), 128, 8000),
     sessionTokenBudget: integer(env, 'SESSION_TOKEN_BUDGET', 200000, 1, 10000000),
     sessionCallLimit: integer(env, 'SESSION_CALL_LIMIT', 100, 1, 10000),
     maxConcurrent: integer(env, 'MAX_CONCURRENT', 2, 1, 10),

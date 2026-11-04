@@ -20,9 +20,12 @@ build/
 __pycache__/
 *.pyc
 
-# 环境变量与凭据（保留 example 模板）
+# 环境变量与凭据（保留空 example 模板）
 .env*
 !.env.example
 !backend/.env.example
 
 .local-qa/
+
+# Agent scratch progress (reviewable plans live in docs/)
+.superpowers/
