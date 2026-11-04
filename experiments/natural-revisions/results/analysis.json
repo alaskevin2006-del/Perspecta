@@ -1,0 +1,161 @@
+{
+  "study": "natural-revisions-20261104",
+  "realRequests": 2,
+  "retries": 0,
+  "preflightCRealRequests": 0,
+  "sourceManifest": "../manifest.json",
+  "priceSource": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "variants": {
+    "A2": {
+      "studyVariant": "A2",
+      "protocolVariant": "A",
+      "sourceLineage": [
+        "1c3b424288250cd7c17897c5646f36c4092c1571"
+      ],
+      "executionCommit": "3baaa2bbd30b3297572bb9355752ff8bc6a3a248",
+      "startedAt": "2026-11-04T15:00:24.771Z",
+      "finishedAt": "2026-11-04T15:00:41.049Z",
+      "durationMs": 16278,
+      "http": 200,
+      "outcome": "INVALID_OUTPUT",
+      "diagnostic": {
+        "reason": "SUMMARY_COUNT",
+        "path": "summary.decisionFactors"
+      },
+      "requestSHA256": "2dfd394046b4caf953b19e248c2e41f33d40ceed772da917cc79826da2221170",
+      "rawContentSHA256": "b2f87da54a6bb9b29e28074cdd8a807eb14bfb32eff1c414f20a801e64ce62ba",
+      "bodyStructureValid": true,
+      "bodyProbeDoesNotRepairOriginal": true,
+      "summaryCounts": {
+        "consensus": 1,
+        "disagreements": 2,
+        "decisionFactors": 4,
+        "nextActions": 2
+      },
+      "lengths": {
+        "min": 86,
+        "max": 110,
+        "mean": 96
+      },
+      "contentColons": 10,
+      "qualityReview": {
+        "semanticVerdict": "HUMAN_REVIEW_REQUIRED",
+        "flags": [
+          {
+            "code": "FIRST_PERSON_EXPERIENCE",
+            "messageIds": [
+              "m4"
+            ]
+          },
+          {
+            "code": "ANNOUNCER_SPEECH",
+            "messageIds": [
+              "m6"
+            ]
+          },
+          {
+            "code": "ANNOUNCER_SPEECH",
+            "messageIds": [
+              "m8"
+            ]
+          },
+          {
+            "code": "ANNOUNCER_SPEECH",
+            "messageIds": [
+              "m10"
+            ]
+          }
+        ]
+      },
+      "usage": {
+        "inputTokens": 4658,
+        "outputTokens": 1582
+      },
+      "usageDetails": {
+        "cacheHitTokens": 0,
+        "cacheMissTokens": 4658,
+        "totalTokens": 6240,
+        "reasoningTokens": null
+      },
+      "estimatedPeakUSD": 0.0032957999999999998,
+      "estimatedOffPeakUSD": 0.0016478999999999999,
+      "providerCost": null,
+      "txtAllOriginalSpeechesAndSummaryPreserved": true
+    },
+    "B2": {
+      "studyVariant": "B2",
+      "protocolVariant": "A",
+      "sourceLineage": [
+        "ac75a51009c3bd95cd3320eff0dc7f44442afaa4",
+        "1c3b424288250cd7c17897c5646f36c4092c1571"
+      ],
+      "executionCommit": "3baaa2bbd30b3297572bb9355752ff8bc6a3a248",
+      "startedAt": "2026-11-04T15:02:08.676Z",
+      "finishedAt": "2026-11-04T15:02:22.354Z",
+      "durationMs": 13678,
+      "http": 200,
+      "outcome": "VALID",
+      "diagnostic": null,
+      "requestSHA256": "fce7d3f2596b9725a44d22f5f58a87b9d8062a06691ba8ef00cd63b941332f73",
+      "rawContentSHA256": "8c8acacb72362cea1e0ef69e36e5e5dcb2d7c9a66b8d986285b4a108aefc1ce8",
+      "bodyStructureValid": true,
+      "bodyProbeDoesNotRepairOriginal": true,
+      "summaryCounts": {
+        "consensus": 2,
+        "disagreements": 2,
+        "decisionFactors": 3,
+        "nextActions": 3
+      },
+      "lengths": {
+        "min": 90,
+        "max": 106,
+        "mean": 99
+      },
+      "contentColons": 5,
+      "qualityReview": {
+        "semanticVerdict": "HUMAN_REVIEW_REQUIRED",
+        "flags": [
+          {
+            "code": "ANNOUNCER_SPEECH",
+            "messageIds": [
+              "m3"
+            ]
+          },
+          {
+            "code": "ANNOUNCER_SPEECH",
+            "messageIds": [
+              "m7"
+            ]
+          },
+          {
+            "code": "ANNOUNCER_SPEECH",
+            "messageIds": [
+              "m11"
+            ]
+          }
+        ]
+      },
+      "usage": {
+        "inputTokens": 4645,
+        "outputTokens": 1666
+      },
+      "usageDetails": {
+        "cacheHitTokens": 896,
+        "cacheMissTokens": 3749,
+        "totalTokens": 6311,
+        "reasoningTokens": null
+      },
+      "estimatedPeakUSD": 0.003129276,
+      "estimatedOffPeakUSD": 0.001564638,
+      "providerCost": null,
+      "txtAllOriginalSpeechesAndSummaryPreserved": true
+    }
+  },
+  "totals": {
+    "inputTokens": 9303,
+    "outputTokens": 3248,
+    "cacheHitTokens": 896,
+    "estimatedPeakUSD": 0.006425076,
+    "estimatedOffPeakUSD": 0.003212538
+  }
+}

@@ -1,11 +1,12 @@
 import {readFileSync} from 'node:fs';
 import {buildTurnPlan,discussionStages} from './discussion.js';
 const speechEvidence=JSON.parse(readFileSync(new URL('../data/persona-speech-evidence.json',import.meta.url),'utf8'));
+const decisionCases=JSON.parse(readFileSync(new URL('../data/persona-decision-cases.json',import.meta.url),'utf8'));
 const guidance=JSON.parse(readFileSync(new URL('../data/discussion-guidance.json',import.meta.url),'utf8'));
 
 export function buildMessages(input, roles) {
   if(input.rounds===3)return buildThreeRoundMessages(input,roles);
-  if(input.rounds===4)return buildConversationMessages(input,roles);
+  if(input.rounds===4)return buildConversationMessages(input,roles,true);
   // Keep full provenance in the catalog; the model receives only bounded discussion traits.
   // Source documents, reference URLs and delivery templates are not runtime instructions.
   const profiles = roles.map(({id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries}) =>
@@ -42,9 +43,17 @@ ${JSON.stringify(example)}`},
 }
 
 
-function buildConversationMessages(input,roles){
+export function buildNaturalA2Messages(input,roles){
+ if(input.rounds!==4)throw Error('A2_REQUIRES_FOUR_ROUNDS');
+ return buildConversationMessages(input,roles);
+}
+
+function buildConversationMessages(input,roles,withCases=false){
  const turnPlan=buildTurnPlan(input.roleIds??roles.map(r=>r.id));
- const profiles=discussionProfiles(roles);
+ let profiles=discussionProfiles(roles);
+ if(withCases)profiles=profiles.map(({supportedPositions,discussionGuidance,...base})=>({...base,
+  ...(supportedPositions?{supportedPositions:supportedPositions.map(p=>typeof p==='string'?p:p.position)}:{}),
+  ...(decisionCases[base.id]?{decisionCases:decisionCases[base.id].map(({runtime,scope})=>({basis:runtime,scope}))}:{}),discussionGuidance}));
  const shape={messages:turnPlan.slice(0,2).map(turn=>({...turn,content:'按议题生成实际发言'})),
   summary:{consensus:['认可者及共同接受的有限范围'],disagreements:['最终仍不同的取舍及理由'],decisionFactors:['会改变选择的关键条件'],nextActions:['适用条件与行动']}};
  return [

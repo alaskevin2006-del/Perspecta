@@ -21,3 +21,7 @@ test('direct questions and conditional first-person judgments are not announcer 
  const value={messages:[{id:'m1',content:'这两件事不一样。你说的是目标明确之后，那还没确定方向的人呢？'},{id:'m2',content:'我会看实际代价。如果时间已经不够，就先缩小尝试。'},{id:'m3',content:'我认为这个问题还没说清，不能把有限条件当成所有人的标准。'}]};
  assert.deepEqual(qualityReview(value).flags,[]);
 });
+test('B2 real variants without announcer suffixes still need review even when earlier dictionary reports no flags',async()=>{
+ const {readFileSync}=await import('node:fs');const value=JSON.parse(readFileSync(new URL('../../experiments/natural-revisions/results/B2/raw-content.txt',import.meta.url),'utf8'));
+ const result=qualityReview(value);for(const id of ['m3','m7','m11'])assert.ok(result.flags.some(f=>f.code==='ANNOUNCER_SPEECH'&&f.messageIds.includes(id)),id);assert.equal(result.semanticVerdict,'HUMAN_REVIEW_REQUIRED');
+});

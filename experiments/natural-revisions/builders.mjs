@@ -1,5 +1,5 @@
 import{readFileSync}from'node:fs';
-import{buildMessages}from'../../backend/src/prompt.js';
+import{buildNaturalA2Messages as buildMessages}from'../../backend/src/prompt.js';
 import{buildMessages as teamMessages}from'../decision-ab/sources/B/backend/src/prompt.js';
 const cases=JSON.parse(readFileSync(new URL('../decision-ab/sources/B/backend/data/persona-decision-cases.json',import.meta.url),'utf8'));
 export function buildRevision(variant,input,selected){

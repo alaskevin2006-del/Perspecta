@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync}from'node:fs';
 import {buildRevision}from'./builders.mjs';
-import {buildMessages}from'../../backend/src/prompt.js';
+import {buildNaturalA2Messages as buildMessages}from'../../backend/src/prompt.js';
 import {buildMessages as teamMessages}from'../decision-ab/sources/B/backend/src/prompt.js';
 import{roles}from'../../backend/src/catalog.js';
 import{input}from'../decision-ab/prepare.mjs';

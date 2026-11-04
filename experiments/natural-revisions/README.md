@@ -13,3 +13,9 @@
 preflight-C为范围调整前离线预检，0次真实请求，旧CLI只作.txt归档，不能用作第三份真实样本。旧A/B在../decision-ab/results，早先自然v3在../prompt-ab/results；均与本组分开。
 
 测试：node --test experiments/natural-revisions/test.mjs。自动化证明谱系、投喂、预算及保护，不证明自然度/语义质量。每版一次真实输出后逐条人工审阅；本轮不部署或修改main。
+
+## 已执行及接入状态
+
+A2/B2已于15:00/15:02UTC各真实一次：A2摘要超项失败，B2结构通过，均完整留存results及TXT。没有第三次调用。默认4轮现采用B2待验收候选；A2保留命名导出。生产请求与冻结B2逐字节一致，旧2/3轮不变。完整人工问题与费用见docs/natural-revisions-A2-B2-20261104.md。
+
+调用发生于3baaa2b。随后为接入默认B2修改了生产/构造器路径，旧manifest哈希保持调用时原样，CLI会拒绝当前源码漂移；这是归档，不可更新manifest或换目录绕过已消耗的锁。离线重建用调用时提交。原始report.variant=A指共同校验协议，不是方案标签。

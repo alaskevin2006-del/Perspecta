@@ -102,3 +102,5 @@ npm run dev
 最新质量修订与真实全文见[跨轮验证](docs/threaded-quality-validation-20261104.md)和[聊天记录目录](docs/chat-logs/README.md)。最终候选仍有摘要归因与条件压缩问题，未获产品终验。
 
 最新指定版本73caf61/ac75a51的两次真实对照见[完整TXT、结果和费用](docs/decision-evidence-ab-20261104.md)。A摘要超项失败、B结构通过；两版仍有自然度与语义问题，均未终验。本轮仅推送同一整合分支，不操作main。
+
+A、B各修订一次后的全文和结果见[修订版A2/B2](docs/natural-revisions-A2-B2-20261104.md)。默认四轮已采用与真实请求逐字节一致的B2待验收候选；A2和所有失败原文保留。B2仍有报幕、摘要归因和事实边界问题，不作为质量终验通过。
