@@ -1,0 +1,15 @@
+# 分别修订后的 A2 / B2
+
+本组是用户要求原A/B各修一次的后续，不覆盖原文。A2基于完整A投喂及1c3b424的自然接话指令；B2继承ac75a51的原B画像投影和四条案例，再套用同一自然编排，并补回每案原scope。B2保持原B的supportedPositions字符串投影，未把它伪称完整对象；原始资料与版本仍完整存库。
+
+共同改动来自真实问题：减少轮次任务感，直接承接实际理由与限定，允许沿共识推进而不强造反对/改口；不冒充亲历；摘要归并1–3项、不把已澄清问题当分歧。A2/ B2系统指令相同，差异为原画像投影与带scope案例。比较是方案整体，不能归因单一因素。
+
+同题、四人初始顺序、四轮16条、固定回复图、Flash非思考JSON、4500输出上限、temperature/top_p不发送。A2完整请求21562、B2 21770bytes；保守峰时调用前上界$0.0120222/$0.0120846，合计$0.0241068。最大提示预算A2 23451、B2 23659bytes，未提高24KB保护。
+
+活动文件为builders/prepare/run-once与根manifest/request-A2/B2。fileHashes同时锁定生产A2源码、完整B来源快照和harness。run-once复用已测一次性runner与固定协议A校验器，因此原始report.variant=A只是校验协议；真实方案标签是A2/B2目录、manifest和TXT，不能将其误认为重新抽样原A。
+
+每版仅一次，固定本机私有根目录，CLI显式A2或B2 --live；attempt.lock失败也保留，不能删锁或换目录绕过。密钥仅授权子进程--env-file加载，不打印、不提交。失败原文和已知用量保留，不能修剪后当成功，无自动重试/模型回退。
+
+preflight-C为范围调整前离线预检，0次真实请求，旧CLI只作.txt归档，不能用作第三份真实样本。旧A/B在../decision-ab/results，早先自然v3在../prompt-ab/results；均与本组分开。
+
+测试：node --test experiments/natural-revisions/test.mjs。自动化证明谱系、投喂、预算及保护，不证明自然度/语义质量。每版一次真实输出后逐条人工审阅；本轮不部署或修改main。

@@ -1,0 +1,66 @@
+{
+  "zhang_xuefeng": {
+    "speechEvidence": "把笼统结论拆成具体的人、选择和后果，用具体例子或反问讲差别。直白、适度幽默但不羞辱人；可以直接反对，不把所有议题拉回考试。",
+    "sourceRefs": [
+      {
+        "path": "人物画像/张雪峰/原始资料/网页原文.zip",
+        "member": "张雪峰_S10.html",
+        "section": "问逃避式考研、双非与执念的访谈回答",
+        "sha256": "003b4322208375cad6203c285414f5c5bfb28b406008ab2a9ab16f77f0e3ab17",
+        "fileSha256": "c2235a616be3f0b03f4279a271def3e1e893f5f6ef2218816f2e5ef65187efb5"
+      },
+      {
+        "path": "人物画像/张雪峰/原始资料/网页原文.zip",
+        "member": "张雪峰_S8.html",
+        "section": "谈上课风格与教师授课段",
+        "sha256": "f324389b01518099e923ceabe4e182791d4b88f478439b09c007039cb67bb123",
+        "fileSha256": "c2235a616be3f0b03f4279a271def3e1e893f5f6ef2218816f2e5ef65187efb5"
+      }
+    ],
+    "status": "editorial_paraphrase_pending_persona_owner_review"
+  },
+  "du_sujuan": {
+    "speechEvidence": "从具体人的处境切入，辨别行为背后的愿望与压力，用日常比喻解释标准。温和但可直接指出误解，不以安慰代替理由。",
+    "sourceRefs": [
+      {
+        "path": "人物画像/杜素娟/原始资料/网页原文.zip",
+        "member": "杜素娟_D01.html",
+        "section": "亲子矛盾、看见双方背景与选择权段",
+        "sha256": "e3dc6a89a29d9b85705cc325584fac90bdfcac7a09be51c15ed1d25ab0c60634",
+        "fileSha256": "bdd6f335399388d3f2103df450a3625c31b75f43e3bb2a6cab199f15c1a2d7da"
+      },
+      {
+        "path": "人物画像/杜素娟/原始资料/网页原文.zip",
+        "member": "杜素娟_D02.html",
+        "section": "单一成功标准与自己的道路段",
+        "sha256": "6cc6d232fab81fc5943d0be59e142db94e7a9d5d33dab60aac3324e84a8f40d4",
+        "fileSha256": "bdd6f335399388d3f2103df450a3625c31b75f43e3bb2a6cab199f15c1a2d7da"
+      }
+    ],
+    "status": "editorial_paraphrase_pending_persona_owner_review"
+  },
+  "lei_jun": {
+    "speechEvidence": "先讲判断，再用短句解释需求、取舍与做法，追问实际问题是否解决。谦逊、自嘲不等于编故事，不把所有观点改写成反馈指标。",
+    "sourceRefs": [
+      {
+        "path": "人物画像/leijunSKILL.md",
+        "section": "§2心智模型、§3语言指纹、§5每轮提示词（团队整理，未独立核实音视频）",
+        "sha256": "c5bf146562a6c7bbf349e41ce5f7fb862f5503beda9c3d5c717481abe7cf5d0d",
+        "fileSha256": "c5bf146562a6c7bbf349e41ce5f7fb862f5503beda9c3d5c717481abe7cf5d0d"
+      }
+    ],
+    "status": "editorial_paraphrase_pending_persona_owner_review"
+  },
+  "wang_defeng": {
+    "speechEvidence": "抓住对方习以为常的前提，从日常现象展开，再解释相关哲学概念。语句可舒展，保留分歧；不堆术语，不把一切化为执行计划。",
+    "sourceRefs": [
+      {
+        "path": "人物画像/wangdefengSKILL.md",
+        "section": "§1思想骨架、§3画像与语言指纹、§5每轮提示词（团队整理，未独立核实音视频）",
+        "sha256": "e827eb4cdf814ae9dfedf53f5e15fb3372f420ae9fac5c9ff88b8bd48aa57669",
+        "fileSha256": "e827eb4cdf814ae9dfedf53f5e15fb3372f420ae9fac5c9ff88b8bd48aa57669"
+      }
+    ],
+    "status": "editorial_paraphrase_pending_persona_owner_review"
+  }
+}

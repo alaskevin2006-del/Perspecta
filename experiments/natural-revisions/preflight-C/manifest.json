@@ -1,0 +1,58 @@
+{
+  "studyVariant": "C",
+  "sourceCommit": "8f1b3301b5d9e56b549577a4b6dc8281c800274a",
+  "preparedAt": "2026-11-04T14:52:16.096Z",
+  "input": {
+    "topic": "大学阶段时间有限，应该优先投入绩点还是项目实践？",
+    "roleIds": [
+      "zhang_xuefeng",
+      "lei_jun",
+      "wang_defeng",
+      "du_sujuan"
+    ],
+    "rounds": 4
+  },
+  "params": {
+    "model": "deepseek-flash",
+    "stream": false,
+    "response_format": {
+      "type": "json_object"
+    },
+    "max_tokens": 4500,
+    "thinking": {
+      "type": "disabled"
+    }
+  },
+  "limits": {
+    "maxInputBytes": 24000,
+    "reservedTokenLimit": 30000,
+    "maxEstimatedUSD": 0.32,
+    "timeoutMs": 45000,
+    "maxResponseBytes": 65536
+  },
+  "sourceHashes": {
+    "backend/package.json": "ce69327889e81adf6378a8e20211d2ae12af076da08c3a7eaf8c86f5990ba33f",
+    "backend/src/prompt.js": "68d728c937da640a76ab31aad062c06ebb84daafe1baa9867501f7f1717b0ffd",
+    "backend/src/discussion.js": "85e78cea127fa4610729078f73a549e6b14f9f5187666e31c99b861e2cac6c0b",
+    "backend/src/validation.js": "08f96d39d53215d3770befe9e7b09df12486eaba6bf4c31dfdafed1c0f4cd5c6",
+    "backend/src/errors.js": "4ec540e1d9f2aa13c85b4b8d275447c557ce5e38a739be4d2bfb1d36b4dd2895",
+    "backend/src/quality.js": "da63da8d2004026f2a8c2b610dfe1840dba00fd74a9d1dc10073a9afff7552a4",
+    "backend/data/roles.json": "bb8f9280c4803d3e25c24d407717de5309062beb7b7940ac0a6f5efa4394db31",
+    "backend/data/discussion-guidance.json": "64c028ebade074600b592a56ba9d298d595add432fecc41e20426dff4fa9c52e",
+    "backend/data/persona-speech-evidence.json": "3fb1a9cc1464ea5f8fd60d81c4cdf704acab3f18cb7850d1bda00461c16437de"
+  },
+  "harnessHashes": {
+    "experiments/natural-C/prepare.mjs": "f0215d27ac40650fbedc1da98dda598e337a156f3571d68f301dc0c0732e70ff",
+    "experiments/natural-C/run-once.mjs": "9ece0bc2ec0929059e2acbe92ee1d133db1c969d5d47894ad82d22c168e609b9",
+    "experiments/decision-ab/prepare.mjs": "266aa8a9b2d319c4c46964b2b7e226b478f4d49baf8350b0ddd54dbf65f7baba",
+    "experiments/decision-ab/runner.mjs": "59aa3d20bab8e7d71331bc6202f0df9d64ecd1da4e5eed9f181bf5821d8cbd76",
+    "experiments/decision-ab/protocol.mjs": "8a8dccf144c1f14a20070f2546304e382a2e6c0235b7ebe2a0e96faf531ab939",
+    "experiments/decision-ab/sources/A/backend/src/validation.js": "08f96d39d53215d3770befe9e7b09df12486eaba6bf4c31dfdafed1c0f4cd5c6",
+    "experiments/decision-ab/sources/A/backend/src/errors.js": "4ec540e1d9f2aa13c85b4b8d275447c557ce5e38a739be4d2bfb1d36b4dd2895",
+    "experiments/decision-ab/sources/A/backend/src/discussion.js": "85e78cea127fa4610729078f73a549e6b14f9f5187666e31c99b861e2cac6c0b"
+  },
+  "requestSHA256": "92c320ded61bcaabb86eead05886543c0f40ab392a77a8addb60f5ed94c62dca",
+  "requestBytes": 21899,
+  "reservedTokens": 26911,
+  "estimatedMaxUSD": 0.0121233
+}
