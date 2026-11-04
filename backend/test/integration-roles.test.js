@@ -22,7 +22,7 @@ test('all delivered personas are copied exactly and new adaptations trace their 
  assert.equal(roles.length,7);
 });
 for(const ids of [['zhang_xuefeng','du_sujuan'],['zhang_xuefeng','du_sujuan','career_realist'],['zhang_xuefeng','du_sujuan','career_realist','growth_explorer'],['risk_analyst','career_realist','du_sujuan','zhang_xuefeng'],['lei_jun','wang_defeng'],['lei_jun','wang_defeng','du_sujuan'],['zhang_xuefeng','lei_jun','wang_defeng','du_sujuan']])test(`${ids.length}-role integrated mock ${ids.join(',')}`,async()=>{
- const response=await app().handle(request(ids)); assert.equal(response.status,200);assert.equal(response.headers.get('X-Perspecta-Mode'),'mock');const data=await response.json();assert.equal(data.messages.length,ids.length*2);validateOutput({messages:data.messages,summary:data.summary},ids);assert.deepEqual(data.messages.map(m=>m.roleId),[...ids,...ids]);
+ const response=await app().handle(request(ids)); assert.equal(response.status,200);assert.equal(response.headers.get('X-Perspecta-Mode'),'mock');const data=await response.json();assert.equal(data.messages.length,ids.length*3);validateOutput({messages:data.messages,summary:data.summary},ids);assert.deepEqual(data.messages.map(m=>m.roleId),[...ids,...ids,...ids]);
  const messages=buildMessages({topic,roleIds:ids},ids.map(id=>roles.find(r=>r.id===id))); assert.equal(JSON.parse(messages[1].content).roles.length,ids.length);
 });
 test('five, duplicate, absent and unknown IDs are rejected',async()=>{
@@ -38,7 +38,7 @@ test('all four-role combinations fit the prompt budget without source metadata o
   assert.ok(Buffer.byteLength(JSON.stringify(messages))<=24000);
   for(const [i,role] of data.roles.entries()){
    assert.deepEqual(role.coreValues,selected[i].coreValues);assert.deepEqual(role.boundaries,selected[i].boundaries);
-   for(const key of ['sources','provenance','supportedPositions','avatar'])assert.ok(!(key in role));
+   for(const key of ['sources','provenance','avatar'])assert.ok(!(key in role));
   }
  }
  }

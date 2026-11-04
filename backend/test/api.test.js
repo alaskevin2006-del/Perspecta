@@ -30,7 +30,7 @@ test('recommended topics preserve documented IDs and prompts', async () => {
 });
 
 for (const roleIds of [ids, ['risk_analyst', 'growth_explorer'], ['career_realist', 'risk_analyst'], ['growth_explorer', 'career_realist']]) {
-  test(`mock returns two valid rounds for ${roleIds.join(',')}`, async () => {
+  test(`mock returns three valid rounds for ${roleIds.join(',')}`, async () => {
     const response = await createMockApp().handle(request({ topic: `  ${topic}  `, roleIds }));
     assert.equal(response.status, 200);
     assert.equal(response.headers.get('X-Perspecta-Mode'), 'mock');
@@ -38,14 +38,14 @@ for (const roleIds of [ids, ['risk_analyst', 'growth_explorer'], ['career_realis
     assert.deepEqual(Object.keys(result).sort(), ['discussionId', 'messages', 'summary', 'topic', 'usage']);
     assert.equal(result.discussionId, 'demo-001');
     assert.equal(result.topic, topic);
-    assert.equal(result.messages.length, roleIds.length * 2);
-    assert.deepEqual(result.messages.map(m => m.roleId), [...roleIds, ...roleIds]);
+    assert.equal(result.messages.length, roleIds.length * 3);
+    assert.deepEqual(result.messages.map(m => m.roleId), [...roleIds, ...roleIds, ...roleIds]);
     const first = result.messages.slice(0, roleIds.length);
     for (const m of first) { assert.equal(m.round, 1); assert.equal(m.replyTo, null); }
-    for (const m of result.messages.slice(roleIds.length)) {
-      assert.equal(m.round, 2);
-      assert.ok(first.some(f => f.id === m.replyTo && f.roleId !== m.roleId));
+    for (const [i,m] of result.messages.entries()) if (m.round>1) {
+      assert.ok(result.messages.slice(0,i).some(f => f.id === m.replyTo && f.roleId !== m.roleId));
     }
+    assert.ok(result.messages.some(m=>m.round===3 && result.messages.find(x=>x.id===m.replyTo)?.round===2));
     assert.deepEqual(Object.keys(result.summary).sort(), ['consensus', 'decisionFactors', 'disagreements', 'nextActions']);
     for (const values of Object.values(result.summary)) assert.ok(values.length > 0);
     assert.deepEqual(result.usage, { inputTokens: 0, outputTokens: 0 });

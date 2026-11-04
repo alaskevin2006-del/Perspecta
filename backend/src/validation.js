@@ -39,26 +39,29 @@ const text = (value, max) => typeof value === 'string' && value.trim().length > 
 // Unquoted paraphrases and quotes introduced as new concepts are left to human review.
 const attributedQuote = /(?:^|[。！？：:\n])\s*(?:回应\s*)?(?:你所说|你说过|你提到|你指出|你强调|你提出|你认为|你说)\s*[:：]?\s*[“"]([^”"\n]{6,80})[”"]/gu;
 
-export function validateOutput(value, roleIds) {
+export function validateOutput(value, roleIds, requiredRounds = null) {
   const invalid = () => {throw new ApiError('INVALID_MODEL_OUTPUT');};
-  if (!keys(value, ['messages', 'summary']) || !Array.isArray(value.messages) || value.messages.length !== 2 * roleIds.length ||
+  if (!keys(value, ['messages', 'summary']) || !Array.isArray(value.messages) || ![2, 3].includes(value.messages.length / roleIds.length) ||
     !keys(value.summary, ['consensus', 'disagreements', 'decisionFactors', 'nextActions'])) invalid();
-  const first = new Map();
+  if (requiredRounds !== null && value.messages.length !== requiredRounds * roleIds.length) invalid();
+  const prior = new Map();
   const ids = new Set();
   for (const [index, message] of value.messages.entries()) {
-    const round = index < roleIds.length ? 1 : 2;
+    const round = Math.floor(index / roleIds.length) + 1;
     if (!keys(message, ['id', 'round', 'roleId', 'content', 'replyTo']) || !text(message.id, 80) || ids.has(message.id) ||
       message.round !== round || !roleIds.includes(message.roleId) || !text(message.content, 600)) invalid();
     ids.add(message.id);
-    if (round === 1) {if (message.replyTo !== null) invalid(); first.set(message.id, message);}
+    if (round === 1) {if (message.replyTo !== null) invalid();}
     else {
-      if (typeof message.replyTo !== 'string' || !first.has(message.replyTo) || first.get(message.replyTo).roleId === message.roleId) invalid();
+      if (typeof message.replyTo !== 'string' || !prior.has(message.replyTo) || prior.get(message.replyTo).roleId === message.roleId) invalid();
       for (const [,quote] of message.content.matchAll(attributedQuote)) {
-        if (!first.get(message.replyTo).content.includes(quote)) invalid();
+        if (!prior.get(message.replyTo).content.includes(quote)) invalid();
       }
     }
+    prior.set(message.id, message);
   }
-  for (const round of [1, 2]) {
+  if (value.messages.length === 3 * roleIds.length && !value.messages.some(m => m.round === 3 && prior.get(m.replyTo)?.round === 2)) invalid();
+  for (const round of Array.from({length:value.messages.length / roleIds.length}, (_,i)=>i+1)) {
     const messages = value.messages.filter(m => m.round === round);
     if (new Set(messages.map(m => m.roleId)).size !== roleIds.length) invalid();
   }

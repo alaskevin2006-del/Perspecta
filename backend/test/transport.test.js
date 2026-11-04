@@ -46,7 +46,7 @@ for (const provider of ['openai','deepseek']) test(`${provider} same-origin prox
   assert.equal(response.status,200);
   const result=await response.json();
   assert.deepEqual(Object.keys(result).sort(),['discussionId','messages','summary','topic','usage']);
-  assert.equal(result.messages.length,6);
+  assert.equal(result.messages.length,9);
   assert.deepEqual(result.usage,{inputTokens:120,outputTokens:300});
   assert.equal(calls.length,1);
   assert.equal(calls[0].path,'/v1/chat/completions');

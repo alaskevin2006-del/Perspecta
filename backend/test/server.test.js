@@ -18,5 +18,5 @@ test('real HTTP adapter exposes all routes as UTF-8 JSON without transcript pers
   const response = await fetch(`${base}/api/debate`, {method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({topic:'大学阶段时间有限，应该优先投入绩点还是项目实践？', roleIds:['career_realist','risk_analyst']})});
   assert.equal(response.status, 200);
-  assert.equal((await response.json()).messages.length, 4);
+  assert.equal((await response.json()).messages.length, 6);
 });

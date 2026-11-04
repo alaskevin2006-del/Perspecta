@@ -36,7 +36,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         try {
           if (config.mode === 'mock') {
             const result = mockDebate(input);
-            validateOutput({messages:result.messages, summary:result.summary}, input.roleIds);
+            validateOutput({messages:result.messages, summary:result.summary}, input.roleIds, 3);
             return Response.json(result, {headers});
           }
           const signal = AbortSignal.any([request.signal, AbortSignal.timeout(config.timeoutMs)]);

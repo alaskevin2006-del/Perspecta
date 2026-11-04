@@ -42,7 +42,7 @@ const corruptions = {
   'missing message': v => {v.messages.pop();},
   'repeated role': v => {v.messages[1].roleId='career_realist';},
   'wrong round order': v => {v.messages.reverse();},
-  'second round reference': v => {v.messages[5].replyTo='m4';},
+  'future reference': v => {v.messages[3].replyTo='m5';},
   'self reference': v => {v.messages[3].replyTo='m1';},
   'first round reference': v => {v.messages[0].replyTo='m2';},
   'blank content': v => {v.messages[0].content=' ';},
@@ -120,7 +120,7 @@ test('valid two-role live result retains selected order and cross-role reference
   const {config}=await upstream(t, (_req,res)=>send(res,completion(value)));
   const response=await createApp({config,logger:()=>{}}).handle(debateRequest({topic,roleIds:['risk_analyst','growth_explorer']}));
   assert.equal(response.status,200);
-  assert.equal((await response.json()).messages.length,4);
+  assert.equal((await response.json()).messages.length,6);
 });
 
 test('caller cancellation aborts generation and releases the concurrency slot', async t => {

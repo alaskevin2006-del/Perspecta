@@ -1,5 +1,5 @@
 export type Role = { id: string; name: string; tagline: string; description?: string; avatar?: string };
-export type Message = { id: string; round: 1 | 2; roleId: string; content: string; replyTo: string | null };
+export type Message = { id: string; round: 1 | 2 | 3; roleId: string; content: string; replyTo: string | null };
 export const sections = [['consensus','主要共识'],['disagreements','核心分歧'],['decisionFactors','关键变量'],['nextActions','下一步行动']] as const;
 export type Debate = { discussionId: string; topic: string; messages: Message[]; summary: Record<typeof sections[number][0], string[]>; usage: { inputTokens: number; outputTokens: number } | null };
 export const roles: Role[] = [
@@ -23,20 +23,22 @@ const opinions = [
 export function makeMock(topic: string, ids: string[]): Debate {
  const first: Message[] = ids.map((roleId,i)=>({id:`m${i+1}`,round:1,roleId,content:opinions[Math.max(0,roles.findIndex(r=>r.id===roleId))],replyTo:null}));
  const second: Message[] = ids.map((roleId,i)=>({id:`m${ids.length+i+1}`,round:2,roleId,replyTo:first[(i+1)%ids.length].id,content:`回应${roles.find(r=>r.id===ids[(i+1)%ids.length])?.name ?? '另一位嘉宾'}的观点：${['我认可通过实践取得反馈，但试错也要考虑时间和资源。如果尚未达到必要门槛，可以先用每周固定的小段时间验证兴趣，再决定是否扩大投入。','现实条件需要被认真对待，但也要避免用短期评价排除所有尝试。可以先做一个四周内可完成的实验，用实际成果判断是否值得继续。','探索与规划并不矛盾，真正的分歧在于如何评价投入的价值。先说明自己的目标和可承担的代价，讨论才不会停留在彼此都正确的口号上。','我赞同明确条件，也想补充：目标可能会随着经验改变。给自己设置一次回顾的时间，比要求现在就作出永远正确的选择更可行。'][i%4]}`}));
- return {discussionId:`demo-${Date.now()}`,topic,messages:[...first,...second],summary:{consensus:['先明确个人目标与现实条件，再讨论时间如何分配。','实践需要产生反馈，规划也应保留调整的空间。'],disagreements:['有限时间应先满足外部门槛，还是优先投资探索与长期能力？'],decisionFactors:['目标是否存在硬性门槛，以及当前离门槛有多远。','可投入时间、试错成本与项目能否形成真实成果。','当前目标的确定程度，以及选择能否回退。'],nextActions:['列出目标、硬性条件与每周可支配时间。','设计一个四周内能交付的小任务，并约定回顾日期。']},usage:null};
+ const third: Message[] = ids.map((roleId,i)=>({id:`m${2*ids.length+i+1}`,round:3,roleId,replyTo:second[(i+1)%ids.length].id,content:"回应前面的观点：既要确认现实条件，也要给尝试留出空间。可以从小规模行动开始，得到反馈后再调整投入，不必把一种选择当作所有人的答案。"}));
+ return {discussionId:`demo-${Date.now()}`,topic,messages:[...first,...second,...third],summary:{consensus:['先明确个人目标与现实条件，再讨论时间如何分配。','实践需要产生反馈，规划也应保留调整的空间。'],disagreements:['有限时间应先满足外部门槛，还是优先投资探索与长期能力？'],decisionFactors:['目标是否存在硬性门槛，以及当前离门槛有多远。','可投入时间、试错成本与项目能否形成真实成果。','当前目标的确定程度，以及选择能否回退。'],nextActions:['列出目标、硬性条件与每周可支配时间。','设计一个四周内能交付的小任务，并约定回顾日期。']},usage:null};
 }
 export function validateDebate(value: unknown, ids: string[]): asserts value is Debate {
  if (!value || typeof value !== 'object') throw new Error('讨论结果为空');
  const d=value as Debate;
- if(typeof d.discussionId!=='string'||typeof d.topic!=='string'||!Array.isArray(d.messages)||d.messages.length!==ids.length*2) throw new Error('讨论结果的字段或发言数量不完整');
+ if(typeof d.discussionId!=='string'||typeof d.topic!=='string'||!Array.isArray(d.messages)||![2,3].includes(d.messages.length/ids.length)) throw new Error('讨论结果的字段或发言数量不完整');
  const seen=new Set<string>();
  d.messages.forEach((m,i)=>{
- if(!m||typeof m.id!=='string'||seen.has(m.id)||!ids.includes(m.roleId)||m.round!==(i<ids.length?1:2)||typeof m.content!=='string'||!m.content.trim()) throw new Error('讨论发言格式有误');
+ if(!m||typeof m.id!=='string'||seen.has(m.id)||!ids.includes(m.roleId)||m.round!==Math.floor(i/ids.length)+1||typeof m.content!=='string'||!m.content.trim()) throw new Error('讨论发言格式有误');
  seen.add(m.id);
  if(m.round===1&&m.replyTo!==null) throw new Error('第一轮不应包含回应');
- if(m.round===2&&!d.messages.slice(0,ids.length).some(x=>x.id===m.replyTo&&x.roleId!==m.roleId)) throw new Error('第二轮必须回应另一位角色的第一轮观点');
+ if(m.round>1&&!d.messages.slice(0,i).some(x=>x.id===m.replyTo&&x.roleId!==m.roleId)) throw new Error('回应必须指向另一位角色此前的发言');
  });
- for(const id of ids) for(const round of [1,2]) if(d.messages.filter(m=>m.roleId===id&&m.round===round).length!==1) throw new Error('角色发言分配有误');
+ if(d.messages.length===ids.length*3&&!d.messages.some(m=>m.round===3&&d.messages.find(x=>x.id===m.replyTo)?.round===2)) throw new Error('第三轮必须继续回应第二轮');
+ for(const id of ids) for(const round of Array.from({length:d.messages.length/ids.length},(_,i)=>i+1)) if(d.messages.filter(m=>m.roleId===id&&m.round===round).length!==1) throw new Error('角色发言分配有误');
  for(const [key] of sections) if(!Array.isArray(d.summary?.[key])||!d.summary[key].length||d.summary[key].some(x=>typeof x!=='string'||!x.trim())) throw new Error('讨论总结不完整');
 }
 export const isMock = import.meta.env?.VITE_API_MODE !== 'live';

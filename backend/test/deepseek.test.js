@@ -130,10 +130,10 @@ test('model prompt includes a concrete two-round JSON example with only the sele
   const system=calls[0].body.messages[0].content;
   let example;
   assert.doesNotThrow(()=>{example=JSON.parse(system.slice(system.lastIndexOf('\n')+1));});
-  assert.equal(example.messages.length,6);
-  assert.deepEqual(example.messages.map(m=>m.round),[1,1,1,2,2,2]);
-  assert.deepEqual(example.messages.map(m=>m.roleId),['career_realist','growth_explorer','risk_analyst','career_realist','growth_explorer','risk_analyst']);
-  assert.deepEqual(example.messages.slice(3).map(m=>m.replyTo),['m2','m3','m1']);
+  assert.equal(example.messages.length,9);
+  assert.deepEqual(example.messages.map(m=>m.round),[1,1,1,2,2,2,3,3,3]);
+  assert.deepEqual(example.messages.map(m=>m.roleId),['career_realist','growth_explorer','risk_analyst','career_realist','growth_explorer','risk_analyst','career_realist','growth_explorer','risk_analyst']);
+  assert.deepEqual(example.messages.slice(3).map(m=>m.replyTo),['m2','m3','m1','m5','m6','m4']);
   assert.deepEqual(Object.keys(example.summary).sort(),['consensus','decisionFactors','disagreements','nextActions']);
 });
 
@@ -143,9 +143,9 @@ test('DeepSeek two-role selection uses a four-message prompt example and returns
   const {config,calls}=await upstream(t,(_req,res)=>send(res,completion(value)));config.provider='deepseek';
   const response=await createApp({config,logger:()=>{}}).handle(debateRequest({topic:'在有限时间内如何平衡绩点和项目投入？',roleIds:['risk_analyst','growth_explorer']}));
   assert.equal(response.status,200);
-  assert.equal((await response.json()).messages.length,4);
+  assert.equal((await response.json()).messages.length,6);
   const system=calls[0].body.messages[0].content;
   const example=JSON.parse(system.slice(system.lastIndexOf('\n')+1));
-  assert.deepEqual(example.messages.map(m=>m.roleId),['risk_analyst','growth_explorer','risk_analyst','growth_explorer']);
-  assert.deepEqual(example.messages.slice(2).map(m=>m.replyTo),['m2','m1']);
+  assert.deepEqual(example.messages.map(m=>m.roleId),['risk_analyst','growth_explorer','risk_analyst','growth_explorer','risk_analyst','growth_explorer']);
+  assert.deepEqual(example.messages.slice(2).map(m=>m.replyTo),['m2','m1','m4','m3']);
 });

@@ -3,7 +3,7 @@ export interface RoleCard { id: string; name: string; tagline: string; descripti
 export interface Topic { id: string; title: string; prompt: string }
 /** topic: 10–300 Unicode code points; roleIds: 2–4 distinct catalog IDs. */
 export interface DebateRequest { topic: string; roleIds: string[] }
-export interface DebateMessage { id: string; round: 1 | 2; roleId: string; content: string; replyTo: string | null }
+export interface DebateMessage { id: string; round: 1 | 2 | 3; roleId: string; content: string; replyTo: string | null }
 export interface DebateSummary { consensus: string[]; disagreements: string[]; decisionFactors: string[]; nextActions: string[] }
 export interface DebateUsage { inputTokens: number; outputTokens: number }
 export interface DebateResponse { discussionId: string; topic: string; messages: DebateMessage[]; summary: DebateSummary; usage: DebateUsage | null }

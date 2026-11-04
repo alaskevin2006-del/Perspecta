@@ -18,9 +18,11 @@ const response=await fetch(`${base}/api/debate`, {method:'POST',headers:{'Conten
 assert.equal(response.status,200);
 const result=await response.json();
 assert.equal(result.topic,topic);
-assert.equal(result.messages.length,roleIds.length*2);
-const first=result.messages.slice(0,roleIds.length);
-assert.ok(first.every(m=>m.round===1 && m.replyTo===null));
-assert.ok(result.messages.slice(roleIds.length).every(m=>m.round===2 && first.some(f=>f.id===m.replyTo && f.roleId!==m.roleId)));
+assert.ok([2,3].includes(result.messages.length/roleIds.length));
+for (const [i,m] of result.messages.entries()) {
+ assert.equal(m.round,Math.floor(i/roleIds.length)+1);
+ if(m.round===1) assert.equal(m.replyTo,null);
+ else assert.ok(result.messages.slice(0,i).some(p=>p.id===m.replyTo && p.roleId!==m.roleId));
+}
 for (const key of ['consensus','disagreements','decisionFactors','nextActions']) assert.ok(Array.isArray(result.summary[key]) && result.summary[key].length>0);
 console.log(JSON.stringify({result:'PASS',mode,endpoints:3,roles:roles.length,topics:topics.length,messages:result.messages.length}));
