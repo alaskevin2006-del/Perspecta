@@ -45,10 +45,12 @@ test('long backend identities wrap without ellipsis and catalog can scroll',()=>
 });
 
 import * as data from './data';
-for(const count of [2,3,4])test(`new frontend conversation validates ${count*4} chained turns`,()=>{
+for(const count of [2,3,4])test(`new frontend conversation validates ${count*4} mixed reply turns`,()=>{
  const ids=roles.slice(0,count).map(r=>r.id);const result=makeMock('用于检查角色接话的讨论议题',ids,4);
  assert.equal(result.messages.length,count*4);assert.doesNotThrow(()=>validateDebate(result,ids,4));
- for(let i=1;i<result.messages.length;i++)assert.equal(result.messages[i].replyTo,result.messages[i-1].id);
+ assert.ok(result.messages.slice(0,count).every(m=>m.replyTo===null));
+ for(const m of result.messages.filter(m=>m.round===3)){const target=result.messages.find(p=>p.id===m.replyTo)!;assert.equal(result.messages.find(p=>p.id===target.replyTo)!.roleId,m.roleId);}
+ for(const round of [2,3,4])assert.ok(result.messages.filter(m=>m.round===round&&result.messages.find(p=>p.id===m.replyTo)!.round<round).length>=Math.min(2,count));
  const invalid=structuredClone(result);invalid.messages[count].replyTo=null;assert.throws(()=>validateDebate(invalid,ids,4));
 });
 test('legacy frontend validation stays available explicitly',()=>{
@@ -59,7 +61,7 @@ test('legacy frontend validation stays available explicitly',()=>{
 test('four stage labels and exported text preserve mode and all messages',()=>{
  assert.equal(typeof data.formatDebateText,'function');assert.deepEqual(data.discussionStages,['抛出争点','质疑与反例','回应与修正','条件与未决']);
  const ids=roles.map(r=>r.id);const result=makeMock('导出测试议题需要足够长度',ids,4);const text=data.formatDebateText(result,roles,'mock');
- assert.match(text,/模拟演示/);for(const m of result.messages)assert.ok(text.includes(m.content));for(const key of ['consensus','disagreements','decisionFactors','nextActions'] as const)for(const line of result.summary[key])assert.ok(text.includes(line));
+ assert.match(text,/模拟演示/);assert.match(text,/接第5条/);for(const m of result.messages)assert.ok(text.includes(m.content));for(const key of ['consensus','disagreements','decisionFactors','nextActions'] as const)for(const line of result.summary[key])assert.ok(text.includes(line));
 });
 test('optional unknown-avatar URLs work without treating asset keys or scripts as images',()=>{
  assert.equal(typeof data.avatarImageSource,'function');assert.equal(data.avatarImageSource('career'),undefined);assert.equal(data.avatarImageSource('javascript:alert(1)'),undefined);
@@ -68,3 +70,8 @@ test('optional unknown-avatar URLs work without treating asset keys or scripts a
 });
 
  test('teammate three-round records remain valid and export the third round',()=>{const d=makeMock('大学阶段如何平衡绩点与实践？',roles.slice(0,4).map(r=>r.id),3);validateDebate(d,roles.slice(0,4).map(r=>r.id),3);assert.match(formatDebateText(d,roles,'mock'),/第三轮/);});
+
+test('old relay four-stage records require explicit historical validation',()=>{
+ const d=JSON.parse(readFileSync(new URL('../backend/examples/live-continuous-gpa-20261104.json',import.meta.url),'utf8'));const ids=['zhang_xuefeng','lei_jun','wang_defeng','du_sujuan'];
+ assert.throws(()=>validateDebate(d,ids,4));assert.doesNotThrow(()=>validateDebate(d,ids,4,{legacyFour:true}));
+});

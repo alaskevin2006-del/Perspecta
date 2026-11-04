@@ -9,29 +9,20 @@ import {loadConfig} from '../src/config.js';
 import {createApp} from '../src/app.js';
 import {completion,topic} from '../test-support/upstream.js';
 const all=['zhang_xuefeng','lei_jun','wang_defeng','du_sujuan'];
-const orders={2:[[0,1],[0,1],[0,1],[0,1]],3:[[0,1,2],[1,0,2],[0,2,1],[2,1,0]],4:[[0,1,2,3],[0,3,2,1],[2,0,3,1],[3,1,0,2]]};
-function fixture(ids){
- const messages=orders[ids.length].flatMap((order,r)=>order.map((i,j)=>{
-  const k=r*ids.length+j+1;
-  return {id:`m${k}`,round:r+1,roleId:ids[i],content:`明确论点${k}：应在必要条件核实后比较投入；判断依据应包括实际任务和可承受代价，而不是只按单一指标排序。`,replyTo:k===1?null:`m${k-1}`};
- }));
- return {messages,summary:{consensus:['必要条件要核查。'],disagreements:['何时扩大探索仍有不同判断。'],decisionFactors:['目标与资源。'],nextActions:['若必要条件未满足则先补足，再比较小规模尝试。']}};
-}
+const rows={2:[[0,1,null],[1,1,null],[0,2,2],[1,2,1],[0,3,4],[1,3,3],[0,4,6],[1,4,5]],3:[[0,1,null],[1,1,null],[2,1,null],[0,2,3],[1,2,1],[2,2,2],[0,3,5],[1,3,6],[2,3,4],[0,4,9],[1,4,7],[2,4,8]],4:[[0,1,null],[1,1,null],[2,1,null],[3,1,null],[0,2,4],[3,2,5],[2,2,2],[1,2,7],[0,3,6],[3,3,9],[2,3,8],[1,3,11],[0,4,12],[1,4,10],[2,4,9],[3,4,11]]};
+function fixture(ids){return {messages:rows[ids.length].map(([i,round,target],k)=>({id:`m${k+1}`,round,roleId:ids[i],content:`明确论点${k+1}：应在必要条件核实后比较投入；判断依据应包括实际任务和可承受代价，而不是只按单一指标排序。`,replyTo:target?`m${target}`:null})),summary:{consensus:['必要条件要核查。'],disagreements:['何时扩大探索仍有不同判断。'],decisionFactors:['目标与资源。'],nextActions:['若必要条件未满足则先补足，再比较小规模尝试。']}};}
 const post=body=>new Request('http://localhost/api/debate',{method:'POST',body:JSON.stringify(body)});
 test('optional rounds selects four stages while old requests remain two',()=>{
  assert.equal(validateInput({topic,roleIds:all,rounds:4},roles).rounds,4);
  assert.equal(validateInput({topic,roleIds:all},roles).rounds,2);
  for(const rounds of [null,0,1,5,'4',true,[],{}])assert.throws(()=>validateInput({topic,roleIds:all,rounds},roles));
 });
-for(const n of [2,3,4])test(`four stages balance ${n} roles and continuously chain ${n*4} turns`,()=>{
+for(const n of [2,3,4])test(`four stages balance ${n} roles and revisit earlier arguments in ${n*4} turns`,()=>{
  const ids=all.slice(0,n);const valid=fixture(ids);
  assert.doesNotThrow(()=>validateOutput(valid,ids,{rounds:4}));
  const result=mockDebate({topic,roleIds:ids,rounds:4});assert.equal(result.messages.length,n*4);
  assert.doesNotThrow(()=>validateOutput({messages:result.messages,summary:result.summary},ids,{rounds:4}));
- for(let i=1;i<result.messages.length;i++){
-  assert.equal(result.messages[i].replyTo,result.messages[i-1].id);
-  assert.notEqual(result.messages[i].roleId,result.messages[i-1].roleId);
- }
+ for(const m of result.messages.filter(m=>m.replyTo))assert.notEqual(m.roleId,result.messages.find(p=>p.id===m.replyTo).roleId);
  if(n>2)for(const id of ids){const targets=result.messages.filter(m=>m.roleId===id&&m.replyTo).map(m=>result.messages.find(x=>x.id===m.replyTo).roleId);assert.ok(new Set(targets).size>=2);}
 });
 const mutations={
@@ -41,7 +32,7 @@ const mutations={
  'missing stage':v=>{v.messages[12].round=3;},
  'stage role duplicated':v=>{v.messages[2].roleId=v.messages[0].roleId;},
  'first refers to later turn':v=>{v.messages[0].replyTo='m2';},
- 'nonadjacent earlier turn':v=>{v.messages[6].replyTo='m1';},
+ 'missing third-stage callback':v=>{v.messages[8].replyTo='m7';},
  'future reference':v=>{v.messages[6].replyTo='m8';},
  'missing ongoing reply':v=>{v.messages[4].replyTo=null;},
  'same speaker across stage boundary':v=>{[v.messages[4].roleId,v.messages[5].roleId]=[v.messages[5].roleId,v.messages[4].roleId];},
@@ -51,8 +42,8 @@ const mutations={
 for(const [label,mutate] of Object.entries(mutations))test(`new conversation rejects ${label}`,()=>{
  const value=fixture(all);assert.doesNotThrow(()=>validateOutput(value,all,{rounds:4}));mutate(value);assert.throws(()=>validateOutput(value,all,{rounds:4}));
 });
-test('new explicit excerpt may quote the immediately previous later-stage turn',()=>{
- const value=fixture(all);value.messages[6].content=`回应对方“${value.messages[5].content.slice(0,12)}”：这个限制还需补充。`;
+test('new explicit excerpt may quote the correct earlier referenced turn',()=>{
+ const value=fixture(all);value.messages[6].content=`回应对方“${value.messages[1].content.slice(0,12)}”：这个限制还需补充。`;
  assert.doesNotThrow(()=>validateOutput(value,all,{rounds:4}));
 });
 test('new profile payload restores positions and traceable character-specific ideas within budget',()=>{
@@ -97,17 +88,17 @@ test('actual first sixteen-turn response is rejected for a fabricated attributed
  assert.equal(value.messages.length,16);
  assert.ok(value.messages[6].content.includes('有限尝试'));
  assert.ok(!value.messages[5].content.includes('有限尝试'));
- assert.throws(()=>validateOutput(value,all,{rounds:4}));
+ assert.throws(()=>validateOutput(value,all,{rounds:4,legacyFour:true}));
  const withoutMisquote=structuredClone(value);withoutMisquote.messages[6].content=withoutMisquote.messages[6].content.replace('“有限尝试”','有限时间内的小范围尝试');
- assert.doesNotThrow(()=>validateOutput(withoutMisquote,all,{rounds:4}));
+ assert.doesNotThrow(()=>validateOutput(withoutMisquote,all,{rounds:4,legacyFour:true}));
  // This edited copy is only an isolated validation probe, never published as a generated success.
 });
 
 test('actual second sixteen-turn response rejects extra summary fields and four-item arrays',()=>{
  const value=JSON.parse(readFileSync(new URL('./fixtures/live-conversation-summary-mismatch-20261104.json',import.meta.url),'utf8'));
  assert.equal(value.messages.length,16);assert.ok(value.summary.nextActions_note);assert.equal(value.summary.decisionFactors.length,4);
- assert.throws(()=>validateOutput(value,all,{rounds:4}));
- const probe=structuredClone(value);delete probe.summary.nextActions_note;assert.throws(()=>validateOutput(probe,all,{rounds:4}));
- probe.summary.decisionFactors.pop();assert.doesNotThrow(()=>validateOutput(probe,all,{rounds:4}));
+ assert.throws(()=>validateOutput(value,all,{rounds:4,legacyFour:true}));
+ const probe=structuredClone(value);delete probe.summary.nextActions_note;assert.throws(()=>validateOutput(probe,all,{rounds:4,legacyFour:true}));
+ probe.summary.decisionFactors.pop();assert.doesNotThrow(()=>validateOutput(probe,all,{rounds:4,legacyFour:true}));
  // Only a unit validation probe; the raw rejected response is never presented as success.
 });

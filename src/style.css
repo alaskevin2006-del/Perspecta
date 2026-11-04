@@ -301,3 +301,5 @@ textarea:focus{outline:none;border-bottom-color:#354c41;background:#fff9eb45}tex
 .stage-bottom .steps{flex-wrap:wrap;gap:8px 12px;font-size:11px}
 .stage-bottom .steps span{white-space:nowrap}
 .guest-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+.speaker .reply-target{display:block;font-size:12px;line-height:1.4;color:#756f60;margin:-7px 0 7px;}

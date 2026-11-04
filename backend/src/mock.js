@@ -11,7 +11,7 @@ export function mockDebate({topic, roleIds, rounds=2}) {
       '刚才把评价标准放在了结果上，这个前提仍可追问：行动本身是否有价值？接受现实责任，并不等于只承认单一排名。',
       '反例提醒了探索的必要，但不能据此忽略支持条件；若时间和资源不足，应缩小尝试，而不是把选择说成非此即彼。',
     ];
-    const messages=plan.map((turn,i)=>({...turn,content:i===0?points[0]:`${roles.find(r=>r.id===plan[i-1].roleId)?.name??plan[i-1].roleId}，${points[i%points.length]}`}));
+    const messages=plan.map(turn=>({...turn,content:`固定模拟占位：${roles.find(r=>r.id===turn.roleId)?.name??turn.roleId}，第${turn.round}阶段。${points[turn.round-1]}`}));
     return {...structuredClone(demo),topic,messages};
   }
   const messages = [1, 2].flatMap(round => roleIds.map((roleId, index) => {
