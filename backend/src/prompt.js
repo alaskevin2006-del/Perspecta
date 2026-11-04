@@ -1,4 +1,8 @@
 export function buildMessages(input, roles) {
+  // Keep full provenance in the catalog; the model receives only bounded discussion traits.
+  // Source documents, reference URLs and delivery templates are not runtime instructions.
+  const profiles = roles.map(({id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries}) =>
+    ({id,name,tagline,description,coreValues,typicalQuestions,speakingStyle,boundaries}));
   const example = {
     messages: [1,2].flatMap(round => roles.map((role,index) => ({
       id:`m${(round-1)*roles.length+index+1}`, round, roleId:role.id,
@@ -26,6 +30,6 @@ nextActions 至少一条写明条件与对应行动，例如在必要条件尚�
 谈到全体参与者时使用各角色，不把三人或四人讨论写成双方。
 以下 JSON 仅演示结构和引用，占位文案不可复用，实际内容必须围绕用户议题：
 ${JSON.stringify(example)}`},
-    {role: 'user', content: JSON.stringify({topic: input.topic, roles, rounds: 2})},
+    {role: 'user', content: JSON.stringify({topic: input.topic, roles: profiles, rounds: 2})},
   ];
 }

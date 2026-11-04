@@ -1,0 +1,272 @@
+{
+  "runKind": "REAL_SINGLE_REQUEST",
+  "model": "deepseek-flash",
+  "provider": "deepseek",
+  "maxOutputTokens": 3000,
+  "attempts": 1,
+  "topic": "大学阶段时间有限，应该优先投入绩点还是项目实践？",
+  "roleIds": [
+    "zhang_xuefeng",
+    "lei_jun",
+    "wang_defeng",
+    "du_sujuan"
+  ],
+  "sourceBase": "69595c606ede66ebf11b8bacc48709fb993c54dd",
+  "sourceHashes": {
+    "backend/src/prompt.js": "d49cd4bb7daa705c92d1a7603023fdd27179ffa4ec316e7f723dd8b4252325df",
+    "backend/data/roles.json": "1d7c912e2d347ac6a8aef21e810886c41b08c5228f3c299c9f7e823eeb9e78c4",
+    "backend/src/model.js": "3f6ba91f7528104a9b276b7f791f919a0bd78fbb5ab7e420d3f5d40804c74309",
+    "src/data.ts": "3a436777b5402dbf8c89ce40dde9dcf062d9b83101d51d14d8d31f6cf54f05df"
+  },
+  "startedAt": "2026-11-04T08:57:21.360Z",
+  "promptBytes": 11866,
+  "upstreamStatus": 200,
+  "upstreamFinishedAt": "2026-11-04T08:57:29.896Z",
+  "httpResults": [
+    {
+      "status": 200,
+      "at": "2026-11-04T08:57:29.901Z"
+    },
+    {
+      "status": 429,
+      "at": "2026-11-04T09:03:03.848Z"
+    }
+  ],
+  "telemetry": {
+    "discussionId": "fe64eaca-44f1-4e27-8821-803ea3ddfc07",
+    "mode": "live",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "durationMs": 8539,
+    "outcome": "success",
+    "usage": {
+      "inputTokens": 2508,
+      "outputTokens": 987
+    },
+    "usageDetails": {
+      "cacheHitTokens": 0,
+      "cacheMissTokens": 2508,
+      "totalTokens": 3495,
+      "reasoningTokens": null
+    },
+    "providerCost": null,
+    "upstreamStatus": 200,
+    "upstreamError": null
+  },
+  "stopped": true,
+  "date": "2026-11-04",
+  "branch": "integration/mock-personas-20261104",
+  "realModelRequests": 1,
+  "automaticRetries": 0,
+  "fallbacks": 0,
+  "conservativeTestCeilingUSD": 0.32,
+  "estimatedCost": {
+    "currency": "USD",
+    "amount": 0.0019368,
+    "ratesPerMillion": {
+      "cacheHit": 0.006,
+      "cacheMiss": 0.3,
+      "output": 1.2
+    },
+    "schedule": "weekday peak, 08:57 UTC",
+    "pricingURL": "https://api-docs.deepseek.com/quick_start/pricing/",
+    "providerAmount": null,
+    "invoiceVerified": false
+  },
+  "structure": {
+    "messages": 8,
+    "roundCounts": [
+      4,
+      4
+    ],
+    "summaryArrays": 4,
+    "passed": true
+  },
+  "literalQuotes": [
+    {
+      "messageId": "m5",
+      "replyTo": "m2",
+      "quotedText": "先把底线补上",
+      "literalSourcePass": true
+    },
+    {
+      "messageId": "m6",
+      "replyTo": "m3",
+      "quotedText": "按内在意义与责任分配时间",
+      "literalSourcePass": true
+    },
+    {
+      "messageId": "m7",
+      "replyTo": "m4",
+      "quotedText": "保留调整空间",
+      "literalSourcePass": true
+    },
+    {
+      "messageId": "m8",
+      "replyTo": "m1",
+      "quotedText": "绩点就是必要条件",
+      "literalSourcePass": true
+    }
+  ],
+  "quality": {
+    "personasDifferentiated": true,
+    "conditionalActions": true,
+    "knownLimitations": [
+      "m8 quotes a conditional conclusion as an excerpt and adds a partly redundant qualification; literal match does not prove contextual fidelity.",
+      "Two/four-week windows are generated suggestions, not externally verified requirements.",
+      "Persona source claims and image rights not approved by responsible owners."
+    ],
+    "productOwnerApproved": false
+  },
+  "browser": {
+    "engine": "Connected user Mac Chrome",
+    "actualFrontendProxyBackendProviderPath": true,
+    "mockPreflight": true,
+    "twoRoundsPlayed": true,
+    "historyReplyExpanded": true,
+    "summaryAndPNGPreview": true,
+    "quota429PreservesInput": true,
+    "downloadDirectoryVerified": false
+  },
+  "tests": {
+    "backend": {
+      "passed": 114,
+      "failed": 0
+    },
+    "frontend": {
+      "passed": 10,
+      "failed": 0
+    },
+    "build": "PASS",
+    "integrationSmoke": "PASS mock and synthetic errors",
+    "independentReview": "No blockers; 26 offline cases +1092 ordered role combinations; measured max 13894 prompt bytes across tested 300-codepoint types."
+  },
+  "cleanup": {
+    "servicesStopped": true,
+    "createdTabsClosed": true,
+    "viewportReset": true
+  },
+  "credentialsPublished": false,
+  "deployed": false,
+  "mainModified": false,
+  "notTested": [
+    "new real 2/3-person generations",
+    "other topics with these real personas",
+    "provider 4xx/5xx/timeouts under a paid call",
+    "mobile/Safari/Firefox",
+    "Docker/public deployment",
+    "invoice/remaining account balance"
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/live-ui-20261104/01-four-delivered-selected-mock.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "a8dc6cb9f5e63416634cdca376428b96c0ae0aec952f33a36679ae83aebd1bff",
+      "bytes": 163169
+    },
+    {
+      "path": "artifacts/live-ui-20261104/02-four-delivered-mock-playing.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "f1c8f88eba8f657a8543c9eacf9394de8c839aa772bfbd83150d8df328091548",
+      "bytes": 168530
+    },
+    {
+      "path": "artifacts/live-ui-20261104/03-four-delivered-mock-round-two.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "b4dd8e21fe73fe1624ed46a21388c586fc1370992e4bc2a626b2ae8806b06bdd",
+      "bytes": 176115
+    },
+    {
+      "path": "artifacts/live-ui-20261104/04-four-delivered-mock-summary.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "e57caa0c2a3770db4f67f70164d8249308268478284e2e63332917122fa61986",
+      "bytes": 179334
+    },
+    {
+      "path": "artifacts/live-ui-20261104/05-live-selected-before-call.jpg",
+      "width": 1200,
+      "height": 655,
+      "sha256": "93550d9161c560f1f95f50c455d71d394824a257c4644f063253e8140352d9dd",
+      "bytes": 127531
+    },
+    {
+      "path": "artifacts/live-ui-20261104/06-live-request-state.jpg",
+      "width": 1200,
+      "height": 655,
+      "sha256": "5815415fbaff486398c23bb8f6b47a650e7aed063f31c78337c70b5b8e7b28ac",
+      "bytes": 130268
+    },
+    {
+      "path": "artifacts/live-ui-20261104/07-live-playing-paused.jpg",
+      "width": 1200,
+      "height": 655,
+      "sha256": "def42510a267c567810c088e32ab4a8f802698fb7cc486e374d3ac153bc27a06",
+      "bytes": 137597
+    },
+    {
+      "path": "artifacts/live-ui-20261104/08-live-1366-paused.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "880ade04378efb14fb4169c92228070f18c397d13a391a3092e8b304907906fe",
+      "bytes": 176268
+    },
+    {
+      "path": "artifacts/live-ui-20261104/09-live-round-two.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "5eb951c437b0760b61399a74796009ecb1e24cca538932a70ad4c0a051805d1f",
+      "bytes": 178601
+    },
+    {
+      "path": "artifacts/live-ui-20261104/10-live-summary-1366.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "c126e6e95894b0da76903f6c390681a5109039fc55d1d76597b5d7b39ad567c8",
+      "bytes": 187540
+    },
+    {
+      "path": "artifacts/live-ui-20261104/11-live-summary-actions.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "a86560b7e1f13564c06a76b04ee606ae73387b5af7643a33835ed10f8abdf5b9",
+      "bytes": 186831
+    },
+    {
+      "path": "artifacts/live-ui-20261104/12-live-reply-record.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "e5ed75a89e04901a4bfe3c1df2e059cbcd1f7b17764232fb8bc5a34d101eca9e",
+      "bytes": 183736
+    },
+    {
+      "path": "artifacts/live-ui-20261104/13-live-export-preview.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "5f0ead190a6dbb1a3970ae97845115b6366ed18dd395185a99d2180c43ccb943",
+      "bytes": 97409
+    },
+    {
+      "path": "artifacts/live-ui-20261104/14-live-one-call-limit-error.jpg",
+      "width": 1366,
+      "height": 768,
+      "sha256": "720a433edba382432dc0c83f59ab2ac5f020aa219cdc5c97f9098ac7876ef7ce",
+      "bytes": 170183
+    },
+    {
+      "path": "artifacts/live-ui-20261104/live-exported-notes.png",
+      "width": 2000,
+      "height": 3398,
+      "sha256": "157f476687b9a64f3540a7daa30acff7b3f891bbfac4db8d08c224918054f222",
+      "bytes": 799452
+    }
+  ],
+  "remoteSourceRecheck": {
+    "main": "71dfeaa0dc12b8bbe8199b8e4793ac1d94b3c7f4",
+    "changeSinceSourceSnapshot": "Only empty 人物画像/雷军 placeholder removed; both delivered MD blobs unchanged.",
+    "preservedTeammateDeletion": true
+  }
+}
