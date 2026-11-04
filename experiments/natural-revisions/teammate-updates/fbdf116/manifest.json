@@ -1,0 +1,29 @@
+{
+  "commit": "fbdf1168ad24682f23abf06f712291517a5a06f3",
+  "authoredAt": "2026-11-04T15:02:19+00:00",
+  "base": "ac75a51009c3bd95cd3320eff0dc7f44442afaa4",
+  "status": "READ_ONLY_SNAPSHOT_NOT_ACTIVE_NOT_REAL_TESTED",
+  "reason": "Arrived after A2/B2 requests were frozen and after B2 dispatch. Preserve without changing the exact-tested default.",
+  "files": {
+    "backend/data/discussion-guidance.json": {
+      "stored": "backend/data/discussion-guidance.json",
+      "sha256": "dfa1efe4aa219f4465219c91178cc67085b05f8aab2123ae681b2aeb492bfaf6"
+    },
+    "backend/data/persona-speech-evidence.json": {
+      "stored": "backend/data/persona-speech-evidence.json",
+      "sha256": "a692c05649f594692dec4ba9631d947360a6bc2ea0309844674f50c8a55e73c8"
+    },
+    "backend/data/roles.json": {
+      "stored": "backend/data/roles.json",
+      "sha256": "9013ee7842fd8a0249b1c93ed908eb7186f3c72df012b8348aae7fa080bd236f"
+    },
+    "backend/test/persona-evidence.test.js": {
+      "stored": "backend/test/persona-evidence.test.js.txt",
+      "sha256": "955fa83f7e78da793df0538c890606a45b03b0e92206dbaacb29f4df2c40d0d8"
+    },
+    "人物画像/张雪峰/roles.json": {
+      "stored": "人物画像/张雪峰/roles.json",
+      "sha256": "afcc2951fb2eb32d75442691ce56e8bae54f9c737193481a67e36b5aed52a60e"
+    }
+  }
+}
