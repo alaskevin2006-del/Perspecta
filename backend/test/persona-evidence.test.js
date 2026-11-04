@@ -58,3 +58,14 @@ test('decision cases carry traceable, bounded context and reach each discussion 
   }
  }
 });
+
+test('Zhang Xuefeng receives restrained colloquial guidance in all discussion modes',()=>{
+ for(const rounds of [2,3,4]){
+  const body=JSON.parse(buildMessages({topic:topics[0],roleIds:ids,rounds},selected)[1].content);
+  const role=body.roles.find(r=>r.id==='zhang_xuefeng');
+  assert.match(role.speakingStyle,/口语/);
+  assert.match(role.speakingStyle,/语气词/);
+  assert.match(role.speakingStyle,/不堆方言/);
+  if(rounds>2){assert.match(role.discussionGuidance.voice,/不堆方言/);assert.match(role.discussionGuidance.speechEvidence,/具体例子/);}
+ }
+});
