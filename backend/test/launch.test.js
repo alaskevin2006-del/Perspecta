@@ -40,7 +40,7 @@ test('opted-in smoke CLI validates complete HTTP adapter against local fake upst
   const {result}=command(t,['scripts/smoke.mjs','--live'],{API_BASE_URL:base});
   const value=await bounded(result);
   assert.equal(value.code,0,value.stderr);
-  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',endpoints:3,roles:7,topics:3,messages:6});
+  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',endpoints:3,roles:4,topics:3,messages:6});
   assert.equal(calls.length,1);
 });
 
@@ -66,7 +66,7 @@ test('health CLI checks live-mode catalogs without attempting generation',async 
   const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:base});
   const value=await bounded(result);
   assert.equal(value.code,0,value.stderr);
-  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',roles:7,topics:3,generationRequests:0,providerConnectivityTested:false});
+  assert.deepEqual(JSON.parse(value.stdout),{result:'PASS',mode:'live',roles:4,topics:3,generationRequests:0,providerConnectivityTested:false});
   assert.equal(calls.length,0);
 });
 
@@ -100,7 +100,7 @@ test('health stays successful when generation quota is exhausted and does not re
   const {config,calls}=await upstream(t,(_req,res)=>send(res,completion()));
   config.sessionCallLimit=1;
   const base=await listen(t,createServer({config,logger:()=>{}}));
-  const body=JSON.stringify({topic:'大学阶段时间有限，应该优先投入绩点还是项目实践？',roleIds:['career_realist','growth_explorer','risk_analyst']});
+  const body=JSON.stringify({topic:'大学阶段时间有限，应该优先投入绩点还是项目实践？',roleIds:['zhang_xuefeng','du_sujuan','lei_jun']});
   assert.equal((await fetch(`${base}/api/debate`,{method:'POST',body})).status,200);
   const {result}=command(t,['scripts/health.mjs'],{API_BASE_URL:base});
   const value=await bounded(result);

@@ -40,7 +40,7 @@ const corruptions = {
   'duplicate IDs': v => {v.messages[1].id = 'm1';},
   'unknown role': v => {v.messages[0].roleId='intruder';},
   'missing message': v => {v.messages.pop();},
-  'repeated role': v => {v.messages[1].roleId='career_realist';},
+  'repeated role': v => {v.messages[1].roleId='zhang_xuefeng';},
   'wrong round order': v => {v.messages.reverse();},
   'second round reference': v => {v.messages[5].replyTo='m4';},
   'self reference': v => {v.messages[3].replyTo='m1';},
@@ -118,7 +118,7 @@ test('valid two-role live result retains selected order and cross-role reference
   value.messages=[value.messages[2],value.messages[1],value.messages[5],value.messages[4]];
   value.messages[2].replyTo='m2'; value.messages[3].replyTo='m3';
   const {config}=await upstream(t, (_req,res)=>send(res,completion(value)));
-  const response=await createApp({config,logger:()=>{}}).handle(debateRequest({topic,roleIds:['risk_analyst','growth_explorer']}));
+  const response=await createApp({config,logger:()=>{}}).handle(debateRequest({topic,roleIds:['lei_jun','du_sujuan']}));
   assert.equal(response.status,200);
   assert.equal((await response.json()).messages.length,4);
 });
