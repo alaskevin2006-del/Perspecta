@@ -34,3 +34,7 @@ test('current default request matches the separately frozen B3 version after tea
  const expected=JSON.stringify(frozen.messages),actual=JSON.stringify(buildMessages(manifest.input,selected));
  const hash=s=>createHash('sha256').update(s).digest('hex');assert.equal(hash(actual),hash(expected));
 });
+test('production adapter sends B3 exactly and accepts the unmodified real B3 result',async()=>{
+ const latest=new URL('../../experiments/voice-fbdf116/',import.meta.url),frozen=JSON.parse(readFileSync(new URL('request.json',latest),'utf8')),raw=JSON.parse(readFileSync(new URL('results/B3/raw-content.txt',latest),'utf8'));let calls=0;
+ const output=await generate(manifest.input,buildMessages(manifest.input,selected),{provider:'deepseek',baseUrl:'https://api.deepseek.com',apiKey:'FAKE-ONLY',model:'deepseek-flash',maxOutputTokens:4500,maxResponseBytes:65536},new AbortController().signal,async(url,options)=>{calls++;assert.equal(options.body,JSON.stringify(frozen));return Response.json({choices:[{finish_reason:'stop',message:{content:JSON.stringify(raw)}}]});});assert.equal(calls,1);assert.deepEqual(output.messages,raw.messages);assert.deepEqual(output.summary,raw.summary);
+});
