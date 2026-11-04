@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-11-04T10:29:41.274397+00:00",
-  "comparedTo": "integration worktree after v3 merge bd7ab20",
+  "checkedAt": "2026-11-04T10:32:07.030279+00:00",
+  "comparedTo": "integration worktree at31b9132; final audit metadata only follows",
   "branches": [
     {
       "ref": "origin/codex/frontend-handoff",
@@ -705,7 +705,7 @@
           "archivePath": null,
           "reason": "当前模式/文档/来源适配；具体功能保留及差异见conversation-integration-audit.md",
           "sourceSHA256": "0f5e688d7c9685aed02bc253d6609ed4b0d98fe160d648d1ece9be688188e6fb",
-          "integrationSHA256": "412c89b30f7dd8d796a777579c51de909fe4264480cfff3a81d90937ed52b01d"
+          "integrationSHA256": "ecf748375d421e519b8841e4ff16de872fad5998e715ad2b58b7e5027551bf5e"
         },
         {
           "path": "docs/frontend-integration.md",
@@ -1657,7 +1657,7 @@
           "archivePath": null,
           "reason": "当前模式/文档/来源适配；具体功能保留及差异见conversation-integration-audit.md",
           "sourceSHA256": "0f5e688d7c9685aed02bc253d6609ed4b0d98fe160d648d1ece9be688188e6fb",
-          "integrationSHA256": "412c89b30f7dd8d796a777579c51de909fe4264480cfff3a81d90937ed52b01d"
+          "integrationSHA256": "ecf748375d421e519b8841e4ff16de872fad5998e715ad2b58b7e5027551bf5e"
         },
         {
           "path": "docs/frontend-integration.md",
@@ -2853,7 +2853,7 @@
           "archivePath": null,
           "reason": "当前模式/文档/来源适配；具体功能保留及差异见conversation-integration-audit.md",
           "sourceSHA256": "0f5e688d7c9685aed02bc253d6609ed4b0d98fe160d648d1ece9be688188e6fb",
-          "integrationSHA256": "412c89b30f7dd8d796a777579c51de909fe4264480cfff3a81d90937ed52b01d"
+          "integrationSHA256": "ecf748375d421e519b8841e4ff16de872fad5998e715ad2b58b7e5027551bf5e"
         },
         {
           "path": "docs/frontend-integration.md",
@@ -3713,7 +3713,7 @@
           "archivePath": null,
           "reason": "当前模式/文档/来源适配；具体功能保留及差异见conversation-integration-audit.md",
           "sourceSHA256": "0f5e688d7c9685aed02bc253d6609ed4b0d98fe160d648d1ece9be688188e6fb",
-          "integrationSHA256": "412c89b30f7dd8d796a777579c51de909fe4264480cfff3a81d90937ed52b01d"
+          "integrationSHA256": "ecf748375d421e519b8841e4ff16de872fad5998e715ad2b58b7e5027551bf5e"
         },
         {
           "path": "docs/frontend-integration.md",
