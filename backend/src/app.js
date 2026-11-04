@@ -33,6 +33,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         let providerCost = null;
         let upstreamStatus = null;
         let upstreamError = null;
+        let outputDiagnostic = null;
         let outcome = 'success';
         try {
           if (config.mode === 'mock') {
@@ -51,6 +52,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
           return Response.json({discussionId, topic:input.topic, messages:result.messages, summary:result.summary, usage}, {headers});
         } catch (error) {
           outcome = error instanceof ApiError ? error.code : 'INTERNAL_ERROR';
+          if (error instanceof ApiError) outputDiagnostic = error.outputDiagnostic ?? null;
           if (error instanceof ApiError && error.telemetry) {
             ({usage, usageDetails, providerCost, upstreamStatus, upstreamError} = error.telemetry);
             if (usage) actualTokens = usage.inputTokens + usage.outputTokens;
@@ -61,7 +63,7 @@ export function createApp({config = loadConfig(), logger = event => console.log(
           if (config.mode === 'live') {
             // Do not include prompts, roles, provider bodies, keys or client addresses.
             try {logger({event:'debate_call', discussionId, mode:config.mode, provider:config.provider, model:config.model,
-              durationMs:now()-start, outcome, usage, usageDetails, providerCost, upstreamStatus, upstreamError});} catch { /* logging must not affect delivery */ }
+              durationMs:now()-start, outcome, usage, usageDetails, providerCost, upstreamStatus, upstreamError, outputDiagnostic});} catch { /* logging must not affect delivery */ }
           }
         }
       }
