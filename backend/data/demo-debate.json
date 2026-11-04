@@ -1,0 +1,70 @@
+{
+  "discussionId": "demo-001",
+  "topic": "大学阶段时间有限，应该优先投入绩点还是项目实践？",
+  "messages": [
+    {
+      "id": "m1",
+      "round": 1,
+      "roleId": "career_realist",
+      "content": "如果目标是申请有明确绩点门槛的项目，维持成绩底线通常应优先；在此基础上再选择能形成成果的项目。",
+      "replyTo": null
+    },
+    {
+      "id": "m2",
+      "round": 1,
+      "roleId": "growth_explorer",
+      "content": "只追求绩点可能缺少解决真实问题的机会。若课程成绩已满足目标，投入一次完整项目更有助于发现兴趣和能力短板。",
+      "replyTo": null
+    },
+    {
+      "id": "m3",
+      "round": 1,
+      "roleId": "risk_analyst",
+      "content": "不能脱离目标判断。先看升学门槛、现有成绩、项目的实际内容，再决定调整投入比例。",
+      "replyTo": null
+    },
+    {
+      "id": "m4",
+      "round": 2,
+      "roleId": "career_realist",
+      "content": "回应成长探索派：项目当然重要，但如果成绩仍低于目标门槛，额外项目未必能补偿硬性条件。",
+      "replyTo": "m2"
+    },
+    {
+      "id": "m5",
+      "round": 2,
+      "roleId": "growth_explorer",
+      "content": "回应现实规划派：我同意门槛存在，但应避免把所有时间用于边际提升很小的分数，而放弃有实际产出的机会。",
+      "replyTo": "m1"
+    },
+    {
+      "id": "m6",
+      "round": 2,
+      "roleId": "risk_analyst",
+      "content": "两方的分歧主要不在绩点或项目孰优，而在当前是否已跨过必要门槛，以及项目能否形成可验证成果。",
+      "replyTo": "m1"
+    }
+  ],
+  "summary": {
+    "consensus": [
+      "需要先明确个人目标和已有基础。"
+    ],
+    "disagreements": [
+      "成绩门槛与项目能力在当前阶段的优先顺序不同。"
+    ],
+    "decisionFactors": [
+      "目标项目是否有绩点硬门槛",
+      "当前绩点距离门槛的差距",
+      "项目能否产出可展示成果"
+    ],
+    "nextActions": [
+      "列出目标与硬性条件",
+      "评估未来四周可投入时间",
+      "选一个能够交付的最小项目任务"
+    ]
+  },
+  "usage": {
+    "inputTokens": 0,
+    "outputTokens": 0
+  }
+}

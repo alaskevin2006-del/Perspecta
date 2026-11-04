@@ -1,0 +1,130 @@
+{
+  "purpose": "revised prompt and remaining preset topics; each result reviewed before the next request",
+  "maxAdditionalRequests": 3,
+  "usedAdditionalRequests": 3,
+  "automaticRetries": 0,
+  "modelFallbacks": 0,
+  "inputTokens": 3247,
+  "outputTokens": 2435,
+  "cacheHitTokens": 896,
+  "cacheMissTokens": 2351,
+  "estimatedOffPeakModelFeeUsd": "0.001816338",
+  "providerReturnedAmount": false,
+  "invoiceVerified": false,
+  "priceSource": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "productApproved": false,
+  "cases": [
+    {
+      "caseId": "gpa",
+      "topicId": "gpa_or_projects",
+      "roleIds": [
+        "career_realist",
+        "growth_explorer",
+        "risk_analyst"
+      ],
+      "startedAt": "2026-11-03T05:40:11.771Z",
+      "finishedAt": "2026-11-03T05:40:18.699Z",
+      "sourceRevision": "1c37fbc2bf1faaa786bc49d42d4c4dce69cbf016",
+      "sourcePromptSha256": "6bea41bfdeba239320a960181e73218353609c745909bc72f193d87ed5e67a35",
+      "maxOutputTokens": 3000,
+      "upstreamAttempts": 1,
+      "httpStatus": 200,
+      "structureValid": true,
+      "usage": {
+        "inputTokens": 1150,
+        "outputTokens": 855
+      },
+      "usageDetails": {
+        "cacheHitTokens": 0,
+        "cacheMissTokens": 1150,
+        "totalTokens": 2005,
+        "reasoningTokens": null
+      },
+      "providerReportedCost": null,
+      "durationMs": 6898,
+      "temporaryServiceStopped": true,
+      "estimatedOffPeakModelFeeUsd": "0.0006855",
+      "engineeringQuality": "improved with minor wording/stance-paraphrase issues",
+      "productApproved": false
+    },
+    {
+      "caseId": "postgraduate",
+      "topicId": "postgraduate_or_work",
+      "roleIds": [
+        "career_realist",
+        "growth_explorer",
+        "risk_analyst"
+      ],
+      "startedAt": "2026-11-03T05:41:12.230Z",
+      "finishedAt": "2026-11-03T05:41:19.236Z",
+      "sourceRevision": "1c37fbc2bf1faaa786bc49d42d4c4dce69cbf016",
+      "sourcePromptSha256": "6bea41bfdeba239320a960181e73218353609c745909bc72f193d87ed5e67a35",
+      "maxOutputTokens": 3000,
+      "upstreamAttempts": 1,
+      "httpStatus": 200,
+      "structureValid": true,
+      "usage": {
+        "inputTokens": 1151,
+        "outputTokens": 950
+      },
+      "usageDetails": {
+        "cacheHitTokens": 640,
+        "cacheMissTokens": 511,
+        "totalTokens": 2101,
+        "reasoningTokens": null
+      },
+      "providerReportedCost": null,
+      "durationMs": 6987,
+      "temporaryServiceStopped": true,
+      "estimatedOffPeakModelFeeUsd": "0.00064857",
+      "engineeringQuality": "usable engineering sample; eligibility claims require content review",
+      "productApproved": false
+    },
+    {
+      "caseId": "stability",
+      "topicId": "stability_or_exploration",
+      "roleIds": [
+        "growth_explorer",
+        "risk_analyst"
+      ],
+      "startedAt": "2026-11-03T05:42:17.217Z",
+      "finishedAt": "2026-11-03T05:42:23.304Z",
+      "sourceRevision": "1c37fbc2bf1faaa786bc49d42d4c4dce69cbf016",
+      "sourcePromptSha256": "6bea41bfdeba239320a960181e73218353609c745909bc72f193d87ed5e67a35",
+      "maxOutputTokens": 2000,
+      "upstreamAttempts": 1,
+      "httpStatus": 200,
+      "structureValid": true,
+      "usage": {
+        "inputTokens": 946,
+        "outputTokens": 630
+      },
+      "usageDetails": {
+        "cacheHitTokens": 256,
+        "cacheMissTokens": 690,
+        "totalTokens": 1576,
+        "reasoningTokens": null
+      },
+      "providerReportedCost": null,
+      "durationMs": 6068,
+      "temporaryServiceStopped": true,
+      "estimatedOffPeakModelFeeUsd": "0.000482268",
+      "engineeringQuality": "quote source defect: final reply quotes round-two text while referencing round one",
+      "productApproved": false
+    }
+  ],
+  "approval": {
+    "additionalRequestsLimit": 3,
+    "conservativePerRequestUsd": "0.32",
+    "conservativeTotalUsd": "0.96",
+    "consumed": true
+  },
+  "postFixRealRequests": 0,
+  "currentValidatorRejectsKnownStabilityQuoteDefect": true,
+  "postFixOfflineSuite": {
+    "passed": 96,
+    "failed": 0,
+    "skipped": 0
+  },
+  "postFixPromptSha256": "49f420b16da8dec3da0c1bfbdc83a90b50cb95e0bc96dc38fa5f2a64a1b619fa"
+}

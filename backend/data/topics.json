@@ -1,0 +1,17 @@
+[
+  {
+    "id": "postgraduate_or_work",
+    "title": "考研还是就业？",
+    "prompt": "对大二学生而言，何时开始确定考研还是就业方向更合理？"
+  },
+  {
+    "id": "gpa_or_projects",
+    "title": "绩点还是项目实践？",
+    "prompt": "大学阶段时间有限，应该优先投入绩点还是项目实践？"
+  },
+  {
+    "id": "stability_or_exploration",
+    "title": "稳定还是探索？",
+    "prompt": "大学生应该尽早确定未来方向，还是广泛尝试？"
+  }
+]
