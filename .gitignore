@@ -20,7 +20,9 @@ build/
 __pycache__/
 *.pyc
 
-# Backend credentials (keep the empty example tracked)
-backend/.env
-backend/.env.*
+# 环境变量与凭据（保留 example 模板）
+.env*
+!.env.example
 !backend/.env.example
+
+.local-qa/

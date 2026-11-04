@@ -1,0 +1,289 @@
+:root{font-family:"Noto Sans SC Variable",sans-serif;color:#302b24;background:#261b12;font-synthesis:none;--pine:#34483d;--muted:#82705b;--rule:#c6ac87}*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer;color:inherit}button:disabled{cursor:default;opacity:.45}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #66794c;outline-offset:4px}button{border:0}h1,h2,h3,p{margin:0}h1,h2,h3,.brand,.chosen-topic{font-family:"Noto Serif SC Variable",serif}button{transition:background .2s,opacity .2s}.masthead{height:68px;padding:0 4%;display:flex;align-items:center;gap:26px;background:#312519;color:#f5ead4;border-bottom:1px solid #bda27c55}.brand{font-family:Georgia,serif;color:inherit;text-decoration:none;font-size:33px;white-space:nowrap}.brand span{margin-right:12px;font-size:38px;color:#ddc9a5}.tagline{font-family:"Noto Serif SC Variable",serif;font-size:14px;letter-spacing:2px;border-left:1px solid #a68b65;padding-left:26px}.mode{margin-left:auto;font-size:11px;letter-spacing:1px;color:#d5c4a8;border:1px solid #bca48166;padding:6px 11px;border-radius:20px}.scene-wrap{min-height:calc(100vh - 100px);display:flex;align-items:center;justify-content:center}.scene{width:min(100vw,calc((100vh - 100px)*1.777));aspect-ratio:1672/941;background-size:100% 100%;position:relative;container-type:inline-size;background-color:#6b4d2d}.book{position:absolute;top:14.5%;bottom:10.5%;display:flex;flex-direction:column;font-size:clamp(11px,1cqw,16px)}.question{left:4.2%;width:18.5%}.notes{left:76.8%;width:19%}.eyebrow{font-family:Georgia,serif;font-size:.72em;letter-spacing:.12em;white-space:nowrap}.eyebrow i{font-size:.95em;letter-spacing:0;margin-left:10px;color:#80674d}.book h1,.notes-title{font-size:2.35em;letter-spacing:.08em;margin-top:.45em;font-weight:500}.ornament{font-family:"Noto Serif SC Variable",serif;color:#95754e;font-size:.7em;letter-spacing:.2em;padding:.7em 0 1em;border-bottom:1px solid #b89b7277;margin-bottom:1em}.question-label{font-family:"Noto Serif SC Variable",serif;font-size:1.1em;display:block;margin-bottom:.5em}textarea{width:100%;height:4.3em;resize:none;border:0;border-bottom:1px solid #a68b65;background:#fff8e42b;color:#302b24;font-size:1em;line-height:1.7;padding:.35em .2em}textarea::placeholder{color:#9a846c}.count{display:flex;justify-content:space-between;font-size:.65em;color:#87765f;margin-top:.3em}.count span{color:#9e4e32}.suggestions{margin:.5em 0}.suggestions button{width:100%;background:none;border-bottom:1px solid #b89b7244;display:flex;justify-content:space-between;text-align:left;font-size:.8em;padding:.45em 0;color:#786044}.suggestions button:hover{color:#34483d;background:#fff7e533}.guest-heading{display:flex;justify-content:space-between;align-items:center;margin:.7em 0 .3em}.guest-heading h2{font-size:1.1em;font-weight:500}.guest-heading small{color:#87765f;font-size:.65em}.guest{display:flex;align-items:center;gap:.6em;border-bottom:1px solid #b89b7255;padding:.5em 0;cursor:pointer}.guest-copy{display:flex;flex-direction:column;gap:.3em;flex:1;min-width:0}.guest strong{font-family:"Noto Serif SC Variable",serif;font-size:1.05em;font-weight:600}.guest small{font-size:.66em;white-space:nowrap;color:#7c6c57}.guest input{accent-color:var(--pine);width:1em;height:1em;margin:0}.portrait{width:2.6em;height:2.6em;display:grid;place-items:center;border:1px solid #8d775077;border-radius:50%;font-family:"Noto Serif SC Variable",serif;color:#eee6d6;background:#716249;font-size:.85em;flex-shrink:0}.tone-1{background:#5e6c5d}.tone-2{background:#7c6955}.tone-3{background:#8e735e}.guest:not(.selected) .portrait{opacity:.6}.question-bottom{margin-top:auto;padding-top:.7em}.primary{background:var(--pine);color:#fbf3df;padding:.8em 1em;width:100%;display:flex;align-items:center;justify-content:space-between;font-family:"Noto Serif SC Variable",serif;font-size:1.15em;border-radius:2px}.primary:hover:not(:disabled){background:#465e4f}.primary span{font-family:Georgia,serif;font-size:1.3em}.hint{font-size:.6em;text-align:center;color:#87765f;margin-top:.65em}.error{color:#9b382c;font-size:.8em;line-height:1.5;margin-top:.5em}.chosen-topic{font-size:1.4em;line-height:1.8;border-left:3px solid #a88550;margin:1em 0 1.5em;padding-left:.7em}.stage{position:absolute;left:26.3%;right:26.3%;top:11.7%;bottom:7%;color:#fff3dc;font-size:clamp(11px,1cqw,16px)}.stage-title{text-align:center;text-shadow:0 2px 12px #302010}.stage-title .eyebrow{font-size:.8em;letter-spacing:.25em}.stage-title h2{font-weight:400;font-size:2em;letter-spacing:.06em;margin:.5em 0 .35em}.stage-title p{font-family:"Noto Serif SC Variable",serif;font-size:.9em;letter-spacing:.15em}.invitation{position:absolute;top:24%;width:100%;text-align:center;text-shadow:0 2px 15px #23190d}.invitation>span{font-family:Georgia,serif;font-size:4em;color:#e4d4b5;line-height:1}.invitation p{font-family:"Noto Serif SC Variable",serif;font-size:1.8em;line-height:1.7;letter-spacing:.1em}.invitation small{display:block;margin-top:1em;font-size:.75em;color:#efdec4}.speaker{position:absolute;top:22%;left:9%;width:82%;padding:1.4em 1.7em;background:#fbf4e7ed;color:#352d23;border:1px solid #fff8e777;border-radius:1.5em;box-shadow:0 12px 40px #2b160b29;animation:arrive .3s ease}.speaker:after{content:"";position:absolute;bottom:-13px;left:21%;border:14px solid transparent;border-top-color:#fbf4e7ed;border-bottom:0}.speaker-meta{display:flex;justify-content:space-between;font-size:.7em;color:#82705b}.speaker h3{font-size:1.15em;margin:.65em 0;font-weight:500}.speaker h3 small{font-family:"Noto Sans SC Variable",sans-serif;margin-left:1em;font-size:.6em;color:#657557}.speaker p{font-family:"Noto Serif SC Variable",serif;font-size:1.05em;line-height:1.9}.reply{font-size:.7em;color:#806c51;margin-bottom:.6em}.loading{top:30%}.seats{position:absolute;top:68%;left:0;width:100%;height:12%;pointer-events:none}.seat{position:absolute;transform:translate(-50%,-30%);display:flex;align-items:center;flex-direction:column;animation:arrive .4s ease}.seat-avatar{display:grid;place-items:center;background:#e2d3b9e8;color:#5d4c35;border:2px solid #b1976c;width:3.5em;height:3.5em;border-radius:50%;font-family:"Noto Serif SC Variable",serif;font-size:1.1em;box-shadow:0 3px 15px #27150944}.seat>span{margin-top:.4em;padding:.3em .65em;background:#59422bee;border:1px solid #c8a366;font-family:"Noto Serif SC Variable",serif;white-space:nowrap;font-size:.8em}.seat.speaking .seat-avatar{border-color:#f4e8bd;outline:2px solid #34483d}.stage-bottom{position:absolute;bottom:0;width:100%;text-align:center}.steps{display:flex;align-items:center;justify-content:center;gap:1em;font-family:"Noto Serif SC Variable",serif;font-size:.9em}.steps b{font-weight:300;color:#bfa580}.steps .active{border-bottom:1px solid #eee0c1;padding-bottom:.4em}.stage-disclaimer{font-size:.6em;color:#e2ccaa;margin-top:1em}.playback{display:flex;gap:.7em;justify-content:center}.playback button{background:#f3e7cfeb;color:#463b2b;border:1px solid #bca17c;padding:.5em .8em;font-size:.8em}.progress{height:2px;background:#c0a57c55;margin:.7em auto;width:80%}.progress span{display:block;height:100%;background:#e9ddbf;transition:width .3s}.empty-note{margin-top:2.5em;color:#816e55;line-height:1.9}.empty-note>span{font-size:3em;display:block;text-align:center;color:#a18355;margin-bottom:.5em}.empty-note p{margin-bottom:1em;font-family:"Noto Serif SC Variable",serif}.empty-note small{font-size:.75em}.fine-rule{width:3em;height:1px;background:#a98a5d;margin:2em 0}.notes-scroll{overflow:auto;flex:1;min-height:0;scrollbar-width:thin;scrollbar-color:#ab92706b transparent;padding-right:.3em}.tabs{display:flex;border-bottom:1px solid #b89b72;margin:.1em 0 .6em}.tabs button{background:transparent;flex:1;padding:.65em .1em;font-size:.85em;color:#867052;border-bottom:2px solid transparent}.tabs .active{border-color:#34483d;color:#34483d}.summary>section{display:flex;gap:.8em;padding:1em 0;border-bottom:1px solid #b89b7277}.summary-number{font:italic 1.9em Georgia,serif;color:#9c7744;line-height:1.1}.summary h3{font-size:1.2em;font-weight:500;margin-bottom:.5em}.summary p{font-family:"Noto Serif SC Variable",serif;font-size:.88em;line-height:1.8;margin-bottom:.4em}.history h3{font-family:Georgia,"Noto Serif SC Variable",serif;font-size:.75em;letter-spacing:.07em;color:#8a724e;margin:1em 0 .5em}.history-item{border-bottom:1px solid #b89b7266}.history-item button{display:flex;align-items:center;gap:.6em;background:none;width:100%;padding:1em 0;text-align:left}.history-number{font:italic 1.1em Georgia,serif;color:#9b7849}.history-item strong{font-family:"Noto Serif SC Variable",serif;font-size:.95em;font-weight:500}.history-item small{margin-left:auto;font-size:.6em;color:#87765f}.history-item button:disabled{opacity:1}.history-content{font-family:"Noto Serif SC Variable",serif;font-size:.9em;line-height:1.8;padding-bottom:1em}.history-content small{color:#867052;font-family:inherit}.export-actions{padding-top:.6em}.export-actions .primary{font-size:1em}.text-button{background:transparent;color:#5e6b51;padding:.7em .4em;text-decoration:underline;text-underline-offset:4px;font-size:.8em}.export-actions .text-button{width:100%;text-align:center}.notice{font-size:.7em;line-height:1.4;color:#6d583a}.book-footer{font:italic .65em "Noto Serif SC Variable",serif;color:#98784c;text-align:center;padding-top:1em}.disclaimer{height:32px;display:flex;align-items:center;justify-content:center;color:#c6b291;font-size:11px;text-align:center;padding:0 16px}.export-offscreen{position:fixed;left:-20000px;top:0}.export-note{width:1000px;padding:75px 85px;background:#f4f0e8;color:#302b24}.export-brand{font:40px Georgia,serif;border-bottom:1px solid #bca680;padding-bottom:28px;margin-bottom:45px}.export-brand span{float:right;font:28px "Noto Serif SC Variable",serif}.export-note .eyebrow{font-size:13px;color:#95754e}.export-note h1{font-size:40px;line-height:1.6;font-weight:500;margin:25px 0}.export-guests{font-size:17px;color:#82705b;margin-bottom:40px}.export-note .summary{font-size:23px}.export-note footer{margin-top:50px;line-height:1.8;font-size:16px;color:#82705b}.modal-backdrop{position:fixed;inset:0;background:#21180e99;display:grid;place-items:center;z-index:10}.modal{width:min(420px,90vw);padding:32px;background:#f4f0e8;box-shadow:0 20px 60px #0004}.modal p{line-height:1.8;margin:20px 0;font-size:14px;color:#766c60}.modal .primary{font-size:16px}.modal .text-button{width:100%;margin-top:10px}@keyframes arrive{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.question textarea{flex-shrink:0;min-height:3.5em}.question .guest-list,.question .guest-heading,.question .suggestions,.question-bottom{flex-shrink:0}
+
+
+.image-preview{width:min(700px,90vw);max-height:90vh;background:#f4f0e8;overflow:auto;padding:16px}.image-preview>div{display:flex;justify-content:space-between;align-items:center;padding:0 0 16px}.image-preview a{color:#34483d}.image-preview button{background:transparent;padding:8px}.image-preview img{width:100%;height:auto;display:block}
+
+/* Editorial redesign: typography, rhythm and controls live on the existing paper. */
+:root{--pine:#354c41;--muted:#88745e;background:#261b12;font-family:"Noto Sans SC Variable",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.scene-wrap{min-height:calc(100svh - 26px)}
+.scene{width:min(100vw,calc((100svh - 26px)*1.777))}
+.masthead{position:absolute;top:2.5%;left:4.4%;height:auto;padding:0;background:none;border:0;z-index:2}
+.brand{display:flex;align-items:center;gap:20px;font-size:clamp(23px,2.3cqw,39px);font-weight:400;letter-spacing:-.04em;color:#fff0d7;text-shadow:0 2px 12px #2a1b1066}
+.brand span{font-family:"Noto Sans SC Variable",sans-serif;font-size:10px;letter-spacing:.35em;font-weight:400;color:#e4ccaa;margin:0;border-left:1px solid #e4ccaa66;padding-left:18px}
+.book{top:15%;bottom:11%;font-size:clamp(12px,1.03cqw,17px);color:#3b382f}
+.question{left:4.6%;width:18%}.notes{left:77%;width:18.4%}
+.eyebrow{display:flex;align-items:center;gap:10px;font-family:Georgia,serif;font-size:.57em;letter-spacing:.12em;color:#8c7153}
+.eyebrow>span{font-style:italic;font-size:1.55em;letter-spacing:0;color:#a6885e}
+.book h1,.notes-title{font-family:"Noto Serif SC Variable",serif;font-size:2.25em;font-weight:550;letter-spacing:.05em;margin:.35em 0 0;line-height:1.5}
+.ornament{font-family:"Noto Sans SC Variable",sans-serif;letter-spacing:.12em;font-size:.63em;line-height:1.6;padding:.35em 0 1.1em;margin-bottom:1.15em;color:#977d60;border-color:#aa8b5a44}
+.question-label{font-family:"Noto Sans SC Variable",sans-serif;font-size:.75em;font-weight:500;letter-spacing:.05em;color:#655d4e;margin-bottom:.6em}
+.question textarea{font-family:"Noto Serif SC Variable",serif;font-size:1.03em;font-weight:450;line-height:1.9;background:#fff9eb26;border:0;border-bottom:1px solid #a78b6255;border-radius:0;padding:.25em 0 .6em;height:4.2em;min-height:0;color:#373c32;transition:border-color .2s}
+textarea:focus{outline:none;border-bottom-color:#354c41;background:#fff9eb45}textarea::placeholder{color:#a08d72;font-weight:350}
+.count{font-size:.56em;color:#9b876d;margin-top:.5em;font-variant-numeric:tabular-nums}
+.suggestions{display:flex;flex-wrap:wrap;gap:.35em .8em;margin:.7em 0 .9em}
+.suggestions button{display:block;width:auto;border:0;padding:.3em 0;background:none!important;font-family:"Noto Sans SC Variable",sans-serif;font-size:.62em;color:#79654d;line-height:1.5;text-align:left;text-decoration:underline;text-decoration-color:#a78b6244;text-underline-offset:4px}
+.suggestions button span{display:none}.suggestions button:hover{color:#354c41;text-decoration-color:#354c41}
+.guest-heading{border-top:1px solid #aa8b5a44;padding-top:.8em;margin:.1em 0 .4em}
+.guest-heading h2{font-family:"Noto Sans SC Variable",sans-serif;font-size:.78em;font-weight:500;letter-spacing:.1em}
+.guest-heading small{font-size:.57em;color:#9b876d}
+.guest{gap:.75em;padding:.6em 0;border-color:#aa8b5a33;position:relative}
+.portrait{font-family:Georgia,serif;font-style:italic;font-size:1.1em;width:1.6em;height:1.7em;border:0;background:none!important;color:#a28b67;opacity:1!important;justify-content:start}
+.guest-copy{gap:.32em}.guest strong{font-family:"Noto Serif SC Variable",serif;font-size:1.03em;font-weight:550;letter-spacing:.05em}
+.guest small{font-size:.58em;font-weight:400;color:#958069;letter-spacing:.025em}
+.guest input{appearance:none;width:1.2em;height:1.2em;border:1px solid #ad9879;background:#fff9ed33;border-radius:50%;flex-shrink:0;position:relative;cursor:pointer}
+.guest input:checked{border-color:#354c41;background:#354c41}.guest input:checked:after{content:"";position:absolute;left:32%;top:18%;width:28%;height:45%;border:solid #fff5df;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+.guest.selected strong{color:#29483a}.guest.selected .portrait{color:#354c41}
+.question-bottom{padding-top:1em;margin-top:auto}
+.primary{font-family:"Noto Sans SC Variable",sans-serif;font-size:.84em;letter-spacing:.13em;font-weight:450;padding:.85em 1.1em;border-radius:3px;min-height:3.2em;background:#354c41;box-shadow:0 3px 8px #354c4110}
+.primary .cta-label{font-family:inherit;font-size:1em}.primary .cta-arrow{font:1.5em Georgia,serif;letter-spacing:0}
+.primary:disabled{opacity:1;background:#b9b29b;color:#faf5e9;box-shadow:none}.primary:disabled .cta-arrow{opacity:.65}
+.hint{font-size:.53em;letter-spacing:.06em;margin-top:.8em;color:#958069}
+.stage{top:14.5%;bottom:10%;font-size:clamp(12px,1.03cqw,17px)}
+.stage-title .eyebrow{justify-content:center;color:#ead6b3;font-size:.57em;letter-spacing:.25em}
+.stage-title h2{font-size:2.35em;font-weight:450;letter-spacing:.08em;margin:.6em 0 .5em;color:#fff0d7}
+.stage-title p{font-family:"Noto Sans SC Variable",sans-serif;font-size:.72em;font-weight:350;letter-spacing:.13em;color:#e3cdaa}
+.invitation{top:26%;text-shadow:0 2px 20px #33201088}
+.invitation .invitation-rule{display:block;width:32px;height:1px;background:#f3ddba88;margin:0 auto 1.6em}
+.invitation p{font-family:"Noto Serif SC Variable",serif;font-weight:350;font-size:1.5em;letter-spacing:.08em;line-height:1.9}
+.invitation small{font-family:"Noto Sans SC Variable",sans-serif;font-weight:350;font-size:.63em;letter-spacing:.12em;color:#ead8b9;margin-top:1.8em}
+.steps{gap:1.3em;font-family:"Noto Sans SC Variable",sans-serif;font-weight:350;font-size:.66em;letter-spacing:.07em;color:#ecd9b8}
+.steps>span{display:flex;gap:.6em;align-items:center;white-space:nowrap}.steps em{font:italic 1.1em Georgia,serif;color:#c5a77a}.steps b{font-size:0;width:22px;height:1px;background:#c5a77a66}.steps .active{border:0;padding:0;color:#fff8e7}.steps .active em{color:#fff8e7}
+.empty-note{margin-top:2.7em;color:#8d785d}
+.note-mark{font:5em Georgia,serif;line-height:.8;color:#ac9168;opacity:.7}
+.empty-note h3{font-family:"Noto Serif SC Variable",serif;font-weight:400;font-size:1.3em;line-height:1.95;letter-spacing:.04em;color:#6e604d;margin-top:.55em}
+.empty-note p{font-family:"Noto Sans SC Variable",sans-serif;font-size:.75em;font-weight:350;line-height:2.2;margin-bottom:1.7em;color:#96816a}
+.empty-note small{font-size:.61em;color:#a18b70;letter-spacing:.03em}.fine-rule{width:27px;background:#a98a5d66;margin:1.6em 0}
+.book-footer{font-family:"Noto Sans SC Variable",sans-serif;font-size:.52em;letter-spacing:.1em;font-style:normal;color:#ac977a;padding-top:1.5em}
+.disclaimer{height:26px;font-size:10px;color:#a38d6e;font-weight:350;letter-spacing:.03em;background:#261b12}
+.speaker{top:19%;background:#fbf3e5f5;border-radius:8px;border-color:#efdec8;padding:1.5em 1.8em;box-shadow:0 12px 35px #29180e22}
+.speaker p{font-family:"Noto Sans SC Variable",sans-serif;font-size:1.12em;line-height:1.85;font-weight:400;color:#514a3c}.speaker h3{font-weight:550;font-size:1.15em}.speaker-meta{font-size:.6em;letter-spacing:.06em}.speaker h3 small{font-size:.53em;letter-spacing:.1em}.reply{font-size:.63em}
+.tabs button{font-size:.72em;letter-spacing:.06em}.summary h3{font-weight:500;font-size:1.05em}.summary p{font-family:"Noto Sans SC Variable",sans-serif;font-size:.75em;line-height:2;font-weight:400;color:#7b6b55}.summary-number{font-size:1.6em}.summary>section{gap:.9em;padding:1.2em 0}.history-item strong{font-weight:500}.history-content{font-family:"Noto Sans SC Variable",sans-serif;font-size:.78em;line-height:2}.history-item button{font-size:.9em}.history h3{font-size:.63em}.text-button{font-size:.68em}.playback button{border-radius:3px;border-color:#c8b28f77;font-size:.68em;padding:.65em 1.1em}.export-note .summary p{font-size:1em}.export-note .summary h3{font-size:1.2em}
+
+
+/* Keep secondary Chinese copy readable at laptop sizes. */
+.question-label{font-size:max(12px,.78em)}
+.suggestions button{font-size:max(11px,.65em)}
+.guest small{font-size:max(10px,.6em)}
+.guest-heading h2{font-size:max(12px,.78em)}
+.guest-heading small,.count{font-size:max(9px,.57em)}
+.hint{font-size:max(9px,.53em)}
+.steps{font-size:13px}
+.empty-note p{font-size:max(12px,.75em)}
+.empty-note small{font-size:max(10px,.61em)}
+.book-footer{font-size:max(9px,.52em)}
+.summary p,.history-content{font-size:max(12px,.78em)}
+
+/* User-supplied gold wordmark, framed within the existing scene header. */
+.masthead:has(.brand-gold){top:.2%;left:3.5%}
+.brand-gold{gap:8px;letter-spacing:0;text-shadow:0 1px 8px #24170b}
+.brand-gold .brand-art{display:block;position:relative;flex-shrink:0;width:clamp(225px,24cqw,390px);height:clamp(52px,5.6cqw,92px);overflow:hidden;border:0;padding:0;margin:0;mix-blend-mode:screen}
+.brand-art img{position:absolute;display:block;width:118%;max-width:none;height:auto;left:-10%;top:50%;transform:translateY(-43%)}
+.brand-gold .brand-subtitle{border:0;padding:0;font-size:clamp(10px,.75cqw,12px);letter-spacing:.3em;color:#ead4ad;white-space:nowrap}
+
+.masthead:has(.brand-gold){right:4.4%;justify-content:space-between;mix-blend-mode:normal}
+.brand-gold{cursor:default;mix-blend-mode:screen}
+.brand-gold .brand-art{mask-image:linear-gradient(to right,transparent,#000 7%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 15%,#000 78%,transparent);mask-composite:intersect}
+
+/* A handwritten inscription and colophon on the blank notebook page. */
+.empty-note{margin-top:1.6em}
+.empty-note .fine-rule{margin:1.1em 0}
+.empty-note .note-preface{font-family:"STKaiti","KaiTi","Kaiti SC","Noto Serif SC Variable",serif;font-size:max(15px,.98em);font-weight:400;line-height:1.8;letter-spacing:.09em;color:#78654f;margin-bottom:1.2em}
+.empty-note .note-colophon{display:block;position:relative;padding-left:1.6em;font-family:"STXingkai","STKaiti","KaiTi","Noto Serif SC Variable",serif;font-size:max(16px,1.04em);font-weight:400;line-height:1.85;letter-spacing:.08em;color:#8c704c}
+.note-colophon:before{content:"";position:absolute;left:0;top:.65em;width:1px;height:2.1em;background:#a98a5d77}
+.note-colophon span{display:block}
+.note-colophon span+span{margin-left:.65em}
+.notes .book-footer{font-size:15px;line-height:1.6;margin-bottom:clamp(18px,2.4cqw,38px);flex-shrink:0}
+
+/* Keep all scene images mounted; only raise a decoded image above the others. */
+.scene{isolation:isolate}
+.scene-backdrops{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.scene-backdrops img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0}
+.scene-backdrops img.active{z-index:1}
+/* Approved trio composition uses the same full-background coordinate system. */
+.scene-backdrops img.conversation-artwork{inset:auto;height:auto;object-fit:contain;z-index:2;mask-composite:intersect;pointer-events:none}
+
+/* One fixed design canvas: resize the entire scene, never reflow its contents. */
+.app .scene-wrap{width:100%;min-height:calc(100svh - 26px);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.app .scene-fit{position:relative;flex-shrink:0}
+.app .scene{position:absolute;left:0;top:0;width:1671px;height:941px;min-width:0;min-height:0;aspect-ratio:1671/941;transform-origin:top left}
+.app>.disclaimer{height:26px;min-height:26px;padding:0 10px;font-size:10px;overflow:hidden;white-space:nowrap}
+
+/* Guest roster: retain the editorial numbering and add original-color portraits. */
+.guest-heading h2{font-size:15px;letter-spacing:.06em}
+.guest-heading small{font-size:13px;color:#806c53;font-variant-numeric:tabular-nums}
+.guest{gap:10px;padding:10px 0;min-height:66px}
+.guest-number{width:24px;flex-shrink:0;font:italic 17px Georgia,serif;color:#9b815b}
+.guest.selected .guest-number{color:var(--pine)}
+.guest-avatar{position:relative;display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;overflow:hidden;border-radius:50%;background-color:#dfd1ba;background-size:2533.333% auto;background-repeat:no-repeat;color:var(--pine);font-family:"Noto Serif SC Variable",serif;font-size:15px;box-shadow:0 0 0 1px #a98a5d33}
+.guest-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.guest-avatar img[hidden]{display:none}
+.guest-copy{gap:4px}
+.guest strong{font-size:19px;letter-spacing:.03em}
+.guest small{font-size:11px;letter-spacing:0;color:#88735b;white-space:normal;line-height:1.5}
+.guest input{width:19px;height:19px}
+.guest input:disabled{opacity:1;cursor:default}
+.guest:has(input:disabled){cursor:default}
+.question-bottom>.text-button{font-size:15px;min-height:44px;padding:10px 0;text-underline-offset:5px}
+
+/* Give the question form the space freed by the notebook subtitles. */
+.book h1,.notes-title{padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #aa8b5a44}
+.question-label{font-size:17px;margin-bottom:8px}
+.question textarea{font-size:20px;line-height:1.8;height:4.2em;flex-shrink:0}
+.question .count{font-size:12px}
+.suggestions{gap:4px 14px;margin:10px 0 14px;flex-shrink:0}
+.suggestions button{font-size:15px;line-height:1.6}
+
+/* Keep the larger form and its action within the notebook paper. */
+.book h1,.notes-title{padding-bottom:8px;margin-bottom:12px}
+.question textarea{height:3.4em;min-height:3.4em}
+.question .suggestions{gap:0 14px;margin:6px 0 10px}
+.question .suggestions button{padding:2px 0}
+.question .guest-heading{padding-top:8px}
+.question .guest{padding:7px 0;min-height:60px}
+.question-bottom{padding-top:8px}
+.notes .empty-note{margin-top:4px}
+.empty-note .note-preface{font-size:18px;line-height:1.9}
+.empty-note .note-colophon{font-size:19px;line-height:1.85}
+
+
+/* A restrained foil invitation, framed like the notebook's binding. */
+:is(.question-bottom,.export-actions,.reset-modal) .primary{
+ --invitation-paper:#eee0c6;--invitation-ink:#6c5130;--invitation-bronze:#a38a60;--invitation-champagne:#d7c39c;
+ position:relative;isolation:isolate;min-height:54px;padding:8px 14px 8px 17px;
+ background:var(--invitation-paper);color:var(--invitation-ink);
+ border:1px solid var(--invitation-bronze);border-radius:4px;
+ box-shadow:0 1px 2px #63472312;
+ font-family:"Noto Serif SC Variable",serif;font-size:17px;font-weight:500;letter-spacing:.12em;text-align:left;
+ transition:background-color 200ms,color 200ms,border-color 200ms,box-shadow 200ms,transform 200ms;
+}
+:is(.question-bottom,.export-actions,.reset-modal) .primary::before{content:"";position:absolute;inset:3px;border:1px solid var(--invitation-champagne);border-radius:1px;pointer-events:none;transition:border-color 200ms}
+:is(.question-bottom,.export-actions,.reset-modal) .primary .cta-copy{display:flex;flex:1;align-items:center;justify-content:center;min-width:0;font-family:inherit;font-size:1em;letter-spacing:inherit}
+:is(.question-bottom,.export-actions,.reset-modal) .primary .cta-label{font-family:inherit;font-size:17px;font-weight:500;line-height:1.25;letter-spacing:.12em}
+:is(.question-bottom,.export-actions,.reset-modal) .primary .cta-arrow{display:grid;place-items:center;align-self:stretch;width:33px;flex-shrink:0;margin-left:10px;padding-left:11px;border:0;border-left:1px solid #b6a17a80;border-radius:0;background:transparent;font-size:20px;color:inherit;letter-spacing:0}
+:is(.question-bottom,.export-actions,.reset-modal) .primary .cta-arrow>span{font:20px Georgia,serif;transition:transform 200ms}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:hover:not(:disabled){background:#e7d7b9;color:#594021;border-color:#8e744b;box-shadow:0 1px 2px #63472318}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:hover:not(:disabled)::before{border-color:#c8b185}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:hover:not(:disabled) .cta-arrow>span{transform:translate(2px,-2px)}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:active:not(:disabled){transform:translateY(1px);background:#e2d1b0;box-shadow:none}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:disabled{opacity:1;background:#e9e1d2;color:#a1937b;border-color:#c5bba6;box-shadow:none;cursor:default}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:disabled::before{border-color:#d9ceba}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:disabled .cta-arrow{opacity:1;border-color:#c9bea980}
+:is(.question-bottom,.export-actions,.reset-modal) .primary:focus-visible{outline:2px solid #8d6d3c;outline-offset:3px}
+
+/* Keep controls low in the scene, with the progress bar beneath the buttons. */
+.stage-bottom.playback-controls{bottom:-46px}
+.playback-controls .progress{width:80%;height:3px;margin:16px auto 0;background:#c0a57c66}
+.playback-controls .playback{gap:14px}
+.playback-controls .playback button{min-width:124px;min-height:48px;padding:10px 20px;font-family:"Noto Sans SC Variable",sans-serif;font-size:17px;font-weight:450;line-height:1.5;letter-spacing:.04em;background:#f2e5cfee;color:#51412d;border:1px solid #b99b70;border-radius:4px;box-shadow:0 1px 3px #27180d22;transition:background-color 200ms,border-color 200ms,transform 200ms}
+.playback-controls .playback button:hover{background:#f8edd9;border-color:#dfc69e}
+.playback-controls .playback button:active{transform:translateY(1px)}
+
+/* Quiet navigation above the notebook pages, in the scene's warm palette. */
+.top-nav{position:relative;top:-4px;display:flex;align-items:center;gap:36px;padding:0 12px;border-bottom:1px solid #dcc39955;background:linear-gradient(90deg,transparent,#302113a6 28%,#302113a6 72%,transparent)}
+.top-nav a,.top-nav button{position:relative;display:block;padding:16px 4px;color:#efdbb9;background:transparent;text-decoration:none;font-family:"Noto Serif SC Variable",serif;font-size:19px;line-height:1.5;letter-spacing:.12em;text-shadow:0 1px 6px #24170b}
+.top-nav a[aria-current="page"]::after{content:"";position:absolute;left:4px;right:6px;bottom:0;height:2px;background:#d9b87b}
+.top-nav a:hover,.top-nav button:hover{color:#fff3dc;background:#d9b87b12}
+.top-nav :focus-visible{outline:2px solid #e4c58d;outline-offset:4px}
+.about-dialog{width:min(560px,calc(100vw - 32px));max-height:calc(100svh - 40px);overflow:auto;padding:28px 32px;color:#51412d;background:#f4ebdb;border:1px solid #b99b70;border-radius:6px;box-shadow:0 20px 80px #24170b66}
+.about-dialog::backdrop{background:#24170b99;backdrop-filter:blur(4px)}
+.about-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:10px}
+.about-close{width:40px;height:40px;background:transparent;color:#80674d;font:28px Georgia,serif;border-radius:3px}
+.about-close:hover{background:#b99b7022}
+.about-dialog h2{font-size:28px;font-weight:450;letter-spacing:.1em}
+.about-dialog p{font-family:"Noto Serif SC Variable",serif;font-size:17px;font-weight:400;line-height:1.95;letter-spacing:.025em;margin-top:18px}
+.about-dialog .about-lead{font-family:"Noto Serif SC Variable",serif;font-size:21px;color:#80633e}
+.about-process{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:22px;padding:16px 0;border-block:1px solid #b99b7044;color:#80674d;font-size:15px}
+.about-dialog .about-note{font-size:14px;line-height:1.85;letter-spacing:.02em;color:#88745e}
+.about-return{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;margin-top:24px;padding:12px 16px;border:1px solid #b99b70;border-radius:3px;background:#eee0c6;color:#6c5130;font-family:"Noto Serif SC Variable",serif}
+.about-return:hover{background:#e7d7b9}
+
+/* Give completed notes readable type and the space above the page-end actions. */
+.notes .tabs{flex-shrink:0}
+.notes .tabs button{font-size:17px;font-weight:500;padding:10px 2px;letter-spacing:.05em}
+.notes .summary>section{padding:14px 0;gap:12px}
+.notes .summary h3{font-size:20px;line-height:1.5;margin-bottom:8px}
+.notes .summary p,.notes .history-content{font-size:17px;line-height:1.85}
+.notes .summary-number{font-size:27px}
+.notes .history h3{font-size:13px}
+.notes .history-item strong{font-size:17px}
+.notes .history-item small{font-size:12px}
+.notes .export-actions{flex-shrink:0;padding-top:12px}
+.notes .export-actions .text-button{font-size:15px;padding:10px 4px}
+.notes .notice:empty{display:none}
+
+
+/* Anchor the disclosure to the artwork's bottom edge, inside the scaled canvas. */
+.app .scene-wrap{min-height:100svh}
+.scene>.disclaimer{position:absolute;left:0;right:0;bottom:4px;z-index:3;height:24px;min-height:0;padding:0 20px;font-size:12px;line-height:1.5;color:#ead8bb;background:transparent;text-shadow:0 1px 4px #201308,0 0 10px #201308;white-space:nowrap;pointer-events:none}
+
+/* Align both book headings and tighten the notes navigation. */
+.book h1,.notes-title{margin-top:8px;flex-shrink:0}
+.notes .notes-title{padding-bottom:6px;margin-bottom:2px}
+.notes .tabs{margin:0 0 4px}
+.notes .tabs button{padding:6px 2px}
+.notes .summary>section:first-child{padding-top:8px}
+.notes .export-actions .primary:hover:not(:disabled) .cta-arrow>span{transform:translateY(2px)}
+
+/* A paper invitation that shares the roundtable's typography and foil action. */
+.reset-backdrop{background:#24170b99;backdrop-filter:blur(4px)}
+.modal.reset-modal{position:relative;width:min(460px,calc(100vw - 32px));max-height:calc(100svh - 40px);overflow:auto;padding:32px;background:linear-gradient(135deg,#f8efdf,#f0e3cd);color:#51412d;border:1px solid #b99b70;border-radius:6px;box-shadow:0 20px 80px #24170b66}
+.reset-modal::before{content:"";position:absolute;inset:6px;border:1px solid #d7c39c;border-radius:2px;pointer-events:none}
+.reset-modal .eyebrow{font-size:10px;letter-spacing:.18em;color:#8c7153;margin-bottom:12px}
+.reset-modal h2{font-family:"Noto Serif SC Variable",serif;font-size:27px;font-weight:500;line-height:1.5;letter-spacing:.06em;color:#51412d}
+.reset-modal p{margin:16px 0 26px;font-family:"Noto Sans SC Variable",sans-serif;font-size:15px;font-weight:400;line-height:1.95;color:#88745e}
+.reset-modal .text-button{margin-top:12px;padding:12px 4px;font-family:"Noto Serif SC Variable",serif;font-size:15px;letter-spacing:.06em;line-height:1.6;color:#80674d;text-decoration-color:#b99b7080;text-underline-offset:5px;border-radius:3px}
+.reset-modal .text-button:hover{background:#b99b7014;color:#594021;text-decoration-color:#8e744b}
+.reset-modal .text-button:focus-visible{outline:2px solid #8d6d3c;outline-offset:3px}
+
+
+/* Preview invited guests with the same portraits as the guest list. */
+.seat .seat-avatar{width:76px;height:76px;border:2px solid #c7aa7c;box-shadow:0 4px 16px #27150955;background-color:#dfd1ba}
+.seat>span{display:flex;align-items:center;justify-content:center;min-width:112px;min-height:46px;margin-top:10px;padding:8px 16px;font-size:22px;line-height:1.3;letter-spacing:.06em;border:1px solid #cfb17c;border-radius:3px;background:#59422bf2;color:#fff0d5;box-shadow:0 3px 10px #27150933}
+
+/* Let longer questions scroll without a white system scrollbar on the paper. */
+.question textarea{scrollbar-width:thin;scrollbar-color:#a88b626b transparent;scrollbar-gutter:stable}
+.question textarea::-webkit-scrollbar{width:5px;background:transparent}
+.question textarea::-webkit-scrollbar-track{background:transparent}
+.question textarea::-webkit-scrollbar-thumb{background:#a88b626b;border-radius:8px}
+.question textarea::-webkit-scrollbar-thumb:hover{background:#947348a6}
+.question textarea::-webkit-scrollbar-button{display:none;width:0;height:0}
+.question textarea::-webkit-scrollbar-corner{background:transparent}
+
+/* Bound submitted questions so the roster and reset action stay on the paper. */
+.question .chosen-topic{flex:0 1 auto;min-height:0;max-height:220px;margin:16px 0 18px;padding-right:12px;overflow:auto;overflow-wrap:anywhere;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#a88b626b transparent}
+.question .chosen-topic:focus-visible{outline:2px solid #8d6d3c;outline-offset:4px}
+.chosen-topic::-webkit-scrollbar{width:5px;background:transparent}
+.chosen-topic::-webkit-scrollbar-track{background:transparent}
+.chosen-topic::-webkit-scrollbar-thumb{background:#a88b626b;border-radius:8px}
+.chosen-topic::-webkit-scrollbar-thumb:hover{background:#947348a6}
+.chosen-topic::-webkit-scrollbar-button{display:none;width:0;height:0}
+
+
+/* Extend the room's light and wood tones into unused viewport space. */
+.app{position:relative;isolation:isolate;min-height:100svh}
+.ambient-backdrop{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#332417}
+.ambient-image{position:absolute;inset:-64px;background-position:center;background-size:cover;background-repeat:no-repeat;filter:blur(36px) sepia(.45) brightness(.48) saturate(1.05)}
+.ambient-backdrop::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#2b170b66,#4a2b1644 45%,#26140988)}
+.app .scene-fit{box-shadow:0 0 42px 12px #24160e55}
+
+/* Validation stays beside its field, without adding height at the pen decoration. */
+.question .count span,.question .validation-hint{color:#886237}
+.question .count{gap:6px;align-items:baseline}
+.question #topic-validation{font-size:12px;line-height:1.5;text-align:right}
+.question textarea[aria-invalid="true"]{border-bottom-color:#a17e4a;outline-color:#a17e4a}
+
+/* Export typography: a quiet book page, independent of the compact sidebar. */
+.export-note{font-family:"Noto Serif SC Variable",serif;background:#f4f0e8;color:#443b30;font-weight:400}
+.export-note .export-brand{display:flex;align-items:baseline;justify-content:space-between;gap:24px;font-family:Georgia,"Noto Serif SC Variable",serif;font-size:34px;font-weight:400;color:#78603f;letter-spacing:.02em;border-color:#cbb99b}
+.export-note .export-brand span{float:none;font-family:"Noto Serif SC Variable",serif;font-size:25px;font-weight:500;letter-spacing:.12em}
+.export-note>.eyebrow{font-family:Georgia,serif;font-size:12px;letter-spacing:.18em;color:#9b8768}
+.export-note h1{font-family:"Noto Serif SC Variable",serif;font-size:38px;font-weight:500;line-height:1.65;letter-spacing:.035em;margin:24px 0;overflow-wrap:anywhere}
+.export-note .export-guests{font-family:"Noto Serif SC Variable",serif;font-size:17px;line-height:1.8;letter-spacing:.06em;color:#8b795e;margin-bottom:30px}
+.export-note .summary>section{padding:26px 0;gap:22px;border-color:#c8b89c80}
+.export-note .summary-number{flex-shrink:0;min-width:46px;font-family:Georgia,serif;font-size:31px;line-height:1.4;color:#a2875d}
+.export-note .summary>section>div{min-width:0}
+.export-note .summary h3{font-family:"Noto Serif SC Variable",serif;font-size:26px;font-weight:550;line-height:1.5;letter-spacing:.08em;color:#574934;margin-bottom:12px}
+.export-note .summary p{font-family:"Noto Serif SC Variable",serif;font-size:23px;font-weight:400;line-height:1.95;letter-spacing:.025em;color:#665b4b;margin-bottom:8px;overflow-wrap:anywhere}
+.export-note footer{font-family:"Noto Serif SC Variable",serif;font-size:15px;font-weight:400;line-height:1.9;letter-spacing:.03em;color:#98866d;margin-top:38px}
