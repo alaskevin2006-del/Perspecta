@@ -1,5 +1,7 @@
-# 执行状态
+# 执行状态（已完成两次，不再调用）
 
-2026-11-04 14:37 UTC：A已真实调用一次，HTTP200，16条及摘要完整保留。decisionFactors与nextActions各4项，超出接口1–3项，整体INVALID_OUTPUT；不删项、不重试。原文仍存在“我想追问的是”“我要检验的是”等报幕，不能视为问题已修复。B尚未调用，接着按同条件各一次计划执行。
+A：14:36:46UTC，一次HTTP200，INVALID_OUTPUT（因素与行动各4项）。B：14:38:18UTC，一次HTTP200，VALID。均完整保留16条和模型摘要，无重试。原文未修改。
 
-A原文：docs/chat-logs/20261104-decision-A.txt；原始JSON文本及完整report：experiments/decision-ab/results/A/。输入4721、输出2297，缓存命中0；峰时估算$0.0041727，本次14:36UTC为非高峰，按官方当前费率估算$0.00208635，供应商未返回实际账单费用。
+完整TXT：docs/chat-logs/20261104-decision-A.txt、20261104-decision-B.txt、20261104-decision-AB-full.txt。
+
+完整人工审阅、用量费用与未完成事项见 docs/decision-evidence-ab-20261104.md；机器数据见analysis.json。B本次结构合规不代表语义整体胜出；两版仍有报幕，B另有亲历/错接风险，未获产品验收。后续针对性修订未实现/未验证，没有第三次调用。

@@ -100,3 +100,5 @@ npm run dev
 [合并及画像审计](docs/conversation-integration-audit.md) · [验证与费用](docs/conversation-validation-20261104.md) · [部署清单](docs/deployment-runbook.md)。未部署或合并 main。
 
 最新质量修订与真实全文见[跨轮验证](docs/threaded-quality-validation-20261104.md)和[聊天记录目录](docs/chat-logs/README.md)。最终候选仍有摘要归因与条件压缩问题，未获产品终验。
+
+最新指定版本73caf61/ac75a51的两次真实对照见[完整TXT、结果和费用](docs/decision-evidence-ab-20261104.md)。A摘要超项失败、B结构通过；两版仍有自然度与语义问题，均未终验。本轮仅推送同一整合分支，不操作main。
