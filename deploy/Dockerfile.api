@@ -1,0 +1,10 @@
+FROM node:24.21.0-bookworm-slim
+WORKDIR /app
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=3001 DEBATE_MODE=mock
+COPY --chown=node:node backend/package.json ./
+COPY --chown=node:node backend/src ./src
+COPY --chown=node:node backend/data ./data
+COPY --chown=node:node backend/scripts ./scripts
+USER node
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD ["node", "scripts/health.mjs"]
+CMD ["node", "src/server.js"]

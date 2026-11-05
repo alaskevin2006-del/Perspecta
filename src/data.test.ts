@@ -1,6 +1,11 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {makeMock,validateDebate,roles,formatDebateText,readBackendMode,modeNotice} from './data';
+import {isValidTopic,makeMock,validateDebate,roles,formatDebateText,readBackendMode,modeNotice} from './data';
+
+test('custom short questions use the same Unicode boundaries as the API',()=>{
+ for(const topic of ['学计算机还是学土木','就业',' 😀😀 ','字'.repeat(300)])assert.equal(isValidTopic(topic),true);
+ for(const topic of ['','  ','短','😀','字'.repeat(301)])assert.equal(isValidTopic(topic),false);
+});
 
 test('backend response headers determine mock and live notices',()=>{
  for(const mode of ['mock','live'] as const){

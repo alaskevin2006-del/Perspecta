@@ -1,0 +1,45 @@
+name: perspecta
+services:
+  api:
+    image: perspecta-api:${PERSPECTA_IMAGE_TAG:?Set PERSPECTA_IMAGE_TAG}
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.api
+    restart: unless-stopped
+    env_file: [/home/ubuntu/perspecta/shared/api.env]
+    environment:
+      SESSION_BUDGET_WINDOW_MS: 3600000
+      HOST: 0.0.0.0
+      PORT: 3001
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 192m
+    cpus: 0.5
+    pids_limit: 64
+    logging:
+      driver: json-file
+      options: {max-size: 5m, max-file: '2'}
+  web:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    ports: ['8888:80']
+    depends_on:
+      api: {condition: service_healthy}
+    volumes:
+      - ../dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    read_only: true
+    tmpfs: [/var/cache/nginx, /var/run, /tmp]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 64m
+    cpus: 0.25
+    pids_limit: 64
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, 'http://127.0.0.1/']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options: {max-size: 5m, max-file: '2'}

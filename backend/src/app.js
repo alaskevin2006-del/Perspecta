@@ -68,6 +68,11 @@ export function createApp({config = loadConfig(), logger = event => console.log(
         }
       }
       return Response.json({error: {code: 'INTERNAL_ERROR', message: '接口不存在或请求方法不支持'}}, {status: 404, headers});
-    } catch (error) { return errorResponse(error); }
+    } catch (error) {
+      if (error instanceof ApiError && error.guardReason) {
+        try {logger({event:'request_rejected', code:error.code, reason:error.guardReason, retryAfter:error.retryAfter});} catch { /* logging must not affect delivery */ }
+      }
+      return errorResponse(error);
+    }
   } };
 }

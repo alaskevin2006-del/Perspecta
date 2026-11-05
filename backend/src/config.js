@@ -11,6 +11,8 @@ export function loadConfig(env = process.env) {
   if (!['openai', 'deepseek'].includes(provider)) throw new Error('Invalid LLM_PROVIDER');
   const apiKey = env.LLM_API_KEY?.trim();
   const model = env.LLM_MODEL?.trim();
+  const budgetWindowMs = integer(env, 'SESSION_BUDGET_WINDOW_MS', 0, 0, 86400000);
+  if (budgetWindowMs > 0 && budgetWindowMs < 60000) throw new Error('Invalid SESSION_BUDGET_WINDOW_MS');
   if (mode === 'live' && (!apiKey || !model)) throw new Error('Live mode requires LLM_API_KEY and LLM_MODEL');
   let base;
   try {base = new URL(env.LLM_BASE_URL ?? (provider === 'deepseek' ? 'https://api.deepseek.com' : 'https://api.openai.com/v1'));}
@@ -27,6 +29,7 @@ export function loadConfig(env = process.env) {
     debateMaxOutputTokens: integer(env, 'LLM_DEBATE_OUTPUT_TOKENS', env.LLM_MAX_OUTPUT_TOKENS===undefined?4500:integer(env,'LLM_MAX_OUTPUT_TOKENS',3000,128,8000), 128, 8000),
     sessionTokenBudget: integer(env, 'SESSION_TOKEN_BUDGET', 200000, 1, 10000000),
     sessionCallLimit: integer(env, 'SESSION_CALL_LIMIT', 100, 1, 10000),
+    budgetWindowMs,
     maxConcurrent: integer(env, 'MAX_CONCURRENT', 2, 1, 10),
     clientRate: integer(env, 'CLIENT_REQUESTS_PER_MINUTE', 5, 1, 100),
     globalRate: integer(env, 'GLOBAL_REQUESTS_PER_MINUTE', 20, 1, 1000),

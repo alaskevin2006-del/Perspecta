@@ -108,3 +108,7 @@ export async function generateDebate(topic: string, ids: string[]) {
  const response=isMock?{data:await new Promise<Debate>(resolve=>setTimeout(()=>resolve(makeMock(topic,ids)),700)),mode:'mock' as BackendMode}:await request('/api/debate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic,roleIds:ids,rounds:4})});
  const data:unknown=response.data;validateDebate(data,ids);return {...data,mode:response.mode};
 }
+
+export function isValidTopic(topic: string): boolean {
+ const length=[...topic.trim()].length;return length>=2&&length<=300;
+}

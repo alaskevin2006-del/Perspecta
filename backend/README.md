@@ -46,7 +46,7 @@ npm run smoke
 | `GET /api/topics` | `topics: [{id,title,prompt}]` |
 | `POST /api/debate` | `discussionId, topic, messages, summary, usage` |
 
-POST 请求为 `{topic,roleIds,rounds?}`。rounds可为2、3、4，省略仍为2；当前页面显式4。去除首尾空格后 topic 为 10–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–4 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
+POST 请求为 `{topic,roleIds,rounds?}`。rounds可为2、3、4，省略仍为2；当前页面显式4。去除首尾空格后 topic 为 2–300 个 Unicode 码点（包括 emoji）；roleIds 为 2–4 个不同的有效 ID。客户端额外传来的画像不会进入提示词。
 
 旧rounds=2时，`messages` 每人两条，先全体第一轮再全体第二轮；每条只含 `id,round,roleId,content,replyTo`。第一轮 `replyTo=null`，第二轮必须引用另一角色的第一轮消息。`summary` 只含 `consensus,disagreements,decisionFactors,nextActions` 四个非空数组（各 1–3 条）。服务器拒绝缺字段、额外字段、重复 ID、缺失角色、不合法引用或空文本。每条内容上限 600 码点，提示词要求约 60–140 汉字；语义质量仍须人工验收。
 

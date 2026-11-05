@@ -27,7 +27,7 @@ export function validateInput(body, roles) {
   if (!body || Array.isArray(body) || typeof body !== 'object' || typeof body.topic !== 'string') throw new ApiError('INVALID_INPUT');
   const topic = body.topic.trim();
   const roleIds = body.roleIds;
-  if ([...topic].length < 10 || [...topic].length > 300 || !Array.isArray(roleIds) || roleIds.length < 2 || roleIds.length > 4 ||
+  if ([...topic].length < 2 || [...topic].length > 300 || !Array.isArray(roleIds) || roleIds.length < 2 || roleIds.length > 4 ||
     new Set(roleIds).size !== roleIds.length || roleIds.some(id => typeof id !== 'string' || !validIds.has(id))) throw new ApiError('INVALID_INPUT');
   const rounds = body.rounds === undefined ? 2 : body.rounds;
   if (![2,3,4].includes(rounds)) throw new ApiError('INVALID_INPUT');
